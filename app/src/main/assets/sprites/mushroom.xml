@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<isosprite name="mushroom"
+	imgname="rpgcritter_update_formatted_transparent"
+	spritewidth="256"
+	spriteheight="256"
+	bodyheight="300"
+	ax="0" ay="255"
+	bx="255" by="255"
+	startZ="0"
+	isShadow="false"
+>
+	
+	<animations imgwidth="240" imgheight="192">
+		<animation name="stand" steptime="0" startframe="0">
+			<frame left="0" right="15" top="0" bottom="15"/>
+		</animation>
+	</animations>
+</isosprite>

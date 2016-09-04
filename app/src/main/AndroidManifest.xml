@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+    package="com.diploma.lilian.runpg">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+        android:name="com.diploma.lilian.app.App"
+        android:allowBackup="true"
+        tools:replace="android:icon"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ConnectTracker"
+            android:label="@string/title_activity_connect_trcker"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name="com.diploma.lilian.network.FetchService"
+            android:exported="false" />
+
+        <activity android:name="com.diploma.lilian.game.GameActivity"/>
+    </application>
+
+</manifest>

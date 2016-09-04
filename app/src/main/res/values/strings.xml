@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">RunPG</string>
+    <string name="runkeeper">Runkeeper</string>
+    <string name="strava">Strava</string>
+    <string name="connect">Connect</string>
+    <string name="login">Login</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_connect_trcker">ConnectTrcker</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>
