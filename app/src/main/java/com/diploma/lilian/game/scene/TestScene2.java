@@ -265,34 +265,7 @@ public class TestScene2 extends GameScene implements OnClickListener, OnCollisio
 
     @Override
     public void onClick(View v) {
-/*
-        float xd, yd;
 
-        xd = 0;
-        yd = 0;
-
-        switch (v.getId()) {
-            case R.id.t_button:
-                yd -= 0.1f;
-                break;
-            case R.id.b_button:
-                yd += 0.1f;
-                break;
-            case R.id.l_button:
-                long start, end;
-
-                start = System.currentTimeMillis();
-                Vec3[] path = pathFinder.getPath(s2, 0, 0);
-                end = System.currentTimeMillis();
-
-                Log.i("TestScene", "Path time: " + (end - start) + "ms");
-                break;
-            case R.id.r_button:
-                xd += 10;
-                break;
-        }
-
-        setZoom(getZoom() + yd);*/
     }
 
     @Override

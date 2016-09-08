@@ -1,10 +1,12 @@
 package com.diploma.lilian.engine.collition;
 
+import android.util.Log;
+
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.Transformer;
 import com.diploma.lilian.engine.Vec3;
+
 import javax.microedition.khronos.opengles.GL10;
-import android.util.Log;
 
 public class CollisionDetector {
 
@@ -46,11 +48,11 @@ public class CollisionDetector {
 		
 		 /*
 	    //Slow method
-	    for(int i = 0; i < sprites.size(); i++) {
-	        for(int j = i + 1; j < sprites.size(); j++) {
+	    for(int i = 0; i < spriteInfoCollection.size(); i++) {
+	        for(int j = i + 1; j < spriteInfoCollection.size(); j++) {
 	           	CollisionPair pair = new CollisionPair();
-	           	pair.sprite1 = sprites.get(i);
-	           	pair.sprite2 = sprites.get(j);
+	           	pair.sprite1 = spriteInfoCollection.get(i);
+	           	pair.sprite2 = spriteInfoCollection.get(j);
 	           	
 	           	collisions.add(pair);
 	        }
@@ -86,7 +88,7 @@ public class CollisionDetector {
 		
 		
 		octree.add(sprite);
-		//sprites.add(sprite);
+		//spriteInfoCollection.add(sprite);
 		sprite.setCollisionDetector(this);
 	}
 	

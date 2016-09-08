@@ -5,6 +5,8 @@ import android.util.Log;
 import com.diploma.lilian.engine.ai.IPathFinder;
 import com.diploma.lilian.engine.collition.CollisionDetector;
 
+import java.util.Arrays;
+
 
 public class IsoSprite extends AnimatedSprite implements IElement {
 
@@ -453,7 +455,11 @@ public class IsoSprite extends AnimatedSprite implements IElement {
 	}
 
 	public void stopMove(){
-		this.path = null;
+		path = null;
+
+		setLoopAnimation(false);
+		setAnimationFrame(0);
+		stopAnimation();
 	}
 	
 	public void onCollision(IsoSprite with, int collisionMask) {};
@@ -636,5 +642,103 @@ public class IsoSprite extends AnimatedSprite implements IElement {
 	
 	public Vec3 getCenter() {
 		return new Vec3(IminX + (ImaxX - IminX)/2, IminY + (ImaxY - IminY)/2, IminZ+(ImaxZ - IminZ)/2);
+	}
+
+/*
+	@Override
+	public boolean equals(Object obj) {
+		IsoSprite other = (IsoSprite) obj;
+		return other.getCenter().equals(getCenter());
+	}
+*/
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		IsoSprite isoSprite = (IsoSprite) o;
+
+		if (compared != isoSprite.compared) return false;
+		if (Float.compare(isoSprite.ImaxX, ImaxX) != 0) return false;
+		if (Float.compare(isoSprite.IminX, IminX) != 0) return false;
+		if (Float.compare(isoSprite.ImaxY, ImaxY) != 0) return false;
+		if (Float.compare(isoSprite.IminY, IminY) != 0) return false;
+		if (Float.compare(isoSprite.ImaxZ, ImaxZ) != 0) return false;
+		if (Float.compare(isoSprite.IminZ, IminZ) != 0) return false;
+		if (mapIndex != isoSprite.mapIndex) return false;
+		if (collisionTypes != isoSprite.collisionTypes) return false;
+		if (shadow != isoSprite.shadow) return false;
+		if (aSegment != isoSprite.aSegment) return false;
+		if (bodyHeight != isoSprite.bodyHeight) return false;
+		if (isDebugMode != isoSprite.isDebugMode) return false;
+		if (Float.compare(isoSprite.moveVelocoty, moveVelocoty) != 0) return false;
+		if (Float.compare(isoSprite.distanceX, distanceX) != 0) return false;
+		if (Float.compare(isoSprite.distanceY, distanceY) != 0) return false;
+		if (Float.compare(isoSprite.distanceZ, distanceZ) != 0) return false;
+		if (VBOIndex != isoSprite.VBOIndex) return false;
+		if (pathIdx != isoSprite.pathIdx) return false;
+		if (Float.compare(isoSprite.pathVelocity, pathVelocity) != 0) return false;
+		if (stopAnimationAtMoveTo != isoSprite.stopAnimationAtMoveTo) return false;
+		if (lastDirection != isoSprite.lastDirection) return false;
+		if (doingPath != isoSprite.doingPath) return false;
+		if (discoverRadius != isoSprite.discoverRadius) return false;
+		if (lastIMinCorner != null ? !lastIMinCorner.equals(isoSprite.lastIMinCorner) : isoSprite.lastIMinCorner != null)
+			return false;
+		if (lastIMaxCorner != null ? !lastIMaxCorner.equals(isoSprite.lastIMaxCorner) : isoSprite.lastIMaxCorner != null)
+			return false;
+		if (tileA != null ? !tileA.equals(isoSprite.tileA) : isoSprite.tileA != null) return false;
+		if (tileB != null ? !tileB.equals(isoSprite.tileB) : isoSprite.tileB != null) return false;
+		if (ownerVp != null ? !ownerVp.equals(isoSprite.ownerVp) : isoSprite.ownerVp != null)
+			return false;
+		if (collDetector != null ? !collDetector.equals(isoSprite.collDetector) : isoSprite.collDetector != null)
+			return false;
+		if (ownerLayer != null ? !ownerLayer.equals(isoSprite.ownerLayer) : isoSprite.ownerLayer != null)
+			return false;
+		if (name != null ? !name.equals(isoSprite.name) : isoSprite.name != null) return false;
+		// Probably incorrect - comparing Object[] arrays with Arrays.equals
+		if (!Arrays.equals(moveAnimations, isoSprite.moveAnimations)) return false;
+		// Probably incorrect - comparing Object[] arrays with Arrays.equals
+		return Arrays.equals(path, isoSprite.path);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (compared ? 1 : 0);
+		result = 31 * result + (ImaxX != +0.0f ? Float.floatToIntBits(ImaxX) : 0);
+		result = 31 * result + (IminX != +0.0f ? Float.floatToIntBits(IminX) : 0);
+		result = 31 * result + (ImaxY != +0.0f ? Float.floatToIntBits(ImaxY) : 0);
+		result = 31 * result + (IminY != +0.0f ? Float.floatToIntBits(IminY) : 0);
+		result = 31 * result + (ImaxZ != +0.0f ? Float.floatToIntBits(ImaxZ) : 0);
+		result = 31 * result + (IminZ != +0.0f ? Float.floatToIntBits(IminZ) : 0);
+		result = 31 * result + (lastIMinCorner != null ? lastIMinCorner.hashCode() : 0);
+		result = 31 * result + (lastIMaxCorner != null ? lastIMaxCorner.hashCode() : 0);
+		result = 31 * result + (tileA != null ? tileA.hashCode() : 0);
+		result = 31 * result + (tileB != null ? tileB.hashCode() : 0);
+		result = 31 * result + mapIndex;
+		result = 31 * result + (ownerVp != null ? ownerVp.hashCode() : 0);
+		result = 31 * result + (collDetector != null ? collDetector.hashCode() : 0);
+		result = 31 * result + collisionTypes;
+		result = 31 * result + (ownerLayer != null ? ownerLayer.hashCode() : 0);
+		result = 31 * result + (shadow ? 1 : 0);
+		result = 31 * result + aSegment;
+		result = 31 * result + bodyHeight;
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 31 * result + (isDebugMode ? 1 : 0);
+		result = 31 * result + (moveVelocoty != +0.0f ? Float.floatToIntBits(moveVelocoty) : 0);
+		result = 31 * result + (distanceX != +0.0f ? Float.floatToIntBits(distanceX) : 0);
+		result = 31 * result + (distanceY != +0.0f ? Float.floatToIntBits(distanceY) : 0);
+		result = 31 * result + (distanceZ != +0.0f ? Float.floatToIntBits(distanceZ) : 0);
+		result = 31 * result + Arrays.hashCode(moveAnimations);
+		result = 31 * result + VBOIndex;
+		result = 31 * result + Arrays.hashCode(path);
+		result = 31 * result + pathIdx;
+		result = 31 * result + (pathVelocity != +0.0f ? Float.floatToIntBits(pathVelocity) : 0);
+		result = 31 * result + (stopAnimationAtMoveTo ? 1 : 0);
+		result = 31 * result + lastDirection;
+		result = 31 * result + (doingPath ? 1 : 0);
+		result = 31 * result + discoverRadius;
+		return result;
 	}
 }

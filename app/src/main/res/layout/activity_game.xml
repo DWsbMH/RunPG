@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -16,7 +16,7 @@
         android:id="@+id/switchButton"
         android:text="switch"/>
 
-    <hu.garik.android.game.engine.GLCanvas
+    <com.diploma.lilian.engine.GLCanvas
         android:id="@+id/glcanvas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

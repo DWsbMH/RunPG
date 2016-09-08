@@ -1,11 +1,10 @@
 package com.diploma.lilian.game;
 
-import com.diploma.lilian.game.entity.Enemy;
-import com.diploma.lilian.game.entity.Player;
+import com.diploma.lilian.game.provider.SpriteInfo;
 
 public interface OnFightListener {
 
-    public void fight(Player player, Enemy enemy);
+    public void fight(SpriteInfo player, SpriteInfo enemy);
     public void onFightWin();
 
 }

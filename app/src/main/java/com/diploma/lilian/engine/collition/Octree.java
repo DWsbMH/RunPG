@@ -164,7 +164,7 @@ public class Octree {
         }
         else {
             if( ! sprites.remove(sprite) ) {
-            	Log.d("octree", "sprites: "+sprites);
+            	Log.d("octree", "spriteInfoCollection: "+sprites);
             }
         }
     }
@@ -199,7 +199,7 @@ public class Octree {
         }
         else {
 
-	    	//Add all sprites
+	    	//Add all spriteInfoCollection
 	    	ListIterator<IsoSprite> iter = this.sprites.listIterator();
 	    	while(iter.hasNext()) {
 	    		sprites.add(iter.next());
@@ -258,7 +258,7 @@ public class Octree {
     	
     	/*
     	for(int i=0; i<dirtyNodes.size(); i++)
-    		paringCollitionTest(dirtyNodes.get(i).sprites);
+    		paringCollitionTest(dirtyNodes.get(i).spriteInfoCollection);
     	*/
     	
     	// clear dirty nodes
@@ -278,7 +278,7 @@ public class Octree {
             }
         }
         else {
-        //	Log.d("potentialCollitions", "dpeth: "+depth+" sprites: "+sprites.size() +"("+corner1.x+";"+corner1.y+";"+corner1.z+"-"+corner2.x+";"+corner2.y+";"+corner2.z+")");
+        //	Log.d("potentialCollitions", "dpeth: "+depth+" spriteInfoCollection: "+spriteInfoCollection.size() +"("+corner1.x+";"+corner1.y+";"+corner1.z+"-"+corner2.x+";"+corner2.y+";"+corner2.z+")");
         	paringCollitionTest(this.sprites);
         	
         }
@@ -291,8 +291,8 @@ public class Octree {
     		for(int j=i+1; j<sprites.size(); j++) {
     			/*
     			CollisionPair pair = new CollisionPair();
-    			pair.sprite1 = sprites.get(i);
-    			pair.sprite2 = sprites.get(j);
+    			pair.sprite1 = spriteInfoCollection.get(i);
+    			pair.sprite2 = spriteInfoCollection.get(j);
     			
     			collisions.add(pair);
     			

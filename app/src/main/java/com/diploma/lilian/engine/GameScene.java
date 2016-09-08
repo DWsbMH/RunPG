@@ -43,9 +43,9 @@ public abstract class GameScene implements OnKeyListener, OnTouchListener {
 	private Timer fogupdateTimer = new Timer();
 	/** Flag to not clear moved sprite list at first time, to draw the discovery radius at start. */
 	private boolean firstUpdate = true;
-	
-	
-	
+	protected boolean initialized = false;
+
+
 	public GameScene(Context context, int surfaceWidth, int surfaceHeight) {
 		this.surfaceWidth = surfaceWidth;
 		this.surfaceHeight = surfaceHeight;
@@ -58,7 +58,7 @@ public abstract class GameScene implements OnKeyListener, OnTouchListener {
 		fogupdateTimer.start();
 		
 		System.gc();
-		init(context);
+//		init(context);
 	}
 	
 	
@@ -76,7 +76,11 @@ public abstract class GameScene implements OnKeyListener, OnTouchListener {
 	protected abstract FogOfWar createFogOfWar();
 	
 	public abstract void init(Context context);
-	
+
+	public void initialized(){
+		this.initialized = true;
+	}
+
 	public abstract void update(long elapsedTime);
 	
 	void autoUpdate(long elapsedTime ) {
@@ -106,7 +110,7 @@ public abstract class GameScene implements OnKeyListener, OnTouchListener {
 
 		
 		// draw all on Viewport
-		if(vp != null) {
+		if(vp != null && initialized) {
 			gl.glEnableClientState( GL11.GL_VERTEX_ARRAY );
 			gl.glEnableClientState( GL11.GL_TEXTURE_COORD_ARRAY );
 			

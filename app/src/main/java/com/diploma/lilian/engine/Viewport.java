@@ -84,6 +84,8 @@ public class Viewport {
 		// adds to move list to draw it's discover radius on the fog at the start.
 		if(e.getDiscoverRadius() > 0)
 			moved.add(e);
+
+		e.getLayer().setDirty(true);
 	}
 	
 	/*

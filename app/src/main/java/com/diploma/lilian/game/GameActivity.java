@@ -2,6 +2,7 @@ package com.diploma.lilian.game;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 import android.widget.Button;
 
 import com.diploma.lilian.engine.GLCanvas;
@@ -33,7 +34,10 @@ public class GameActivity extends MvpActivity<GameActivityView, GameActivityPres
         this.setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
 
-        presenter.init();
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        presenter.init(metrics);
 
     }
 
@@ -62,8 +66,8 @@ public class GameActivity extends MvpActivity<GameActivityView, GameActivityPres
 
     @OnClick(R.id.switchButton)
     public void switchScene() {
-        setGameScene(presenter.getActualGameScene());
         presenter.getActualGameScene().resetCollisionDetector();
+        setGameScene(presenter.getActualGameScene());
     }
 
     @OnClick(R.id.fight)
