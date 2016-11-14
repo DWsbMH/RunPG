@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<isosprite name="house"  
+<isosprite playerName="house"
 	imgname="house" 
 	spritewidth="57.0" 
 	spriteheight="86.0" 

@@ -7,12 +7,11 @@ import android.webkit.WebView;
 
 import com.diploma.lilian.mvp.ConnectTracker.ConnectTrackerPresenter;
 import com.diploma.lilian.mvp.ConnectTracker.ConnectTrackerView;
-import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ConnectTracker extends MvpActivity<ConnectTrackerView, ConnectTrackerPresenter> implements ConnectTrackerView {
+public class ConnectTracker extends BaseActivity<ConnectTrackerView, ConnectTrackerPresenter> implements ConnectTrackerView {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.webView) WebView webView;

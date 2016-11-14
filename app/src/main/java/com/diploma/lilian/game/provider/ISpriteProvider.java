@@ -6,6 +6,7 @@ public interface ISpriteProvider {
 
     Collection<SpriteInfo> getSpriteInfoCollection();
     SpriteInfo getPlayerSpriteInfo();
+    Collection<SpriteInfo> getEnemiesSpriteInfo();
     void loadSprites();
 
 }

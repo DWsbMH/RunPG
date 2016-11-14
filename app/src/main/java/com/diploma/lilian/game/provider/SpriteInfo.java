@@ -1,5 +1,6 @@
 package com.diploma.lilian.game.provider;
 
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.game.data.CreatureData;
 
@@ -31,5 +32,9 @@ public class SpriteInfo {
 
     public CreatureData getData() {
         return data;
+    }
+
+    public void setData(Player data) {
+        this.data = data;
     }
 }

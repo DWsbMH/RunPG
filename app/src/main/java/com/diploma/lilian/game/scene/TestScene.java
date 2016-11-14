@@ -1,6 +1,7 @@
 package com.diploma.lilian.game.scene;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -9,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.engine.FogOfWar;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.LineDrawer;
@@ -23,7 +25,7 @@ import com.diploma.lilian.engine.collition.CollisionDetector;
 import com.diploma.lilian.engine.collition.OnCollisionListener;
 import com.diploma.lilian.game.CollisionType;
 import com.diploma.lilian.game.OnFightListener;
-import com.diploma.lilian.game.provider.BaseSpriteProvider;
+import com.diploma.lilian.game.fragment.DefaultFragment;
 import com.diploma.lilian.game.provider.SpriteInfo;
 
 import java.util.Collection;
@@ -48,7 +50,6 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
 
     private IsoSprite enemy;
 
-    private BaseSpriteProvider spriteProvider;
     private SpriteInfo player;
 
     public TestScene(Context context, int surfaceWidth, int surfaceHeight) {
@@ -101,6 +102,18 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
 
         }
 
+        Collection<SpriteInfo> enemiesSpriteInfoCollection = spriteProvider.getEnemiesSpriteInfo();
+        for (SpriteInfo spriteInfo : enemiesSpriteInfoCollection) {
+
+            if (spriteInfo.getSprite().getCollisionTypeBitmap() != CollisionType.INVALID.getValue()) {
+                collitionDetector.add(spriteInfo.getSprite());
+            }
+
+            vp.addElement(spriteInfo.getSprite(), spriteInfo.getLayerType());
+
+        }
+
+
         player = spriteProvider.getPlayerSpriteInfo();
         if (player.getSprite() != null && player.getSprite().getCollisionTypeBitmap() != CollisionType.INVALID.getValue()) {
             collitionDetector.add(player.getSprite());
@@ -146,12 +159,12 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
 
             SpriteInfo enemySpriteInfo = getEnemySpriteInfo(enemy);
 
-            onFightListener.fight(player, enemySpriteInfo);
+            onFightListener.fightAgainst(enemySpriteInfo);
         }
     }
 
     private SpriteInfo getEnemySpriteInfo(IsoSprite enemy) {
-        Collection<SpriteInfo> spriteInfos = spriteProvider.getSpriteInfoCollection();
+        Collection<SpriteInfo> spriteInfos = spriteProvider.getEnemiesSpriteInfo();
         for (SpriteInfo spriteInfo : spriteInfos) {
             if (enemy.equals(spriteInfo.getSprite())) {
                 return spriteInfo;
@@ -189,6 +202,7 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
     @Override
     public void render(GL11 gl) {
         super.render(gl);
+
         if (player != null) {
             Point a = Transformer.isoToPlot(player.getSprite().getIminX(), player.getSprite().getIminY());
             Point b = Transformer.isoToPlot(player.getSprite().getImaxX(), player.getSprite().getImaxY());
@@ -260,11 +274,16 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
         }
     }
 
-    public void setSpriteProvider(BaseSpriteProvider spriteProvider) {
-        this.spriteProvider = spriteProvider;
-    }
-
     public SpriteInfo getPlayer() {
         return player;
+    }
+
+    @Override
+    public Fragment getHUD() {
+        return DefaultFragment.newInstance(player.getData().getMaxHealthPoint(), player.getData().getActualHealthPoint());
+    }
+
+    public void updatePlayer(Player player) {
+        this.getPlayer().setData(player);
     }
 }

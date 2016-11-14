@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<isosprite name="kard"
+	imgname="weapon1"
+	spritewidth="48"
+	spriteheight="48"
+	ax="0" ay="23"
+	bx="23" by="23"
+	bodyheight="24"
+	startZ="0"
+	isShadow="false">
+	
+	<animations imgwidth="384" imgheight="24">
+		<animation name="simple" steptime="0" startframe="0">
+			<frame left="24" right="47" top="0" bottom="23"/>
+		</animation>
+	</animations>
+</isosprite>

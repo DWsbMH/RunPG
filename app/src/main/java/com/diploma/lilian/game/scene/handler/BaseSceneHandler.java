@@ -3,14 +3,19 @@ package com.diploma.lilian.game.scene.handler;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
-public abstract class BaseSceneHandler<T> {
-    protected Context context;
-    protected DisplayMetrics metrics;
-    protected T scene;
+import com.diploma.lilian.database.datamanager.PlayerDataManager;
+import com.diploma.lilian.game.scene.BaseScene;
 
-    public BaseSceneHandler(Context context, DisplayMetrics metrics) {
+abstract class BaseSceneHandler<T extends BaseScene> {
+    protected Context context;
+    DisplayMetrics metrics;
+    protected T scene;
+    PlayerDataManager playerDataManager;
+
+    BaseSceneHandler(Context context, DisplayMetrics metrics) {
         this.context = context;
         this.metrics = metrics;
+        this.playerDataManager = new PlayerDataManager(this.context);
     }
 
     public T getScene() {

@@ -2,6 +2,7 @@ package com.diploma.lilian.database.datamanager;
 
 import android.content.Context;
 
+import com.diploma.lilian.database.entity.Attributes;
 import com.diploma.lilian.database.entity.Player;
 import com.j256.ormlite.dao.Dao;
 
@@ -49,8 +50,15 @@ public class PlayerDataManager extends DataManager<Player> {
         }*/
     }
 
+    @Override
+    public List<Player> queryForAll() {
+        return null;
+    }
+
     public void update(Player player) {
         try {
+            Dao<Attributes, Integer> attributesDao = databaseHelper.getAttributesDao();
+            attributesDao.update(player.getAttributes());
             dao.update(player);
         } catch (SQLException e) {
             e.printStackTrace();

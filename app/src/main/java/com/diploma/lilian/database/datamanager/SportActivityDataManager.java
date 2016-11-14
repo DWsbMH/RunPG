@@ -45,4 +45,9 @@ public class SportActivityDataManager extends DataManager<SportActivity> {
         return null;
     }
 
+    @Override
+    public List<SportActivity> queryForAll() {
+        return null;
+    }
+
 }

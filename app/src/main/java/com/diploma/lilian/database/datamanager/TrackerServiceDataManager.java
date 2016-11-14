@@ -97,5 +97,10 @@ public class TrackerServiceDataManager extends DataManager<TrackerService> {
         return null;
     }
 
+    @Override
+    public List<TrackerService> queryForAll() {
+        return null;
+    }
+
 }
 

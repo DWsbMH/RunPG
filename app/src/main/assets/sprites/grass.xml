@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<isosprite name="grass"  
+<isosprite name="grass"
 	imgname="forest_grass"
 	ax="0" ay="1000"
 	bx="2000" by="1000"

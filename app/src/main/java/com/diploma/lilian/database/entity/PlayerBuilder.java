@@ -5,18 +5,11 @@ import java.util.Date;
 
 public class PlayerBuilder {
     private int id;
-    private String name;
+    private String playerName;
+    private String playerImage;
     private Date lastPlayed;
-    private int maxHealthPoint;
-    private int actualHealthPoint;
-    private int level;
-    private int experienceGained;
-    private int experienceNeeded;
-    private int maxStamina;
-    private int actualStamina;
-    private int strength;
-    private int speed;
-    private int endurance;
+    private Backpack backpack;
+    private Attributes attributes;
     private Collection<SportActivity> sportActivities;
 
     public PlayerBuilder setId(int id) {
@@ -24,8 +17,13 @@ public class PlayerBuilder {
         return this;
     }
 
-    public PlayerBuilder setName(String name) {
-        this.name = name;
+    public PlayerBuilder setPlayerName(String playerName) {
+        this.playerName = playerName;
+        return this;
+    }
+
+    public PlayerBuilder setPlayerImage(String playerImage) {
+        this.playerImage = playerImage;
         return this;
     }
 
@@ -34,53 +32,13 @@ public class PlayerBuilder {
         return this;
     }
 
-    public PlayerBuilder setMaxHealthPoint(int maxHealthPoint) {
-        this.maxHealthPoint = maxHealthPoint;
+    public PlayerBuilder setBackpack(Backpack backpack) {
+        this.backpack = backpack;
         return this;
     }
 
-    public PlayerBuilder setActualHealthPoint(int actualHealthPoint) {
-        this.actualHealthPoint = actualHealthPoint;
-        return this;
-    }
-
-    public PlayerBuilder setLevel(int level) {
-        this.level = level;
-        return this;
-    }
-
-    public PlayerBuilder setExperienceGained(int experienceGained) {
-        this.experienceGained = experienceGained;
-        return this;
-    }
-
-    public PlayerBuilder setExperienceNeeded(int experienceNeeded) {
-        this.experienceNeeded = experienceNeeded;
-        return this;
-    }
-
-    public PlayerBuilder setMaxStamina(int maxStamina) {
-        this.maxStamina = maxStamina;
-        return this;
-    }
-
-    public PlayerBuilder setActualStamina(int actualStamina) {
-        this.actualStamina = actualStamina;
-        return this;
-    }
-
-    public PlayerBuilder setStrength(int strength) {
-        this.strength = strength;
-        return this;
-    }
-
-    public PlayerBuilder setSpeed(int speed) {
-        this.speed = speed;
-        return this;
-    }
-
-    public PlayerBuilder setEndurance(int endurance) {
-        this.endurance = endurance;
+    public PlayerBuilder setAttributes(Attributes attributes) {
+        this.attributes = attributes;
         return this;
     }
 
@@ -90,6 +48,6 @@ public class PlayerBuilder {
     }
 
     public Player createPlayer() {
-        return new Player(id, name, lastPlayed, maxHealthPoint, actualHealthPoint, level, experienceGained, experienceNeeded, maxStamina, actualStamina, strength, speed, endurance, sportActivities);
+        return new Player(id, playerName, playerImage, lastPlayed, sportActivities, attributes, backpack);
     }
 }

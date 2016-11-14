@@ -1,20 +1,21 @@
 package com.diploma.lilian.mvp.GameActivity;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 
-import com.diploma.lilian.game.scene.handler.DefaultSceneHandler;
+import com.diploma.lilian.game.OnEnemyListener;
 import com.diploma.lilian.game.OnFightListener;
 import com.diploma.lilian.game.OnPlayerListener;
 import com.diploma.lilian.game.provider.SpriteInfo;
-import com.diploma.lilian.game.scene.FightScene;
-import com.diploma.lilian.game.scene.TestScene;
+import com.diploma.lilian.game.scene.handler.DefaultSceneHandler;
+import com.diploma.lilian.game.scene.handler.FightSceneHandler;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
-public class GameActivityPresenter extends MvpBasePresenter<GameActivityView> implements OnPlayerListener, OnFightListener {
+public class GameActivityPresenter extends MvpBasePresenter<GameActivityView> implements OnFightListener{
 
     private DefaultSceneHandler defaultSceneHandler;
-    private FightScene fightScene;
+    private FightSceneHandler fightSceneHandler;
 
     private Context context;
     private DisplayMetrics metrics;
@@ -26,42 +27,48 @@ public class GameActivityPresenter extends MvpBasePresenter<GameActivityView> im
 
     public void init(DisplayMetrics metrics) {
         this.metrics = metrics;
+        defaultSceneHandler = new DefaultSceneHandler(context, metrics);
+        fightSceneHandler = new FightSceneHandler(context, metrics);
+
         if (isViewAttached()) {
-            defaultSceneHandler = new DefaultSceneHandler(context, metrics);
+//            getView().setMaxHealth(defaultSceneHandler.getScene().getPlayer().getData().getMaxHealthPoint());
+//            getView().setPlayerHealth(defaultSceneHandler.getScene().getPlayer().getData().getActualHealthPoint());
             defaultSceneHandler.setOnFightListener(this);
-            getView().setGameScene(defaultSceneHandler.getScene());
+            getView().setGameScene(defaultSceneHandler.getScene(),defaultSceneHandler.getScene().getHUD());
         }
+
+
     }
 
     @Override
-    public void setHealth(int health) {
-        if (isViewAttached()) {
-//            defaultSceneHandler.getScene().getPlayer().getData().setActualHealthPoint(health);
-            getView().setHealth(health);
-        }
-    }
-
-    @Override
-    public void fight(SpriteInfo player, SpriteInfo enemy) {
+    public void fightAgainst(SpriteInfo enemy) {
         // TODO set new gamescene
         if (isViewAttached()) {
-            fightScene = new FightScene(context, metrics.widthPixels, metrics.heightPixels,player,enemy);
-            fightScene.start();
-            getView().setGameScene(fightScene);
+            fightSceneHandler.setEnemy(enemy);
+            fightSceneHandler.initFightScene();
+            Fragment hud = fightSceneHandler.getScene().getHUD();
+            fightSceneHandler.setEnemyListener((OnEnemyListener) hud);
+            fightSceneHandler.setPlayerListener((OnPlayerListener) hud);
+            fightSceneHandler.setOnFightListener(this);
+            getView().setGameScene(fightSceneHandler.getScene(), hud);
         }
     }
 
     @Override
     public void onFightWin() {
+/*
+        defaultSceneHandler.getScene().getPlayer().getData().setActualHealthPoint(100);
+        getView().setPlayerHealth(100);
+*/
+        defaultSceneHandler.updatePlayer();
         defaultSceneHandler.getScene().removeEnemy();
-    }
-
-    public TestScene getActualGameScene() {
-        return defaultSceneHandler.getScene();
+        defaultSceneHandler.getScene().resetCollisionDetector();
+        getView().setGameScene(defaultSceneHandler.getScene(),defaultSceneHandler.getScene().getHUD());
     }
 
     public void startFight() {
-        // TODO fight with enemy
-        onFightWin();
+        // TODO fightAgainst with enemy
+        fightSceneHandler.startFight();
     }
+
 }

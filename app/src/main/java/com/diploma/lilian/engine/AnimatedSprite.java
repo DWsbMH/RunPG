@@ -1,4 +1,6 @@
 package com.diploma.lilian.engine;
+import android.util.Log;
+
 import com.diploma.lilian.engine.io.SpriteDataParser;
 
 import java.io.InputStream;
@@ -11,8 +13,6 @@ import java.util.HashMap;
 import java.util.ListIterator;
 
 import javax.microedition.khronos.opengles.GL10;
-
-import android.util.Log;
 
 
 public class AnimatedSprite implements Comparable<AnimatedSprite> {
@@ -124,7 +124,7 @@ public class AnimatedSprite implements Comparable<AnimatedSprite> {
 	public void setZ( float z ){ 
 		this.z = z; 
 		if( z > -0.1f || z < -1.1f) 
-			Log.w("JGIso Engine", "ERROR! z="+z+" is out of drawing -0.1 (Near) nad -1.1(Far) bounds!"); 
+			Log.w("JGIso Engine", "ERROR! z="+z+" is out of drawing -0.1 (Near) nad -1.1(Far) bounds!");
 	}
 	public void setWidth( float w ){ this.w = w; }
 	public void setHeight( float h ){ this.h = h; }

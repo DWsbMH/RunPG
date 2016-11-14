@@ -31,4 +31,9 @@ public class Player implements CreatureData {
     public int getDamage() {
         return random.nextInt(20)+10;
     }
+
+    @Override
+    public void setActualHealthPoint(int actualHealthPoint) {
+        player.setActualHealthPoint(actualHealthPoint);
+    }
 }

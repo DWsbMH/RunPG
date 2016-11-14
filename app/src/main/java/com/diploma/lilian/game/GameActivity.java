@@ -2,31 +2,30 @@ package com.diploma.lilian.game;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.Button;
 
 import com.diploma.lilian.engine.GLCanvas;
-import com.diploma.lilian.engine.GameScene;
+import com.diploma.lilian.game.fragment.FightFragment;
+import com.diploma.lilian.game.fragment.InventoryFragment;
+import com.diploma.lilian.game.scene.BaseScene;
 import com.diploma.lilian.mvp.GameActivity.GameActivityPresenter;
 import com.diploma.lilian.mvp.GameActivity.GameActivityView;
+import com.diploma.lilian.runpg.BaseActivity;
 import com.diploma.lilian.runpg.R;
-import com.diploma.lilian.view.BarView;
-import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GameActivity extends MvpActivity<GameActivityView, GameActivityPresenter> implements GameActivityView {
+public class GameActivity extends BaseActivity<GameActivityView, GameActivityPresenter> implements GameActivityView, FightFragment.OnFragmentInteractionListener, InventoryFragment.OnInventoryListener {
 
     @BindView(R.id.glcanvas)
     GLCanvas canvas;
-    @BindView(R.id.switchButton)
-    Button switchButton;
-    @BindView(R.id.healthBar)
-    BarView healthBar;
-    @BindView(R.id.fight)
-    Button fightButton;
+    @BindView(R.id.inventory_open)
+    Button openInventoryButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,20 +41,18 @@ public class GameActivity extends MvpActivity<GameActivityView, GameActivityPres
     }
 
     @Override
-    public void setGameScene(final GameScene gameScene) {
+    public void setGameScene(BaseScene gameScene, Fragment hud) {
         canvas.setGameScene(null);
+        setFragment(hud);
         canvas.setGameScene(gameScene);
         canvas.setFps(100);
     }
 
     @Override
-    public void setHealth(final int health) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                healthBar.setActualPoint(health);
-            }
-        });
+    public void setFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        }
     }
 
     @NonNull
@@ -64,15 +61,21 @@ public class GameActivity extends MvpActivity<GameActivityView, GameActivityPres
         return new GameActivityPresenter(this);
     }
 
-    @OnClick(R.id.switchButton)
-    public void switchScene() {
-        presenter.getActualGameScene().resetCollisionDetector();
-        setGameScene(presenter.getActualGameScene());
-    }
-
-    @OnClick(R.id.fight)
-    public void fight(){
+    @Override
+    public void fight() {
         presenter.startFight();
     }
 
+    @OnClick(R.id.inventory_open)
+    public void showInventory(){
+        openInventoryButton.setVisibility(View.GONE);
+        setFragment(InventoryFragment.newInstance("",""));
+    }
+
+
+    @Override
+    public void onInventoryClose() {
+        openInventoryButton.setVisibility(View.VISIBLE);
+        setFragment(((BaseScene)canvas.getGameScene()).getHUD());
+    }
 }

@@ -40,7 +40,7 @@ public class SpriteDataParser {
 	        		 //System.out.println("Start document");
 	        		 
 	        	 } else if(eventType == XmlPullParser.START_TAG) {
-	        		 //System.out.println("Start tag "+parser.getName());
+	        		 //System.out.println("Start tag "+parser.getname());
 	        		 
 	        		 //start isosprite tag
 	        		 if(parser.getName().equals("isosprite")) {
@@ -68,7 +68,7 @@ public class SpriteDataParser {
 	        		 }
 	        		 
 	        	 } else if(eventType == XmlPullParser.END_TAG) {
-	        		 //System.out.println("End tag "+parser.getName());
+	        		 //System.out.println("End tag "+parser.getname());
 	        		 
 	        	 } else if(eventType == XmlPullParser.TEXT) {
 	        		 //System.out.println("Text "+parser.getText());
@@ -182,7 +182,7 @@ public class SpriteDataParser {
 	        		 //System.out.println("Start document");
 	        		 
 	        	 } else if(eventType == XmlPullParser.START_TAG) {
-	        		 //System.out.println("Start tag "+parser.getName());
+	        		 //System.out.println("Start tag "+parser.getname());
 	        		 
 	        		 // animations tag
 	        		 if(parser.getName().equals("animations")) {
@@ -205,7 +205,7 @@ public class SpriteDataParser {
 	        		 }
 	        		 
 	        	 } else if(eventType == XmlPullParser.END_TAG) {
-	        		 //System.out.println("End tag "+parser.getName());
+	        		 //System.out.println("End tag "+parser.getname());
 	        		 
 	        	 } else if(eventType == XmlPullParser.TEXT) {
 	        		 //System.out.println("Text "+parser.getText());

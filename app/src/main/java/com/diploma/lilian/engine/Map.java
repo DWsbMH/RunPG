@@ -105,7 +105,7 @@ public class Map {
 	public IsoSprite[] getAllSprites() { return storer; }
 	
 	public boolean isDirty() { return isDirty; }
-	protected void setDirty(boolean isDirty) { this.isDirty = isDirty; };
+	public void setDirty(boolean isDirty) { this.isDirty = isDirty; }
 	
 	
 	public void preOrderMap() {

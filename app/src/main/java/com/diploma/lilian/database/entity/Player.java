@@ -1,5 +1,6 @@
 package com.diploma.lilian.database.entity;
 
+import com.diploma.lilian.game.data.CreatureData;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -7,48 +8,28 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Random;
 
 @DatabaseTable(tableName = "player")
-public class Player {
+public class Player implements CreatureData {
 
     @DatabaseField(columnName = "id", generatedId = true)
     private int id;
 
     @DatabaseField
-    private String name;
+    private String playerName;
+
+    @DatabaseField
+    private String playerImage;
 
     @DatabaseField(columnName = "last_played", dataType = DataType.DATE)
     private Date lastPlayed;
 
-    @DatabaseField
-    private int maxHealthPoint;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private Attributes attributes;
 
-    @DatabaseField
-    private int actualHealthPoint;
-
-    @DatabaseField(defaultValue = "1")
-    private int level;
-
-    @DatabaseField
-    private int experienceGained;
-
-    @DatabaseField
-    private int experienceNeeded;
-
-    @DatabaseField
-    private int maxStamina;
-
-    @DatabaseField
-    private int actualStamina;
-
-    @DatabaseField
-    private int strength;
-
-    @DatabaseField
-    private int speed;
-
-    @DatabaseField
-    private int endurance;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private Backpack backpack;
 
     @ForeignCollectionField(eager = true)
     private Collection<SportActivity> sportActivities;
@@ -56,21 +37,14 @@ public class Player {
     public Player() {
     }
 
-    public Player(int id, String name, Date lastPlayed, int maxHealthPoint, int actualHealthPoint, int level, int experienceGained, int experienceNeeded, int maxStamina, int actualStamina, int strength, int speed, int endurance, Collection<SportActivity> item) {
+    public Player(int id, String playerName, String playerImage, Date lastPlayed, Collection<SportActivity> item, Attributes attributes, Backpack backpack) {
         this.id = id;
-        this.name = name;
+        this.playerName = playerName;
+        this.playerImage = playerImage;
         this.lastPlayed = lastPlayed;
-        this.maxHealthPoint = maxHealthPoint;
-        this.actualHealthPoint = actualHealthPoint;
-        this.level = level;
-        this.experienceGained = experienceGained;
-        this.experienceNeeded = experienceNeeded;
-        this.maxStamina = maxStamina;
-        this.actualStamina = actualStamina;
-        this.strength = strength;
-        this.speed = speed;
-        this.endurance = endurance;
         this.sportActivities = item;
+        this.attributes = attributes;
+        this.backpack = backpack;
     }
 
     public int getId() {
@@ -81,12 +55,20 @@ public class Player {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getPlayerImage() {
+        return playerImage;
+    }
+
+    public void setPlayerImage(String playerImage) {
+        this.playerImage = playerImage;
     }
 
     public Date getLastPlayed() {
@@ -97,84 +79,37 @@ public class Player {
         this.lastPlayed = lastPlayed;
     }
 
-    public int getMaxHealthPoint() {
-        return maxHealthPoint;
-    }
-
-    public void setMaxHealthPoint(int maxHealthPoint) {
-        this.maxHealthPoint = maxHealthPoint;
-    }
-
-    public int getActualHealthPoint() {
-        return actualHealthPoint;
-    }
-
-    public void setActualHealthPoint(int actualHealthPoint) {
-        this.actualHealthPoint = actualHealthPoint;
-    }
-
+    @Override
     public int getLevel() {
-        return level;
+        return attributes.getLevel();
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    @Override
+    public int getMaxHealthPoint() {
+        return attributes.getMaxHealthPoint();
     }
 
-    public int getExperienceGained() {
-        return experienceGained;
+    @Override
+    public int getActualHealthPoint() {
+        return attributes.getActualHealthPoint();
     }
 
-    public void setExperienceGained(int experienceGained) {
-        this.experienceGained = experienceGained;
+    @Override
+    public int getDamage() {
+        return new Random().nextInt(20)+10;
     }
 
-    public int getExperienceNeeded() {
-        return experienceNeeded;
+    @Override
+    public void setActualHealthPoint(int actualHealthPoint) {
+        attributes.setActualHealthPoint(actualHealthPoint);
     }
 
-    public void setExperienceNeeded(int experienceNeeded) {
-        this.experienceNeeded = experienceNeeded;
+    public Attributes getAttributes() {
+        return attributes;
     }
 
-    public int getMaxStamina() {
-        return maxStamina;
-    }
-
-    public void setMaxStamina(int maxStamina) {
-        this.maxStamina = maxStamina;
-    }
-
-    public int getActualStamina() {
-        return actualStamina;
-    }
-
-    public void setActualStamina(int actualStamina) {
-        this.actualStamina = actualStamina;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getEndurance() {
-        return endurance;
-    }
-
-    public void setEndurance(int endurance) {
-        this.endurance = endurance;
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
     }
 
     public Collection<SportActivity> getSportActivities() {
@@ -185,22 +120,20 @@ public class Player {
         this.sportActivities = sportActivities;
     }
 
+    public Backpack getBackpack() {
+        return backpack;
+    }
+
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", playerName='" + playerName + '\'' +
                 ", lastPlayed=" + lastPlayed +
-                ", maxHealthPoint=" + maxHealthPoint +
-                ", actualHealthPoint=" + actualHealthPoint +
-                ", level=" + level +
-                ", experienceGained=" + experienceGained +
-                ", experienceNeeded=" + experienceNeeded +
-                ", maxStamina=" + maxStamina +
-                ", actualStamina=" + actualStamina +
-                ", strength=" + strength +
-                ", speed=" + speed +
-                ", endurance=" + endurance +
                 '}';
     }
 }

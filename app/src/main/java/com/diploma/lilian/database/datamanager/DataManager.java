@@ -5,10 +5,12 @@ import android.content.Context;
 import com.diploma.lilian.database.DiplomaDBHelper;
 import com.j256.ormlite.dao.Dao;
 
+import java.util.List;
+
 public abstract class DataManager<T> {
 
-    protected DiplomaDBHelper databaseHelper;
-    protected Dao<T, Integer> dao;
+    DiplomaDBHelper databaseHelper;
+    Dao<T, Integer> dao;
 
     public DataManager(Context context) {
         databaseHelper = DiplomaDBHelper.INSTANCE(context);
@@ -22,5 +24,7 @@ public abstract class DataManager<T> {
     }
 
     public abstract T add(T data);
+
+    public abstract List<T> queryForAll();
 
 }

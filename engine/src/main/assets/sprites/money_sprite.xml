@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<isosprite name="money"  
+<isosprite playerName="money"
 	imgname="money" 
 	spritewidth="32.0" 
 	spriteheight="32.0" 

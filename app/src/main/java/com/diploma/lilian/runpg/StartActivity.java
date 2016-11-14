@@ -9,13 +9,12 @@ import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.game.GameActivity;
 import com.diploma.lilian.mvp.StartActivity.StartActivityPresenter;
 import com.diploma.lilian.mvp.StartActivity.StartActivityView;
-import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class StartActivity extends MvpActivity<StartActivityView, StartActivityPresenter> implements StartActivityView, OnConnectListener {
+public class StartActivity extends BaseActivity<StartActivityView, StartActivityPresenter> implements StartActivityView, OnConnectListener {
 
     public static final int REQUEST_CONNECT_TRACKER = 1000;
     public static final String EXTRA_TRACKER_SERVICE = "TRACKER_SERVICE_NAME";
@@ -24,7 +23,7 @@ public class StartActivity extends MvpActivity<StartActivityView, StartActivityP
     ListView connectServiceList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);

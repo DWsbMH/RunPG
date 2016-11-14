@@ -16,7 +16,7 @@ public class DefaultSceneHandler extends BaseSceneHandler<TestScene>{
 
         scene = new TestScene(context, this.metrics.widthPixels, this.metrics.heightPixels);
 
-        BaseSpriteProvider spriteProvider = new DefaultSpriteProvider(context);
+        BaseSpriteProvider spriteProvider = new DefaultSpriteProvider(context, playerDataManager);
         scene.setSpriteProvider(spriteProvider);
 
         scene.start();
@@ -28,5 +28,9 @@ public class DefaultSceneHandler extends BaseSceneHandler<TestScene>{
 
     public void setOnFightListener(OnFightListener onFightListener) {
         scene.setOnFightListener(onFightListener);
+    }
+
+    public void updatePlayer() {
+        scene.updatePlayer(playerDataManager.getPlayer());
     }
 }
