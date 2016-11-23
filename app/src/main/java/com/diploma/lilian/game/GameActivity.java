@@ -67,7 +67,7 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
     @OnClick(R.id.inventory_open)
     public void showInventory(){
         openInventoryButton.setVisibility(View.GONE);
-        setFragment(InventoryFragment.newInstance("",""));
+        setFragment(InventoryFragment.newInstance("","", presenter.getPlayer()));
     }
 
 

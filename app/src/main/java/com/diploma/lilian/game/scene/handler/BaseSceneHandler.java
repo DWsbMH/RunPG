@@ -4,20 +4,20 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 
-import com.diploma.lilian.database.datamanager.PlayerDataManager;
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.game.scene.BaseScene;
 
 abstract class BaseSceneHandler<T extends BaseScene> {
     protected Context context;
-    Fragment HUD;
+    private Fragment HUD;
     DisplayMetrics metrics;
+    protected final Player player;
     protected T scene;
-    PlayerDataManager playerDataManager;
 
-    BaseSceneHandler(Context context, DisplayMetrics metrics) {
+    BaseSceneHandler(Context context, DisplayMetrics metrics, Player player) {
         this.context = context;
         this.metrics = metrics;
-        this.playerDataManager = new PlayerDataManager(this.context);
+        this.player = player;
     }
 
     public T getScene() {

@@ -2,7 +2,7 @@ package com.diploma.lilian.game.provider;
 
 import android.content.Context;
 
-import com.diploma.lilian.database.datamanager.PlayerDataManager;
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.io.SpriteDataParser;
 import com.diploma.lilian.game.scene.BattleFieldScene;
@@ -13,17 +13,17 @@ import java.util.Collection;
 
 public abstract class BaseSpriteProvider implements ISpriteProvider {
 
-    final PlayerDataManager playerDataManager;
+    final Player player;
     protected Context context;
 
     Collection<SpriteInfo> spriteInfoCollection;
     Collection<SpriteInfo> enemiesSpriteInfoCollection;
     SpriteInfo playerSpriteInfo;
 
-    BaseSpriteProvider(Context context, PlayerDataManager playerDataManager) {
+    BaseSpriteProvider(Context context, Player player) {
         this.context = context;
         this.spriteInfoCollection = new ArrayList<>();
-        this.playerDataManager = playerDataManager;
+        this.player = player;
     }
 
     public Collection<SpriteInfo> getSpriteInfoCollection() {
@@ -54,7 +54,7 @@ public abstract class BaseSpriteProvider implements ISpriteProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        playerSpriteInfo = new SpriteInfo(playerIsoSprite, BattleFieldScene.MAIN_LAYER, playerDataManager.getPlayer());
+        playerSpriteInfo = new SpriteInfo(playerIsoSprite, BattleFieldScene.MAIN_LAYER, player);
         return playerSpriteInfo;
 
     }

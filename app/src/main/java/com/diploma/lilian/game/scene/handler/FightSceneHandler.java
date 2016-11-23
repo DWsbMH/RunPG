@@ -27,12 +27,12 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
     private OnFightListener onFightListener;
 
 
-    public FightSceneHandler(Context context, DisplayMetrics metrics) {
-        super(context, metrics);
+    public FightSceneHandler(Context context, DisplayMetrics metrics, Player player) {
+        super(context, metrics, player);
     }
 
     public void initFightScene() {
-        BaseSpriteProvider provider = new FightSpriteProvider(context, playerDataManager, metrics, enemy);
+        BaseSpriteProvider provider = new FightSpriteProvider(context, player, metrics, enemy);
         scene = new FightScene(context, metrics.widthPixels, metrics.heightPixels, provider);
         scene.setOnFightTurnListener(this);
         scene.start();
@@ -89,7 +89,6 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
                         } else {
                             player.getAttributes().setExperienceGained(experienceForEnemy);
                         }
-                        playerDataManager.update(player);
                         onFightListener.onFightWin();
                     }
                 }

@@ -3,6 +3,7 @@ package com.diploma.lilian.game.scene.handler;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.game.OnFightListener;
 import com.diploma.lilian.game.OnPlayerListener;
 import com.diploma.lilian.game.provider.BaseSpriteProvider;
@@ -11,12 +12,12 @@ import com.diploma.lilian.game.scene.BattleFieldScene;
 
 public class BattleFieldSceneHandler extends BaseSceneHandler<BattleFieldScene>{
 
-    public BattleFieldSceneHandler(Context context, DisplayMetrics metrics) {
-        super(context, metrics);
+    public BattleFieldSceneHandler(Context context, DisplayMetrics metrics, Player player) {
+        super(context, metrics, player);
 
         scene = new BattleFieldScene(context, this.metrics.widthPixels, this.metrics.heightPixels);
 
-        BaseSpriteProvider spriteProvider = new BattleFieldSpriteProvider(context, playerDataManager);
+        BaseSpriteProvider spriteProvider = new BattleFieldSpriteProvider(context, player);
         scene.setSpriteProvider(spriteProvider);
 
         scene.start();
@@ -31,6 +32,6 @@ public class BattleFieldSceneHandler extends BaseSceneHandler<BattleFieldScene>{
     }
 
     public void updatePlayer() {
-        scene.updatePlayer(playerDataManager.getPlayer());
+//        scene.updatePlayer(playerDataManager.getPlayer());
     }
 }

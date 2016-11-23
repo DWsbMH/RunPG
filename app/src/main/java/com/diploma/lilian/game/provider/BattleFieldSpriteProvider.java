@@ -2,7 +2,7 @@ package com.diploma.lilian.game.provider;
 
 import android.content.Context;
 
-import com.diploma.lilian.database.datamanager.PlayerDataManager;
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.io.SpriteDataParser;
 import com.diploma.lilian.game.data.Enemy;
@@ -15,8 +15,8 @@ import java.util.Random;
 
 public class BattleFieldSpriteProvider extends BaseSpriteProvider {
 
-    public BattleFieldSpriteProvider(Context context, PlayerDataManager playerDataManager) {
-        super(context, playerDataManager);
+    public BattleFieldSpriteProvider(Context context, Player player) {
+        super(context, player);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class BattleFieldSpriteProvider extends BaseSpriteProvider {
         playerIsoSprite.addCollisionType(CollisionType.PLAYER_ENEMY.getValue());
         playerIsoSprite.addCollisionType(CollisionType.PLAYER_BUILDING.getValue());
 
-        playerSpriteInfo = new SpriteInfo(playerIsoSprite, BattleFieldScene.MAIN_LAYER, playerDataManager.getPlayer());
+        playerSpriteInfo = new SpriteInfo(playerIsoSprite, BattleFieldScene.MAIN_LAYER, player);
         return playerSpriteInfo;
     }
 

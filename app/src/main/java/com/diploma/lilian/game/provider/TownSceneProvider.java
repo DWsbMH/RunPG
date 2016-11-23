@@ -2,7 +2,7 @@ package com.diploma.lilian.game.provider;
 
 import android.content.Context;
 
-import com.diploma.lilian.database.datamanager.PlayerDataManager;
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.io.SpriteDataParser;
 import com.diploma.lilian.game.scene.TownScene;
@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 public class TownSceneProvider extends BaseSpriteProvider {
-    public TownSceneProvider(Context context, PlayerDataManager playerDataManager) {
-        super(context, playerDataManager);
+    public TownSceneProvider(Context context, Player player) {
+        super(context, player);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class TownSceneProvider extends BaseSpriteProvider {
         playerIsoSprite.moveInIso(1, 0, 0);
         playerIsoSprite.addCollisionType(CollisionType.PLAYER_ENEMY.getValue());
 
-        playerSpriteInfo = new SpriteInfo(playerIsoSprite, TownScene.MAIN_LAYER, playerDataManager.getPlayer());
+        playerSpriteInfo = new SpriteInfo(playerIsoSprite, TownScene.MAIN_LAYER, player);
         return playerSpriteInfo;
     }
 }

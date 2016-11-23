@@ -3,7 +3,7 @@ package com.diploma.lilian.game.provider;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
-import com.diploma.lilian.database.datamanager.PlayerDataManager;
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.io.SpriteDataParser;
 import com.diploma.lilian.game.scene.FightScene;
@@ -18,8 +18,8 @@ public class FightSpriteProvider extends BaseSpriteProvider {
     private final SpriteInfo enemy;
     private Collection<SpriteInfo> returnEnemies;
 
-    public FightSpriteProvider(Context context, PlayerDataManager playerDataManager, DisplayMetrics metrics, SpriteInfo enemy) {
-        super(context, playerDataManager);
+    public FightSpriteProvider(Context context, Player player, DisplayMetrics metrics, SpriteInfo enemy) {
+        super(context, player);
         this.metrics = metrics;
         this.enemy = enemy;
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.game.GameLogic;
 import com.diploma.lilian.game.scene.BaseScene;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
@@ -29,5 +30,9 @@ public class GameActivityPresenter extends MvpBasePresenter<GameActivityView> im
 
     public void startGame() {
         gameLogic.startGame();
+    }
+
+    public Player getPlayer() {
+        return gameLogic.getPlayer();
     }
 }

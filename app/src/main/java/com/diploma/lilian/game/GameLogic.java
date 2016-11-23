@@ -26,17 +26,18 @@ public class GameLogic implements OnFightListener {
 
     public GameLogic(Context context, DisplayMetrics metrics, OnGameListener listener) {
         this.context = context;
-        player = new PlayerDataManager(context).getPlayer();
         this.metrics = metrics;
         this.listener = listener;
+
+        player = new PlayerDataManager(context).getPlayer();
     }
 
     private void initHandlers() {
-        battleFieldSceneHandler = new BattleFieldSceneHandler(context, metrics);
+        battleFieldSceneHandler = new BattleFieldSceneHandler(context, metrics, player);
         battleFieldSceneHandler.setOnFightListener(this);
 
-        fightSceneHandler = new FightSceneHandler(context, metrics);
-        townSceneHandler = new TownSceneHandler(context, metrics);
+        fightSceneHandler = new FightSceneHandler(context, metrics, player);
+        townSceneHandler = new TownSceneHandler(context, metrics, player);
     }
 
 
@@ -73,6 +74,10 @@ public class GameLogic implements OnFightListener {
 //        listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getHUD());
         listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getHUD());
         battleFieldSceneHandler.getScene().resetCollisionDetector();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public interface OnGameListener {

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.diploma.lilian.database.datamanager.PlayerDataManager;
 import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.game.view.BarView;
 import com.diploma.lilian.game.view.EquipmentItemRow;
@@ -38,7 +37,7 @@ public class InventoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private Player player;
+    private static Player player;
 
     @BindView(R.id.backpack_weapon_row)
     EquipmentItemRow backpackWeaponRow;
@@ -77,7 +76,8 @@ public class InventoryFragment extends Fragment {
 
     }
 
-    public static InventoryFragment newInstance(String param1, String param2) {
+    public static InventoryFragment newInstance(String param1, String param2, Player player) {
+        InventoryFragment.player = player;
         InventoryFragment fragment = new InventoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -93,8 +93,6 @@ public class InventoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        PlayerDataManager playerDataManager = new PlayerDataManager(getContext());
-        player = playerDataManager.getPlayer();
     }
 
     @Override
