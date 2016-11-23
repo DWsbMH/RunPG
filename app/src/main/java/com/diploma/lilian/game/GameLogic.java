@@ -70,9 +70,9 @@ public class GameLogic implements OnFightListener {
 
     public void startGame() {
         initHandlers();
-/* TODO player duplicated ???*/
 //        listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getHUD());
         listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getHUD());
+        battleFieldSceneHandler.getScene().resetCollisionDetector();
     }
 
     public interface OnGameListener {

@@ -85,6 +85,7 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
 
     @Override
     public void init(Context context) {
+        vp.addElement(spriteProvider.getPlayerSpriteInfo().getSprite(), spriteProvider.getPlayerSpriteInfo().getLayerType());
         for (SpriteInfo spriteInfo : spriteProvider.getSpriteInfoCollection()){
             if (spriteInfo.getSprite().getCollisionTypeBitmap() != CollisionType.INVALID.getValue()) {
                 collitionDetector.add(spriteInfo.getSprite());
