@@ -16,7 +16,7 @@ import com.diploma.lilian.engine.ai.IPathFinder;
 import com.diploma.lilian.engine.ai.IsoGridPathFinder;
 import com.diploma.lilian.engine.collition.CollisionDetector;
 import com.diploma.lilian.engine.collition.OnCollisionListener;
-import com.diploma.lilian.game.CollisionType;
+import com.diploma.lilian.game.provider.CollisionType;
 import com.diploma.lilian.game.fragment.FightFragment;
 import com.diploma.lilian.game.provider.BaseSpriteProvider;
 import com.diploma.lilian.game.provider.SpriteInfo;
@@ -30,8 +30,8 @@ import javax.microedition.khronos.opengles.GL11;
 public class FightScene extends BaseScene implements OnCollisionListener {
 
     private static final String TAG = "FightScene";
-    private static int MAIN_LAYER;
-    private static int GROUND_LAYER;
+    public static int MAIN_LAYER;
+    public static int GROUND_LAYER;
     private SpriteInfo player;
     private SpriteInfo enemy;
     private FightSceneHandler onFightTurnListener;
@@ -44,7 +44,7 @@ public class FightScene extends BaseScene implements OnCollisionListener {
 
     @Override
     protected Viewport createViewport() {
-        Viewport vp = new Viewport(0, 0, surfaceWidth, surfaceHeight, surfaceWidth, surfaceHeight, 0.5f);
+        Viewport vp = new Viewport(0, 0, surfaceWidth, surfaceHeight, surfaceWidth, surfaceWidth, 0.5f);
 
         GROUND_LAYER = vp.addLayer(new Map(1));
         MAIN_LAYER = vp.addLayer(new Map(50));

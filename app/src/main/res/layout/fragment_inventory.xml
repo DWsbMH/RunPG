@@ -20,18 +20,18 @@
 
             <ImageButton
                 android:id="@+id/inventory_close"
-                android:layout_height="64dp"
                 android:layout_width="64dp"
-                android:layout_alignParentTop="true"
+                android:layout_height="64dp"
                 android:layout_alignParentEnd="true"
-                android:scaleType="fitXY"
+                android:layout_alignParentTop="true"
                 android:background="@android:color/transparent"
+                android:scaleType="fitXY"
                 android:src="@drawable/inventory_close" />
 
             <RelativeLayout
+                android:id="@+id/player_info_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/player_info_container"
                 android:layout_above="@+id/player_attributes_container"
                 android:layout_below="@+id/inventory_close">
 
@@ -46,122 +46,146 @@
                     <ImageView
                         android:layout_width="256dp"
                         android:layout_height="256dp"
+                        android:layout_gravity="center_horizontal|center"
                         android:background="#33ffffff"
-                        android:src="@drawable/player_image"
-                        android:layout_gravity="center_horizontal|center" />
+                        android:src="@drawable/player1"
+                        android:id="@+id/player_image" />
 
                     <TextView
+                        android:id="@+id/player_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/player_level"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="?android:attr/textColorPrimaryInverse"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/equiped_with_container"
-                        >
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/player_info_details_container"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/player_info_details_container"
-                    android:orientation="vertical"
-                    android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="12dp">
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="12dp"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/player_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/player_name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="?android:attr/textColorPrimaryInverse"
                         android:textSize="40sp"
-                        android:textStyle="bold"
-                        android:text="Player Name"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:layout_marginTop="12dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="?android:attr/textColorPrimaryInverse"
-                        android:textStyle="bold"
                         android:text="Health Bar"
-                        />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="?android:attr/textColorPrimaryInverse"
+                        android:textStyle="bold" />
 
-                    <com.diploma.lilian.game.view.BarView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/barview_height"
-                        android:id="@+id/player_info_details_healthbar"/>
+                        android:background="@drawable/frame"
+                        android:paddingBottom="3dp"
+                        android:paddingEnd="25dp"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp">
+
+                        <com.diploma.lilian.game.view.BarView
+                            android:id="@+id/player_info_details_healthbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/barview_height" />
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:layout_marginTop="12dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="?android:attr/textColorPrimaryInverse"
-                        android:textStyle="bold"
                         android:text="Experience Bar"
-                        />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="?android:attr/textColorPrimaryInverse"
+                        android:textStyle="bold" />
 
-                    <com.diploma.lilian.game.view.BarView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/barview_height"
-                        android:id="@+id/player_info_details_experiencebar" />
+                        android:background="@drawable/frame"
+                        android:paddingBottom="3dp"
+                        android:paddingEnd="25dp"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp">
+
+                        <com.diploma.lilian.game.view.BarView
+                            android:id="@+id/player_info_details_experiencebar"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/barview_height" />
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:layout_marginTop="12dp"
+                        android:text="Stamina Bar"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="?android:attr/textColorPrimaryInverse"
-                        android:textStyle="bold"
-                        android:text="Stamina Bar"
-                        />
+                        android:textStyle="bold" />
 
-                    <com.diploma.lilian.game.view.BarView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/barview_height"
-                        android:id="@+id/player_info_details_staminabar" />
+                        android:background="@drawable/frame"
+                        android:paddingBottom="3dp"
+                        android:paddingEnd="25dp"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp">
+
+                        <com.diploma.lilian.game.view.BarView
+                            android:id="@+id/player_info_details_staminabar"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/barview_height" />
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            android:layout_marginTop="12dp"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            android:textColor="?android:attr/textColorPrimaryInverse"
-                            android:textStyle="bold"
-                            android:text="Elosztható pontok:"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="12dp"
+                            android:text="Free ability points:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textColor="?android:attr/textColorPrimaryInverse"
+                            android:textStyle="bold" />
+
+                        <TextView
                             android:id="@+id/player_attribute_free_points"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
                             android:layout_marginLeft="12dp"
                             android:layout_marginTop="12dp"
+                            android:text="4"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="?android:attr/textColorPrimaryInverse"
-                            android:textStyle="bold"
-                            android:text="4"
-                            />
+                            android:textStyle="bold" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -169,41 +193,36 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/player_attributes_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/player_attributes_container"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:orientation="vertical">
 
                 <include
                     android:id="@+id/player_attribute_strength"
-                    layout="@layout/player_attributes_row"
-                    />
+                    layout="@layout/player_attributes_row" />
 
                 <android.support.v4.widget.Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:layout_marginTop="12dp" />
 
                 <include
                     android:id="@+id/player_attribute_endurance"
-                    layout="@layout/player_attributes_row"
-                    />
+                    layout="@layout/player_attributes_row" />
 
                 <android.support.v4.widget.Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:layout_marginTop="12dp" />
 
                 <include
                     android:id="@+id/player_attribute_luck"
-                    layout="@layout/player_attributes_row"
-                    />
+                    layout="@layout/player_attributes_row" />
 
             </LinearLayout>
 
@@ -224,26 +243,26 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="12dp"
+                android:text="Weapons"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="?android:attr/textColorPrimaryInverse"
-                android:textStyle="bold"
-                android:text="Weapons" />
+                android:textStyle="bold" />
 
             <com.diploma.lilian.game.view.EquipmentItemRow
                 android:id="@+id/backpack_weapon_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="48dp"/>
+                android:layout_marginBottom="48dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="12dp"
+                android:text="Potions"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="?android:attr/textColorPrimaryInverse"
-                android:textStyle="bold"
-                android:text="Potions" />
+                android:textStyle="bold" />
 
             <com.diploma.lilian.game.view.EquipmentItemRow
                 android:id="@+id/backpack_potion_row"

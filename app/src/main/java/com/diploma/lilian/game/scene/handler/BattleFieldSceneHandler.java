@@ -6,17 +6,17 @@ import android.util.DisplayMetrics;
 import com.diploma.lilian.game.OnFightListener;
 import com.diploma.lilian.game.OnPlayerListener;
 import com.diploma.lilian.game.provider.BaseSpriteProvider;
-import com.diploma.lilian.game.provider.DefaultSpriteProvider;
-import com.diploma.lilian.game.scene.TestScene;
+import com.diploma.lilian.game.provider.BattleFieldSpriteProvider;
+import com.diploma.lilian.game.scene.BattleFieldScene;
 
-public class DefaultSceneHandler extends BaseSceneHandler<TestScene>{
+public class BattleFieldSceneHandler extends BaseSceneHandler<BattleFieldScene>{
 
-    public DefaultSceneHandler(Context context, DisplayMetrics metrics) {
+    public BattleFieldSceneHandler(Context context, DisplayMetrics metrics) {
         super(context, metrics);
 
-        scene = new TestScene(context, this.metrics.widthPixels, this.metrics.heightPixels);
+        scene = new BattleFieldScene(context, this.metrics.widthPixels, this.metrics.heightPixels);
 
-        BaseSpriteProvider spriteProvider = new DefaultSpriteProvider(context, playerDataManager);
+        BaseSpriteProvider spriteProvider = new BattleFieldSpriteProvider(context, playerDataManager);
         scene.setSpriteProvider(spriteProvider);
 
         scene.start();

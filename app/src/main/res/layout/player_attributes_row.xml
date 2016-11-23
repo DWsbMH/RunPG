@@ -27,6 +27,7 @@
         android:text="asd"/>
 
     <ImageButton
+        android:id="@+id/player_attribute_addPoint"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/player_attributes_increase"

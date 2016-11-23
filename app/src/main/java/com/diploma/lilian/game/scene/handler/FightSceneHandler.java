@@ -12,6 +12,7 @@ import com.diploma.lilian.game.provider.BaseSpriteProvider;
 import com.diploma.lilian.game.provider.FightSpriteProvider;
 import com.diploma.lilian.game.provider.SpriteInfo;
 import com.diploma.lilian.game.scene.FightScene;
+import com.diploma.lilian.game.util.Formulas;
 
 public class FightSceneHandler extends BaseSceneHandler<FightScene> implements OnFightTurnListener {
 
@@ -72,8 +73,25 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
                 updateHealth(defender);
 
                 if (defender.getData().getActualHealthPoint() < 0) {
-                    playerDataManager.update((Player) scene.getPlayer().getData());
-                    onFightListener.onFightWin();
+                    if (defender.equals(scene.getPlayer())) {
+                        onFightListener.onFightLost();
+                    } else {
+                        Player player = (Player) scene.getPlayer().getData();
+                        int experienceForEnemy = (int) (player.getAttributes().getExperienceGained() + Formulas.experienceForEnemy(
+                                getScene().getEnemy().getData()));
+
+                        if (player.getAttributes().getExperienceGained() + experienceForEnemy >=
+                                player.getAttributes().getExperienceNeeded()) {
+                            int experienceDiff = (player.getAttributes().getExperienceGained() + experienceForEnemy -
+                                    player.getAttributes().getExperienceNeeded());
+                            player.getAttributes().setExperienceGained(experienceDiff);
+//                            onPlayerListener.onLevelUpTo(player.getAttributes().getLevel());
+                        } else {
+                            player.getAttributes().setExperienceGained(experienceForEnemy);
+                        }
+                        playerDataManager.update(player);
+                        onFightListener.onFightWin();
+                    }
                 }
 
                 temp = attacker;

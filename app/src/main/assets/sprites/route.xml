@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<isosprite name="route"
+	imgname="tilea2"
+	spritewidth="128"
+	spriteheight="128"
+	bodyheight="0"
+	startZ="0"
+	isShadow="false">
+	
+	<animations imgwidth="512" imgheight="384">
+		<animation name="default" steptime="150" startframe="0">
+			<frame left="132" right="188" top="132" bottom="188"/>
+		</animation>
+	</animations>
+</isosprite>

@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.diploma.lilian.database.datamanager.PlayerDataManager;
 import com.diploma.lilian.database.entity.Player;
+import com.diploma.lilian.game.view.BarView;
 import com.diploma.lilian.game.view.EquipmentItemRow;
 import com.diploma.lilian.game.view.EquipmentItemRowAdapter;
 import com.diploma.lilian.runpg.R;
@@ -36,6 +38,8 @@ public class InventoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Player player;
+
     @BindView(R.id.backpack_weapon_row)
     EquipmentItemRow backpackWeaponRow;
     @BindView(R.id.backpack_potion_row)
@@ -47,6 +51,25 @@ public class InventoryFragment extends Fragment {
     ViewGroup playerAttributeEndurance;
     @BindView(R.id.player_attribute_luck)
     ViewGroup playerAttributeLuck;
+
+    @BindView(R.id.player_image)
+    ImageView playerImage;
+
+    @BindView(R.id.player_attribute_free_points)
+    TextView playerAttributeFreePoints;
+
+    @BindView(R.id.player_name)
+    TextView playerName;
+
+    @BindView(R.id.player_level)
+    TextView playerLevel;
+
+    @BindView(R.id.player_info_details_healthbar)
+    BarView healthBar;
+    @BindView(R.id.player_info_details_experiencebar)
+    BarView experienceBar;
+    @BindView(R.id.player_info_details_staminabar)
+    BarView staminaBar;
 
     private OnInventoryListener mListener;
 
@@ -70,38 +93,83 @@ public class InventoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        PlayerDataManager playerDataManager = new PlayerDataManager(getContext());
+        player = playerDataManager.getPlayer();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
-
         ButterKnife.bind(this, view);
 
-        PlayerDataManager playerDataManager = new PlayerDataManager(getContext());
-        Player player = playerDataManager.getPlayer();
+        playerName.setText(player.getPlayerName());
+
+        playerLevel.setText("Level: "+String.valueOf(player.getLevel()));
+
+        playerImage.setImageResource(getResources().getIdentifier(player.getPlayerImage(), "drawable", getContext().getPackageName()));
+
+        healthBar.setMaxPoint(player.getMaxHealthPoint());
+        healthBar.setActualPoint(player.getActualHealthPoint());
+        experienceBar.setMaxPoint(player.getAttributes().getExperienceNeeded());
+        experienceBar.setActualPoint(player.getAttributes().getExperienceGained());
+        staminaBar.setMaxPoint(player.getAttributes().getMaxStamina());
+        staminaBar.setActualPoint(player.getAttributes().getActualStamina());
+
+        playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
+
         backpackWeaponRow.setAdapter(new EquipmentItemRowAdapter<>(
-                getContext(),new ArrayList<>(player.getBackpack().getWeapons())
+                getContext(), new ArrayList<>(player.getBackpack().getWeapons())
         ));
         backpackPotionRow.setAdapter(new EquipmentItemRowAdapter<>(
-                getContext(),new ArrayList<>(player.getBackpack().getPotions())
+                getContext(), new ArrayList<>(player.getBackpack().getPotions())
         ));
 
-        ((TextView)playerAttributeStrength.findViewById(R.id.player_attribute_item_name)).setText("Strength");
-        ((TextView)playerAttributeEndurance.findViewById(R.id.player_attribute_item_name)).setText("Endurance");
-        ((TextView)playerAttributeLuck.findViewById(R.id.player_attribute_item_name)).setText("Luck");
+        ((TextView) playerAttributeStrength.findViewById(R.id.player_attribute_item_name)).setText("Strength");
+        ((TextView) playerAttributeEndurance.findViewById(R.id.player_attribute_item_name)).setText("Endurance");
+        ((TextView) playerAttributeLuck.findViewById(R.id.player_attribute_item_name)).setText("Luck");
 
-        ((TextView)playerAttributeStrength.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getStrength()));
-        ((TextView)playerAttributeEndurance.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getEndurance()));
-        ((TextView)playerAttributeLuck.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getLuck()));
+        ((TextView) playerAttributeStrength.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getStrength()));
+        ((TextView) playerAttributeEndurance.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getEndurance()));
+        ((TextView) playerAttributeLuck.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getLuck()));
+
+        playerAttributeStrength.findViewById(R.id.player_attribute_addPoint).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player.getAttributes().getFreePoints() > 0){
+                    player.getAttributes().setStrength(player.getAttributes().getStrength()+1);
+                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints()-1);
+                    playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
+                }
+            }
+        });
+        playerAttributeEndurance.findViewById(R.id.player_attribute_addPoint).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player.getAttributes().getFreePoints() > 0){
+                    player.getAttributes().setEndurance(player.getAttributes().getEndurance()+1);
+                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints()-1);
+                    playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
+                }
+            }
+        });
+        playerAttributeLuck.findViewById(R.id.player_attribute_addPoint).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player.getAttributes().getFreePoints() > 0){
+                    player.getAttributes().setLuck(player.getAttributes().getLuck()+1);
+                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints()-1);
+                    playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
+                }
+            }
+        });
 
 
         return view;
     }
 
     @OnClick(R.id.inventory_close)
-    public void closeInventory(){
+    public void closeInventory() {
         mListener.onInventoryClose();
     }
 
@@ -112,7 +180,7 @@ public class InventoryFragment extends Fragment {
             mListener = (OnInventoryListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFightFragmentListener");
         }
 
     }

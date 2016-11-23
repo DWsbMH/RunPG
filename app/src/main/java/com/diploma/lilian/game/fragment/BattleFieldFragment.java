@@ -17,12 +17,12 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DefaultFragment.OnFragmentInteractionListener} interface
+ * {@link BattleFieldFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DefaultFragment#newInstance} factory method to
+ * Use the {@link BattleFieldFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DefaultFragment extends Fragment {
+public class BattleFieldFragment extends Fragment {
 
     @BindView(R.id.healthBar)
     BarView playerHealthBar;
@@ -37,7 +37,7 @@ public class DefaultFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public DefaultFragment() {
+    public BattleFieldFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +47,11 @@ public class DefaultFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DefaultFragment.
+     * @return A new instance of fragment BattleFieldFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DefaultFragment newInstance(int playerMaxHealthPoint, int playerActualHealthPoint) {
-        DefaultFragment fragment = new DefaultFragment();
+    public static BattleFieldFragment newInstance(int playerMaxHealthPoint, int playerActualHealthPoint) {
+        BattleFieldFragment fragment = new BattleFieldFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PLAYER_MAX_HEALTH, playerMaxHealthPoint);
         args.putInt(ARG_PLAYER_ACTUAL_HEALTH, playerActualHealthPoint);
@@ -88,11 +88,11 @@ public class DefaultFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
+//        if (context instanceof OnFightFragmentListener) {
+//            mListener = (OnFightFragmentListener) context;
 //        } else {
 //            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
+//                    + " must implement OnFightFragmentListener");
 //        }
 
     }

@@ -37,7 +37,7 @@ public class FightFragment extends Fragment implements OnPlayerListener, OnEnemy
     private int playerMaxHealth;
     private int playerActualHealth;
 
-    private OnFragmentInteractionListener mListener;
+    private OnFightFragmentListener mListener;
 
     public FightFragment() {
         // Required empty public constructor
@@ -72,11 +72,11 @@ public class FightFragment extends Fragment implements OnPlayerListener, OnEnemy
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnFightFragmentListener) {
+            mListener = (OnFightFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFightFragmentListener");
         }
     }
 
@@ -96,7 +96,7 @@ public class FightFragment extends Fragment implements OnPlayerListener, OnEnemy
         return fragment;
     }
 
-    public interface OnFragmentInteractionListener {
+    public interface OnFightFragmentListener {
         // TODO: Update argument type and name
         void fight();
     }

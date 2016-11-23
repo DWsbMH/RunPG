@@ -6,5 +6,5 @@ public interface OnFightListener {
 
     void fightAgainst(SpriteInfo enemy);
     void onFightWin();
-
+    void onFightLost();
 }

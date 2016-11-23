@@ -39,6 +39,9 @@ public class Attributes {
     @DatabaseField
     private int endurance;
 
+    @DatabaseField(defaultValue = "0")
+    private int freePoints;
+
     public Attributes() {
     }
 
@@ -120,5 +123,13 @@ public class Attributes {
 
     public void setEndurance(int endurance) {
         this.endurance = endurance;
+    }
+
+    public int getFreePoints() {
+        return freePoints;
+    }
+
+    public void setFreePoints(int freePoints) {
+        this.freePoints = freePoints;
     }
 }

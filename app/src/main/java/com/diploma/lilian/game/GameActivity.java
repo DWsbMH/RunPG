@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.diploma.lilian.engine.GLCanvas;
 import com.diploma.lilian.game.fragment.FightFragment;
@@ -20,12 +20,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GameActivity extends BaseActivity<GameActivityView, GameActivityPresenter> implements GameActivityView, FightFragment.OnFragmentInteractionListener, InventoryFragment.OnInventoryListener {
+public class GameActivity extends BaseActivity<GameActivityView, GameActivityPresenter> implements GameActivityView, FightFragment.OnFightFragmentListener, InventoryFragment.OnInventoryListener {
 
     @BindView(R.id.glcanvas)
     GLCanvas canvas;
     @BindView(R.id.inventory_open)
-    Button openInventoryButton;
+    ImageButton openInventoryButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,11 +33,7 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
         this.setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        presenter.init(metrics);
-
+        presenter.startGame();
     }
 
     @Override
@@ -58,7 +54,9 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
     @NonNull
     @Override
     public GameActivityPresenter createPresenter() {
-        return new GameActivityPresenter(this);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return new GameActivityPresenter(this, metrics);
     }
 
     @Override

@@ -16,11 +16,12 @@ import com.diploma.lilian.runpg.R;
  * TODO: document your custom view class.
  */
 public class BarView extends View {
-    private int mExampleColor = Color.RED; // TODO: use a default from R.color...
+    private int mExampleColor = Color.GREEN; // TODO: use a default from R.color...
     private float mExampleDimension = 24; // TODO: use a default from R.dimen...
     private Drawable mExampleDrawable;
 
     Paint remainPointPaint;
+    Paint backgroundPaint;
     private int maxPoint = 100;
     private int actualPoint = 100;
 
@@ -66,7 +67,10 @@ public class BarView extends View {
         a.recycle();
 
         remainPointPaint = new Paint();
-        remainPointPaint.setColor(Color.GREEN);
+        remainPointPaint.setColor(getExampleColor());
+
+        backgroundPaint = new Paint();
+        backgroundPaint.setARGB(255,204,204,204);
 
         // Set up a default TextPaint object
         mTextPaint = new TextPaint();
@@ -79,7 +83,6 @@ public class BarView extends View {
 
     private void invalidateTextPaintAndMeasurements() {
         mTextPaint.setTextSize(mExampleDimension);
-        mTextPaint.setColor(mExampleColor);
 
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         mTextHeight = fontMetrics.bottom;
@@ -99,6 +102,7 @@ public class BarView extends View {
         int contentWidth = getWidth() - paddingLeft - paddingRight;
         int contentHeight = getHeight() - paddingTop - paddingBottom;
 
+        canvas.drawRect(paddingLeft, paddingTop, contentWidth, contentHeight, backgroundPaint);
         canvas.drawRect(paddingLeft, paddingTop, ((float) actualPoint / maxPoint)*contentWidth, contentHeight, remainPointPaint);
 
 

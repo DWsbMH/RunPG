@@ -7,6 +7,7 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -23,9 +24,9 @@ import com.diploma.lilian.engine.ai.IPathFinder;
 import com.diploma.lilian.engine.ai.IsoGridPathFinder;
 import com.diploma.lilian.engine.collition.CollisionDetector;
 import com.diploma.lilian.engine.collition.OnCollisionListener;
-import com.diploma.lilian.game.CollisionType;
 import com.diploma.lilian.game.OnFightListener;
-import com.diploma.lilian.game.fragment.DefaultFragment;
+import com.diploma.lilian.game.fragment.BattleFieldFragment;
+import com.diploma.lilian.game.provider.CollisionType;
 import com.diploma.lilian.game.provider.SpriteInfo;
 
 import java.util.Collection;
@@ -33,9 +34,9 @@ import java.util.Collection;
 import javax.microedition.khronos.opengles.GL11;
 
 
-public class TestScene extends BaseScene implements OnClickListener, OnCollisionListener, OnGestureListener {
+public class BattleFieldScene extends BaseScene implements OnClickListener, OnCollisionListener, OnGestureListener, ScaleGestureDetector.OnScaleGestureListener {
 
-    private static final String TAG = "TestScene";
+    private static final String TAG = "BattleFieldScene";
 
     public static int WORLD_WIDTH = 5000;
     public static int WORLD_HEIGHT = 5000;
@@ -46,15 +47,18 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
     private Vec3 startPos;
 
     private GestureDetector motions;
+    private ScaleGestureDetector scaleGestureDetector;
     private OnFightListener onFightListener;
 
     private IsoSprite enemy;
 
     private SpriteInfo player;
 
-    public TestScene(Context context, int surfaceWidth, int surfaceHeight) {
+    public BattleFieldScene(Context context, int surfaceWidth, int surfaceHeight) {
         super(context, surfaceWidth, surfaceHeight);
         motions = new GestureDetector(this);
+        scaleGestureDetector = new ScaleGestureDetector(context, this);
+
     }
 
     @Override
@@ -62,7 +66,7 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
         Viewport vp = new Viewport(0, 0, surfaceWidth, surfaceHeight, WORLD_WIDTH, WORLD_HEIGHT, 0.5f);
 
         GROUND_LAYER = vp.addLayer(new Map(1));
-        MAIN_LAYER = vp.addLayer(new Map(50));
+        MAIN_LAYER = vp.addLayer(new Map(100));
 
         return vp;
     }
@@ -120,6 +124,7 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
         }
 
         vp.addElement(player.getSprite(), spriteProvider.getPlayerSpriteInfo().getLayerType());
+
     }
 
     @Override
@@ -131,6 +136,7 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
     public boolean onTouch(View v, MotionEvent e) {
         Log.d(TAG, "onTouch() called with: " + "v = [" + v + "], e = [" + e + "]");
 
+        scaleGestureDetector.onTouchEvent(e);
         motions.onTouchEvent(e);
         return true;
     }
@@ -147,19 +153,24 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
 
     @Override
     public void handleCollision(IsoSprite s1, IsoSprite s2, int collisionGroupMask) {
-        Log.w("COLLITION:TestScene", "COLLIDE!!!!! " + s1 + " : " + s2 + " mask: " + collisionGroupMask);
+        Log.w(TAG, "COLLIDE!!!!! " + s1 + " : " + s2 + " mask: " + collisionGroupMask);
 
-        if(!s1.equals(s2)) {
-            player.getSprite().stopMove();
-            if (player.getSprite().equals(s1)) {
-                enemy = s2;
-            } else {
-                enemy = s1;
+        if (collisionGroupMask == CollisionType.PLAYER_ENEMY.getValue()) {
+            if (!s1.equals(s2)) {
+                player.getSprite().stopMove();
+                if (player.getSprite().equals(s1)) {
+                    enemy = s2;
+                } else {
+                    enemy = s1;
+                }
+
+                SpriteInfo enemySpriteInfo = getEnemySpriteInfo(enemy);
+
+                onFightListener.fightAgainst(enemySpriteInfo);
             }
-
-            SpriteInfo enemySpriteInfo = getEnemySpriteInfo(enemy);
-
-            onFightListener.fightAgainst(enemySpriteInfo);
+        } else {
+            player.getSprite().stopMove();
+            Log.w(TAG, "epulet....");
         }
     }
 
@@ -177,10 +188,9 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        //playerIsoSprite.moveTo(e.getX() + vp.getX(), e.getY() + vp.getY(), playerIsoSprite.getZ(), 200);
         player.getSprite().movePathTo(pathFinder, (e.getX() / getZoom()) + vp.getX(), (e.getY() / getZoom()) + vp.getY(), 500);
 
-        Log.e("TEST SCENE", "TAP: x: " + (e.getX() + vp.getX()) + " Y: " + (e.getY() + vp.getY()));
+        Log.e(TAG, "TAP: x: " + (e.getX() + vp.getX()) + " Y: " + (e.getY() + vp.getY()));
         startPos = player.getSprite().getCenter();
 
         return true;
@@ -204,6 +214,7 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
         super.render(gl);
 
         if (player != null) {
+            drawEnemyColl(gl);
             Point a = Transformer.isoToPlot(player.getSprite().getIminX(), player.getSprite().getIminY());
             Point b = Transformer.isoToPlot(player.getSprite().getImaxX(), player.getSprite().getImaxY());
 
@@ -237,6 +248,22 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
             }
         }
 
+    }
+
+    private void drawEnemyColl(GL11 gl) {
+        Collection<SpriteInfo> enemies = spriteProvider.getEnemiesSpriteInfo();
+        for(SpriteInfo enemy : enemies ){
+            Point a = Transformer.isoToPlot(enemy.getSprite().getIminX(), enemy.getSprite().getIminY());
+            Point b = Transformer.isoToPlot(enemy.getSprite().getImaxX(), enemy.getSprite().getImaxY());
+
+            LineDrawer.drawLine(gl, a.x, a.y, b.x, b.y);
+
+            a = Transformer.isoToPlot(enemy.getSprite().getImaxX(), enemy.getSprite().getIminY());
+            b = Transformer.isoToPlot(enemy.getSprite().getIminX(), enemy.getSprite().getImaxY());
+
+            LineDrawer.drawLine(gl, a.x, a.y, b.x, b.y);
+
+        }
     }
 
 
@@ -280,10 +307,28 @@ public class TestScene extends BaseScene implements OnClickListener, OnCollision
 
     @Override
     public Fragment getHUD() {
-        return DefaultFragment.newInstance(player.getData().getMaxHealthPoint(), player.getData().getActualHealthPoint());
+        return BattleFieldFragment.newInstance(player.getData().getMaxHealthPoint(), player.getData().getActualHealthPoint());
     }
 
     public void updatePlayer(Player player) {
         this.getPlayer().setData(player);
+    }
+
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        Log.w(TAG, "onScale: "+ detector.getScaleFactor());
+        setZoom(getZoom()*detector.getScaleFactor());
+        return true;
+    }
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        
+        return true;
+    }
+
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {
+
     }
 }

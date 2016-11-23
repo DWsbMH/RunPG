@@ -2,9 +2,11 @@
 <isosprite
     name="kocsma"
     imgname="kocsma"
-    spritewidth="1024"
-    spriteheight="1024"
-    bodyheight="128"
+    spritewidth="1536"
+    spriteheight="1536"
+    ax="120" ay="970"
+    bx="780" by="970"
+    bodyheight="1024"
 
 
 >

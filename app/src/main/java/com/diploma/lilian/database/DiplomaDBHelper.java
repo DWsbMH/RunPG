@@ -26,7 +26,6 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = "DiplomaDBHelper";
     private static final String DATABASE_NAME = "diploma.db";
     private static final int DATABASE_VERSION = 4;
-    private final Context context;
 
     private Dao<TrackerService, Integer> trackerServiceDao;
     private Dao<SportActivity, Integer> sportActivityDao;
@@ -39,7 +38,6 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
 
     private DiplomaDBHelper(Context context) {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
-        this.context = context;
     }
 
     public static DiplomaDBHelper INSTANCE(Context context){
@@ -81,17 +79,11 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             Backpack backpack = new Backpack();
             backpackDao.create(backpack);
 
-            Weapon weapon = new Weapon(backpack, "kard", "tile0001", 5, 10);
-            Potion potion = new Potion(backpack, "health", "tile001.png", 5, PotionType.HEALTH);
-            weaponDao.create(weapon);
-            weaponDao.create(weapon);
-            weaponDao.create(weapon);
-            weaponDao.create(weapon);
-            weaponDao.create(weapon);
-            weaponDao.create(weapon);
-            weaponDao.create(weapon);
-            weaponDao.create(weapon);
-            potionDao.create(potion);
+            weaponDao.create(new Weapon(backpack, "kard", "tile0001", 5, 10));
+            weaponDao.create(new Weapon(backpack, "kard", "tile0001", 5, 10));
+            weaponDao.create(new Weapon(backpack, "kard", "tile0002", 5, 10));
+            potionDao.create(new Potion(backpack, "health", "tile2016", 5, PotionType.HEALTH));
+            potionDao.create(new Potion(backpack, "health", "tile2032", 5, PotionType.HEALTH));
 
             Attributes attributes = new Attributes();
             attributes.setLevel(1);
@@ -107,7 +99,7 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
 
             attributesDao.create(attributes);
 
-            Player player = new PlayerBuilder().setPlayerName("Player 1").setPlayerImage("player_image").setLastPlayed(new Date(0)).
+            Player player = new PlayerBuilder().setPlayerName("Player 1").setPlayerImage("player1").setLastPlayed(new Date(0)).
                     setBackpack(backpack).setAttributes(attributes).createPlayer();
 
             playerDao = getPlayerDao();

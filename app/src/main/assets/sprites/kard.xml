@@ -13,5 +13,8 @@
 		<animation name="simple" steptime="0" startframe="0">
 			<frame left="24" right="47" top="0" bottom="23"/>
 		</animation>
+		<animation name="simple2" steptime="0" startframe="0">
+			<frame left="72" right="95" top="0" bottom="23"/>
+		</animation>
 	</animations>
 </isosprite>

@@ -6,8 +6,7 @@ import android.util.DisplayMetrics;
 import com.diploma.lilian.database.datamanager.PlayerDataManager;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.io.SpriteDataParser;
-import com.diploma.lilian.game.CollisionType;
-import com.diploma.lilian.game.scene.TestScene;
+import com.diploma.lilian.game.scene.FightScene;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,8 +29,8 @@ public class FightSpriteProvider extends BaseSpriteProvider {
         IsoSprite grass = null;
         try {
             grass = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/grass.xml"));
-            grass.setWidth(TestScene.WORLD_WIDTH);
-            grass.setHeight(TestScene.WORLD_HEIGHT);
+            grass.setWidth(metrics.widthPixels);
+            grass.setHeight(2000);
             grass.moveInPlot(0, 0, 0);
             grass.setAnimation("copy");
 
@@ -39,7 +38,7 @@ public class FightSpriteProvider extends BaseSpriteProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        spriteInfoCollection.add(new SpriteInfo(grass, TestScene.GROUND_LAYER));
+        spriteInfoCollection.add(new SpriteInfo(grass, FightScene.GROUND_LAYER));
     }
 
     @Override
@@ -51,7 +50,7 @@ public class FightSpriteProvider extends BaseSpriteProvider {
         IsoSprite enemyIsoSprite = null;
         try {
             enemyIsoSprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/" + enemy.getSprite().getName() + ".xml"));
-            enemyIsoSprite.moveInPlot(metrics.widthPixels - 2 * enemyIsoSprite.getWidth(), metrics.heightPixels / 2 - enemyIsoSprite.getHeight(), 0.0f);
+            enemyIsoSprite.moveInPlot(metrics.widthPixels - 2 * enemyIsoSprite.getWidth(), metrics.heightPixels / 2, 0.0f);
             enemyIsoSprite.setAnimation("stand");
             enemyIsoSprite.setAnimationStartFrame(0);
 
@@ -63,7 +62,7 @@ public class FightSpriteProvider extends BaseSpriteProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        enemiesSpriteInfoCollection.add(new SpriteInfo(enemyIsoSprite, TestScene.MAIN_LAYER, enemy.getData()));
+        enemiesSpriteInfoCollection.add(new SpriteInfo(enemyIsoSprite, FightScene.MAIN_LAYER, enemy.getData()));
         return enemiesSpriteInfoCollection;
     }
 
@@ -71,15 +70,14 @@ public class FightSpriteProvider extends BaseSpriteProvider {
     public SpriteInfo getPlayerSpriteInfo() {
         playerSpriteInfo = super.getPlayerSpriteInfo();
 
-        playerSpriteInfo.getSprite().moveInPlot(0, metrics.widthPixels/2, 0);
-        playerSpriteInfo.getSprite().setAnimation("right_move");
-        playerSpriteInfo.getSprite().setAnimationStartFrame(0);
-
-        playerSpriteInfo.getSprite().setMoveAnimationNames(new String[]{"left_move", "left_up_move", "up_move", "right_up_move",
-                "right_move", "right_down_move", "down_move", "left_down_move", "fight"});
-
+        playerSpriteInfo.getSprite().moveInPlot(0, metrics.heightPixels/2, 0);
         playerSpriteInfo.getSprite().moveInIso(1, 0, 0);
+
+        playerSpriteInfo.getSprite().setAnimation("stand");
+
         playerSpriteInfo.getSprite().addCollisionType(CollisionType.PLAYER_ENEMY.getValue());
+        playerSpriteInfo.setLayerType(FightScene.MAIN_LAYER);
+
 
         return playerSpriteInfo;
     }

@@ -1,4 +1,4 @@
-package com.diploma.lilian.game;
+package com.diploma.lilian.game.provider;
 
 public enum CollisionType {
 

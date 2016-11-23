@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<isosprite name="potion"
+    imgname="potion1"
+    spritewidth="48"
+    spriteheight="48"
+    ax="0" ay="23"
+    bx="23" by="23"
+    bodyheight="24"
+    startZ="0"
+    isShadow="false">
+
+    <animations imgwidth="384" imgheight="24">
+        <animation name="small_life" steptime="0" startframe="0">
+            <frame left="0" right="24" top="0" bottom="24"/>
+        </animation>
+        <animation name="medium_life" steptime="0" startframe="0">
+            <frame left="0" right="24" top="24" bottom="48"/>
+        </animation>
+    </animations>
+</isosprite>

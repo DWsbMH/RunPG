@@ -1,26 +1,45 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.diploma.lilian.game.fragment.DefaultFragment">
+    android:layout_marginTop="20dp"
+    tools:context="com.diploma.lilian.game.fragment.BattleFieldFragment">
 
 
-    <com.diploma.lilian.game.view.BarView
-        android:id="@+id/healthBar"
-        android:layout_width="@dimen/barview_width"
-        android:layout_height="@dimen/barview_height"
-        android:background="#ccc"/>
+    <RelativeLayout
+        android:id="@+id/healthBarContainer"
+        android:layout_width="180dp"
+        android:layout_height="30dp"
+        android:background="@drawable/frame"
+        android:paddingBottom="4dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingTop="4dp">
 
-    <com.diploma.lilian.game.view.BarView
-        android:id="@+id/staminaBar"
-        android:layout_width="120dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="10dp"
-        android:background="#ccc"
-        app:exampleColor="@android:color/holo_red_dark"
-        android:layout_below="@+id/healthBar"
-        android:layout_alignParentStart="true" />
+        <com.diploma.lilian.game.view.BarView
+            android:id="@+id/healthBar"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            />
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="180dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/healthBarContainer"
+        android:background="@drawable/frame"
+        android:paddingBottom="4dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingTop="4dp">
+
+        <com.diploma.lilian.game.view.BarView
+            android:id="@+id/staminaBar"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_width="180dp"
+            app:exampleColor="@color/colorPrimary"/>
+    </RelativeLayout>
 
 </RelativeLayout>

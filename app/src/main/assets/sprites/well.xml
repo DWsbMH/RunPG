@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<isosprite name="well"
+	imgname="tileb"
+	spritewidth="128"
+	spriteheight="128"
+	bodyheight="0"
+	startZ="0"
+	isShadow="false">
+	
+	<animations imgwidth="512" imgheight="512">
+		<animation name="default" steptime="0" startframe="0">
+			<frame left="64" right="128" top="320" bottom="416"/>
+		</animation>
+	</animations>
+</isosprite>
