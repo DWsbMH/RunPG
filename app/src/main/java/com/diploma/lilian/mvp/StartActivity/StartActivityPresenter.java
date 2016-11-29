@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.database.datamanager.TrackerServiceDataManager;
+import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.network.Constants;
 import com.diploma.lilian.runpg.ActivityFetcher;
 import com.diploma.lilian.runpg.ConnectTracker;
@@ -15,6 +15,8 @@ import com.diploma.lilian.runpg.OnConnectListener;
 import com.diploma.lilian.runpg.StartActivity;
 import com.diploma.lilian.runpg.TrackerServiceAdapter;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
+
+import java.util.List;
 
 public class StartActivityPresenter extends MvpBasePresenter<StartActivityView> {
 
@@ -75,5 +77,9 @@ public class StartActivityPresenter extends MvpBasePresenter<StartActivityView> 
 
     public void setOnConnectListener(OnConnectListener listener) {
         adapter.setOnConnectListener(listener);
+    }
+
+    public List<TrackerService> getConnectedTrackerServices(){
+        return trackerServiceDataManager.getConnectedServices();
     }
 }

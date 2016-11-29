@@ -28,7 +28,7 @@ public class Attributes {
     private int maxStamina;
 
     @DatabaseField
-    private int actualStamina;
+    private float actualStamina;
 
     @DatabaseField
     private int strength;
@@ -93,11 +93,11 @@ public class Attributes {
         this.maxStamina = maxStamina;
     }
 
-    public int getActualStamina() {
+    public float getActualStamina() {
         return actualStamina;
     }
 
-    public void setActualStamina(int actualStamina) {
+    public void setActualStamina(float actualStamina) {
         this.actualStamina = actualStamina;
     }
 

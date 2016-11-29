@@ -13,10 +13,13 @@ import com.diploma.lilian.game.scene.handler.BattleFieldSceneHandler;
 import com.diploma.lilian.game.scene.handler.FightSceneHandler;
 import com.diploma.lilian.game.scene.handler.TownSceneHandler;
 
-public class GameLogic implements OnFightListener {
+public class GameLogic implements OnFightListener, OnLevelUpListener {
 
     private Context context;
+
+    private final PlayerDataManager playerDataManager;
     private Player player;
+
     private final DisplayMetrics metrics;
     private final OnGameListener listener;
 
@@ -25,11 +28,15 @@ public class GameLogic implements OnFightListener {
     private TownSceneHandler townSceneHandler;
 
     public GameLogic(Context context, DisplayMetrics metrics, OnGameListener listener) {
+
+        /* TODO STAMINA */
+
         this.context = context;
         this.metrics = metrics;
         this.listener = listener;
 
-        player = new PlayerDataManager(context).getPlayer();
+        playerDataManager = new PlayerDataManager(context);
+        player = playerDataManager.getPlayer();
     }
 
     private void initHandlers() {
@@ -37,6 +44,7 @@ public class GameLogic implements OnFightListener {
         battleFieldSceneHandler.setOnFightListener(this);
 
         fightSceneHandler = new FightSceneHandler(context, metrics, player);
+        fightSceneHandler.setOnLevelUpListener(this);
         townSceneHandler = new TownSceneHandler(context, metrics, player);
     }
 
@@ -80,8 +88,19 @@ public class GameLogic implements OnFightListener {
         return player;
     }
 
+    @Override
+    public void levelUpTo(int newLevel) {
+        player.getAttributes().setLevel(newLevel);
+        // TODO player stat change according to level -> use Formulas in Player class
+    }
+
+    public void savePlayer() {
+        playerDataManager.update(player);
+    }
+
     public interface OnGameListener {
         void switchSceneTo(BaseScene sceneToSwitch, Fragment HUD);
     }
+
 
 }

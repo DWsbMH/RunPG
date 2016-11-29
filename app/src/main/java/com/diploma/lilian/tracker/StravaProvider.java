@@ -41,4 +41,41 @@ class StravaProvider extends BaseProvider {
     public List<SportActivity> getAllActivityFromService(Context context, TrackerService tracker) {
         return null;
     }
+
+    @Override
+    public List<SportActivity> getNewActivityFromService(Context context, TrackerService tracker) {
+        return null;
+    }
+
+    @Override
+    public SportActivityType getUnifiedType(String trackerType) {
+        return null;
+    }
+
+
+
+    /*RunKeeper: Running
+Strava: Run
+RunKeeper: Hiking
+Strava: Hike
+RunKeeper: CrossFit
+Strava: CrossFit
+
+
+RunKeeper: Cycling
+Strava: Ride
+RunKeeper: Yoga
+Strava: Yoga
+RunKeeper: Snowboarding
+Strava: Snowboard
+
+
+RunKeeper: Walking
+Strava: Walk
+RunKeeper: Swimming
+Strava: Swim
+RunKeeper: Skating
+Strava: IceSkate
+
+*/
 }

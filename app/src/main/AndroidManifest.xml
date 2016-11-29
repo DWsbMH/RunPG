@@ -16,6 +16,11 @@
         tools:replace="android:icon">
         <activity android:name=".MainActivity" />
         <activity android:name=".StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ConnectTracker"
@@ -27,11 +32,7 @@
             android:exported="false" />
 
         <activity android:name="com.diploma.lilian.game.GameActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
     </application>

@@ -1,12 +1,12 @@
 package com.diploma.lilian.database.entity;
 
 import com.diploma.lilian.game.data.CreatureData;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 
@@ -18,6 +18,9 @@ public class Player implements CreatureData {
 
     @DatabaseField
     private String playerName;
+
+    @DatabaseField(defaultValue = "0")
+    private int gold;
 
     @DatabaseField
     private String playerImage;
@@ -32,17 +35,16 @@ public class Player implements CreatureData {
     private Backpack backpack;
 
     @ForeignCollectionField(eager = true)
-    private Collection<SportActivity> sportActivities;
+    private ForeignCollection<SportActivity> sportActivities;
 
     public Player() {
     }
 
-    public Player(int id, String playerName, String playerImage, Date lastPlayed, Collection<SportActivity> item, Attributes attributes, Backpack backpack) {
+    public Player(int id, String playerName, String playerImage, Date lastPlayed, Attributes attributes, Backpack backpack) {
         this.id = id;
         this.playerName = playerName;
         this.playerImage = playerImage;
         this.lastPlayed = lastPlayed;
-        this.sportActivities = item;
         this.attributes = attributes;
         this.backpack = backpack;
     }
@@ -112,11 +114,11 @@ public class Player implements CreatureData {
         this.attributes = attributes;
     }
 
-    public Collection<SportActivity> getSportActivities() {
+    public ForeignCollection<SportActivity> getSportActivities() {
         return sportActivities;
     }
 
-    public void setSportActivities(Collection<SportActivity> sportActivities) {
+    public void setSportActivities(ForeignCollection<SportActivity> sportActivities) {
         this.sportActivities = sportActivities;
     }
 
@@ -126,6 +128,14 @@ public class Player implements CreatureData {
 
     public void setBackpack(Backpack backpack) {
         this.backpack = backpack;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     @Override

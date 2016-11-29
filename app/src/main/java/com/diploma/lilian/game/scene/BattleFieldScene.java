@@ -16,6 +16,7 @@ import com.diploma.lilian.engine.FogOfWar;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.LineDrawer;
 import com.diploma.lilian.engine.Map;
+import com.diploma.lilian.engine.OnMoveListener;
 import com.diploma.lilian.engine.Point;
 import com.diploma.lilian.engine.Transformer;
 import com.diploma.lilian.engine.Vec3;
@@ -53,6 +54,8 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
     private IsoSprite enemy;
 
     private SpriteInfo player;
+
+    private Fragment HUD;
 
     public BattleFieldScene(Context context, int surfaceWidth, int surfaceHeight) {
         super(context, surfaceWidth, surfaceHeight);
@@ -120,6 +123,18 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
         player = spriteProvider.getPlayerSpriteInfo();
         if (player.getSprite() != null && player.getSprite().getCollisionTypeBitmap() != CollisionType.INVALID.getValue()) {
+            player.getSprite().setOnMoveListener(new OnMoveListener() {
+                @Override
+                public void onStep() {
+                    float actualStamina = ((Player) player.getData()).getAttributes().getActualStamina();
+                    if (actualStamina >= 0) {
+                        ((Player) player.getData()).getAttributes().setActualStamina(actualStamina - 0.05f);
+                        ((BattleFieldFragment) HUD).decreaseStamina();
+                    } else {
+                        player.getSprite().stopMove();
+                    }
+                }
+            });
             collitionDetector.add(player.getSprite());
         }
 
@@ -188,8 +203,9 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        player.getSprite().movePathTo(pathFinder, (e.getX() / getZoom()) + vp.getX(), (e.getY() / getZoom()) + vp.getY(), 500);
-
+        if(((Player)player.getData()).getAttributes().getActualStamina() > 0) {
+            player.getSprite().movePathTo(pathFinder, (e.getX() / getZoom()) + vp.getX(), (e.getY() / getZoom()) + vp.getY(), 500);
+        }
         Log.e(TAG, "TAP: x: " + (e.getX() + vp.getX()) + " Y: " + (e.getY() + vp.getY()));
         startPos = player.getSprite().getCenter();
 
@@ -252,7 +268,7 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     private void drawEnemyColl(GL11 gl) {
         Collection<SpriteInfo> enemies = spriteProvider.getEnemiesSpriteInfo();
-        for(SpriteInfo enemy : enemies ){
+        for (SpriteInfo enemy : enemies) {
             Point a = Transformer.isoToPlot(enemy.getSprite().getIminX(), enemy.getSprite().getIminY());
             Point b = Transformer.isoToPlot(enemy.getSprite().getImaxX(), enemy.getSprite().getImaxY());
 
@@ -307,7 +323,12 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     @Override
     public Fragment getHUD() {
-        return BattleFieldFragment.newInstance(player.getData().getMaxHealthPoint(), player.getData().getActualHealthPoint());
+        HUD = BattleFieldFragment.newInstance(
+                player.getData().getMaxHealthPoint(), player.getData().getActualHealthPoint(),
+                ((Player) player.getData()).getAttributes().getMaxStamina(),
+                ((Player) player.getData()).getAttributes().getActualStamina());
+
+        return HUD;
     }
 
     public void updatePlayer(Player player) {
@@ -316,14 +337,14 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
-        Log.w(TAG, "onScale: "+ detector.getScaleFactor());
-        setZoom(getZoom()*detector.getScaleFactor());
+        Log.w(TAG, "onScale: " + detector.getScaleFactor());
+        setZoom(getZoom() * detector.getScaleFactor());
         return true;
     }
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
-        
+
         return true;
     }
 

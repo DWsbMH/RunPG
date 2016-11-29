@@ -1,14 +1,23 @@
 package com.diploma.lilian.runpg;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ListView;
 
+import com.diploma.lilian.database.datamanager.SportActivityDataManager;
+import com.diploma.lilian.database.entity.SportActivity;
 import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.game.GameActivity;
 import com.diploma.lilian.mvp.StartActivity.StartActivityPresenter;
 import com.diploma.lilian.mvp.StartActivity.StartActivityView;
+import com.diploma.lilian.network.Constants;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +30,7 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
 
     @BindView(R.id.connectToList)
     ListView connectServiceList;
+    private FetchReceiver receiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,9 +38,21 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        receiver = new FetchReceiver();
+
+        IntentFilter mStatusIntentFilter = new IntentFilter();
+        mStatusIntentFilter.addAction(Constants.FETCH_NEW_ACTIVITY_DONE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, mStatusIntentFilter);
+
         presenter.initList(connectServiceList);
         presenter.setOnConnectListener(this);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
     @Override
@@ -51,9 +73,23 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
     }
 
     @OnClick(R.id.login)
-    public void play(){
-        Intent gameIntent = new Intent(this, GameActivity.class);
-        startActivity(gameIntent);
+    public void play() {
+
+        List<TrackerService> services = presenter.getConnectedTrackerServices();
+
+        for (TrackerService trackerService : services) {
+            ActivityFetcher activityFetcher = new ActivityFetcher(this, trackerService);
+            activityFetcher.update();
+        }
+
+        if(services.isEmpty()){
+            Intent gameIntent = new Intent(this, GameActivity.class);
+            startActivity(gameIntent);
+        }
+
+        SportActivityDataManager dataManager = new SportActivityDataManager(getApplicationContext());
+        List<SportActivity> list = dataManager.queryForAll();
+
     }
 
     @NonNull
@@ -61,5 +97,16 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
     public StartActivityPresenter createPresenter() {
         return new StartActivityPresenter(this);
     }
+
+    class FetchReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent gameIntent = new Intent(context, GameActivity.class);
+            startActivity(gameIntent);
+
+        }
+    }
+
 
 }

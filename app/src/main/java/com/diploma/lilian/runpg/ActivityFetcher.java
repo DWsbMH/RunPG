@@ -15,9 +15,11 @@ public class ActivityFetcher {
     }
 
     public void downloadAll() {
-
         FetchService.startFetchActivities(context, tracker);
+    }
 
+    public void update(){
+        FetchService.startFetchNewActivities(context, tracker);
     }
 
 }

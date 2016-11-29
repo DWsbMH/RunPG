@@ -31,9 +31,13 @@ public class BattleFieldFragment extends Fragment {
 
     private static final String ARG_PLAYER_MAX_HEALTH = "ARG_PLAYER_MAX_HEALTH";
     private static final String ARG_PLAYER_ACTUAL_HEALTH = "ARG_PLAYER_ACTUAL_HEALTH";
+    private static final String ARG_PLAYER_MAX_STAMINA = "ARG_PLAYER_MAX_STAMINA";
+    private static final String ARG_PLAYER_ACTUAL_STAMINA = "ARG_PLAYER_ACTUAL_STAMINA";
 
     private int playerMaxHealth;
     private int playerActualHealth;
+    private int playerMaxStamina;
+    private float playerActualStamina;
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,14 +51,18 @@ public class BattleFieldFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BattleFieldFragment.
+     * @param maxStamina
+     *@param actualStamina @return A new instance of fragment BattleFieldFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BattleFieldFragment newInstance(int playerMaxHealthPoint, int playerActualHealthPoint) {
+    public static BattleFieldFragment newInstance(int playerMaxHealthPoint, int playerActualHealthPoint, int maxStamina, float actualStamina) {
         BattleFieldFragment fragment = new BattleFieldFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PLAYER_MAX_HEALTH, playerMaxHealthPoint);
         args.putInt(ARG_PLAYER_ACTUAL_HEALTH, playerActualHealthPoint);
+        args.putInt(ARG_PLAYER_MAX_STAMINA, maxStamina);
+        args.putFloat(ARG_PLAYER_ACTUAL_STAMINA, actualStamina);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,6 +73,8 @@ public class BattleFieldFragment extends Fragment {
         if (getArguments() != null) {
             playerMaxHealth = getArguments().getInt(ARG_PLAYER_MAX_HEALTH);
             playerActualHealth = getArguments().getInt(ARG_PLAYER_ACTUAL_HEALTH);
+            playerMaxStamina = getArguments().getInt(ARG_PLAYER_MAX_STAMINA);
+            playerActualStamina = getArguments().getFloat(ARG_PLAYER_ACTUAL_STAMINA);
         }
     }
 
@@ -75,6 +85,8 @@ public class BattleFieldFragment extends Fragment {
         ButterKnife.bind(this, view);
         playerHealthBar.setMaxPoint(playerMaxHealth);
         playerHealthBar.setActualPoint(playerActualHealth);
+        staminaBar.setMaxPoint(playerMaxStamina);
+        staminaBar.setActualPoint(playerActualStamina);
         return view;
     }
 
@@ -83,6 +95,16 @@ public class BattleFieldFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+
+    public void decreaseStamina() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                staminaBar.setActualPoint(staminaBar.getActualPoint() - 0.05f);
+            }
+        });
     }
 
     @Override

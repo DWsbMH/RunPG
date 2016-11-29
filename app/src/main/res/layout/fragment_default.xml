@@ -21,6 +21,7 @@
             android:id="@+id/healthBar"
             android:layout_width="180dp"
             android:layout_height="30dp"
+            app:exampleColor="@android:color/holo_red_dark"
             />
     </RelativeLayout>
 

@@ -48,33 +48,67 @@ class RunkeeperProvider extends BaseProvider {
         List<SportActivity> list = new ArrayList<>();
         try {
             fitnessActivityFeed = runkeeperService.fitnessActivityWrapper.getFitnessActivityFeed();
-            list.addAll(convertTrackerActivities(fitnessActivityFeed.getItems()));
+            for (FitnessActivityFeed.Item item : fitnessActivityFeed.getItems()) {
+                list.add(convert(item));
+            }
             do {
                 if (fitnessActivityFeed.getNext() != null) {
                     fitnessActivityFeed = runkeeperService.fitnessActivityWrapper.getFitnessActivityFeed(fitnessActivityFeed.getNext());
-                    list.addAll(convertTrackerActivities(fitnessActivityFeed.getItems()));
+                    for (FitnessActivityFeed.Item item : fitnessActivityFeed.getItems()) {
+                        list.add(convert(item));
+                    }
                 }
             } while (fitnessActivityFeed.getNext() != null);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        return list;
+
+    }
+
+    @Override
+    public List<SportActivity> getNewActivityFromService(Context context, final TrackerService tracker) {
+
+        RunkeeperService runkeeperService = new RunkeeperService(tracker.getAccess_token());
+        FitnessActivityFeed fitnessActivityFeed;
+        List<SportActivity> list = new ArrayList<>();
+        try {
+            fitnessActivityFeed = runkeeperService.fitnessActivityWrapper.getFitnessActivityFeed();
+            for (FitnessActivityFeed.Item item : fitnessActivityFeed.getItems()) {
+                SportActivity activity = convert(item);
+                if (activity != null) { // új cucc, jutalmazni kell majd....
+                    list.add(activity);
+                } else {
+                    break;
+                }
+            }
+            do {
+                if (fitnessActivityFeed.getNext() != null) {
+                    fitnessActivityFeed = runkeeperService.fitnessActivityWrapper.getFitnessActivityFeed(fitnessActivityFeed.getNext());
+                    for (FitnessActivityFeed.Item item : fitnessActivityFeed.getItems()) {
+                        SportActivity activity = convert(item);
+                        if (activity != null) { // új cucc, jutalmazni kell majd....
+                            list.add(activity);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            } while (fitnessActivityFeed.getNext() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return list;
 
     }
 
-    private List<SportActivity> convertTrackerActivities(FitnessActivityFeed.Item[] items) {
-        List<SportActivity> temp = new ArrayList<>();
-        for (FitnessActivityFeed.Item item : items) {
-            temp.add(convert(item));
-        }
-        return temp;
-    }
-
     @Override
     protected SportActivity convertActivity(Object item) {
         FitnessActivityFeed.Item temp_item = (FitnessActivityFeed.Item) item;
+
+        SportActivityType type = getUnifiedType(temp_item.getType());
 
         double averageSpeed = (temp_item.getTotal_distance() / 1000) / (temp_item.getDuration() / 3600); // meters / second
         Date startDate = null;
@@ -85,8 +119,9 @@ class RunkeeperProvider extends BaseProvider {
         }
 
         return new SportActivity(
+                player,
                 temp_item.getUri(),
-                temp_item.getType(),
+                type,
                 startDate,
                 temp_item.getDuration().intValue(),
                 temp_item.getUtc_offset(),
@@ -94,4 +129,46 @@ class RunkeeperProvider extends BaseProvider {
                 averageSpeed,
                 0);
     }
+
+    @Override
+    public SportActivityType getUnifiedType(String trackerType) {
+        SportActivityType type = null;
+
+        switch (trackerType) {
+            case "Running":
+                type = SportActivityType.RUNNING;
+                break;
+            case "Hiking":
+                type = SportActivityType.HIKING;
+                break;
+            case "CrossFit":
+                type = SportActivityType.CROSSFIT;
+                break;
+            case "Cycling":
+                type = SportActivityType.CYCLING;
+                break;
+            case "Yoga":
+                type = SportActivityType.YOGA;
+                break;
+            case "Snowboarding":
+                type = SportActivityType.SNOWBOARDING;
+                break;
+            case "Walking":
+                type = SportActivityType.WALKING;
+                break;
+            case "Swimming":
+                type = SportActivityType.SWIMMING;
+                break;
+            case "Skating":
+                type = SportActivityType.SKATING;
+                break;
+            default:
+                type = SportActivityType.OTHER;
+                break;
+        }
+
+        return type;
+    }
+
+
 }

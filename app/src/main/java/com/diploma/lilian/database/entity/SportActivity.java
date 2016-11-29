@@ -1,5 +1,6 @@
 package com.diploma.lilian.database.entity;
 
+import com.diploma.lilian.tracker.SportActivityType;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -16,7 +17,7 @@ public class SportActivity {
     private String sourceId;
 
     @DatabaseField(columnName = "activity_type")
-    private String activityType;
+    private SportActivityType activityType;
 
     @DatabaseField(columnName = "start_time", dataType = DataType.DATE)
     private Date startTime;
@@ -45,7 +46,8 @@ public class SportActivity {
     public SportActivity() {
     }
 
-    public SportActivity(String sourceId, String activityType, Date startTime, int duration/*, int climb*/, double utcOffset, double totalDistance, double averageSpeed, double maxSpeed) {
+    public SportActivity(Player associatedPlayer, String sourceId, SportActivityType activityType, Date startTime, int duration/*, int climb*/, double utcOffset, double totalDistance, double averageSpeed, double maxSpeed) {
+        this.associatedPlayer = associatedPlayer;
         this.sourceId = sourceId;
         this.activityType = activityType;
         this.startTime = startTime;
@@ -75,11 +77,11 @@ public class SportActivity {
         this.sourceId = sourceId;
     }
 
-    public String getActivityType() {
+    public SportActivityType getActivityType() {
         return activityType;
     }
 
-    public void setActivityType(String activityType) {
+    public void setActivityType(SportActivityType activityType) {
         this.activityType = activityType;
     }
 
@@ -91,6 +93,7 @@ public class SportActivity {
         this.startTime = startTime;
     }
 
+    // seconds
     public int getDuration() {
         return duration;
     }
@@ -115,6 +118,7 @@ public class SportActivity {
         this.utcOffset = utcOffset;
     }
 
+    // meter
     public double getTotalDistance() {
         return totalDistance;
     }

@@ -78,8 +78,8 @@ public class IsoSprite extends AnimatedSprite implements IElement {
 	private boolean doingPath = false;
 	/** The units discover radius on fog of war*/
 	private int discoverRadius = 0;
-	
-	
+	/** Listener for moving (step) */
+	private OnMoveListener listener;
 	
 	public IsoSprite(String image, int x, int y) {
 		super(image, x, y);
@@ -599,11 +599,14 @@ public class IsoSprite extends AnimatedSprite implements IElement {
 	
 	private void pathMoveUpdate(long elapsedTime) {
 		if(pathIdx > -1 && path != null) {
-			
+
+			/* TODO csökkenteni a staminát */
+
 			if(moveVelocoty == 0.0f) {
 				Vec3 target = path[pathIdx];
 				//Point p = Transformer.isoToPlot(target.x, target.y);
-				
+				listener.onStep();
+
 				moveTo(target.x, target.y, z, pathVelocity, false);
 				pathIdx--;
 			}
@@ -740,5 +743,9 @@ public class IsoSprite extends AnimatedSprite implements IElement {
 		result = 31 * result + (doingPath ? 1 : 0);
 		result = 31 * result + discoverRadius;
 		return result;
+	}
+
+	public void setOnMoveListener(OnMoveListener listener) {
+		this.listener = listener;
 	}
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 import com.diploma.lilian.database.entity.Player;
+import com.diploma.lilian.game.GameLogic;
 import com.diploma.lilian.game.OnEnemyListener;
 import com.diploma.lilian.game.OnFightListener;
 import com.diploma.lilian.game.OnFightTurnListener;
@@ -25,6 +26,7 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
     private SpriteInfo attacker;
     private SpriteInfo defender;
     private OnFightListener onFightListener;
+    private GameLogic onLevelUpListener;
 
 
     public FightSceneHandler(Context context, DisplayMetrics metrics, Player player) {
@@ -76,7 +78,6 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
                     if (defender.equals(scene.getPlayer())) {
                         onFightListener.onFightLost();
                     } else {
-                        Player player = (Player) scene.getPlayer().getData();
                         int experienceForEnemy = (int) (player.getAttributes().getExperienceGained() + Formulas.experienceForEnemy(
                                 getScene().getEnemy().getData()));
 
@@ -85,7 +86,7 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
                             int experienceDiff = (player.getAttributes().getExperienceGained() + experienceForEnemy -
                                     player.getAttributes().getExperienceNeeded());
                             player.getAttributes().setExperienceGained(experienceDiff);
-//                            onPlayerListener.onLevelUpTo(player.getAttributes().getLevel());
+                            onLevelUpListener.levelUpTo(player.getAttributes().getLevel()+1);
                         } else {
                             player.getAttributes().setExperienceGained(experienceForEnemy);
                         }
@@ -113,5 +114,9 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
 
     public void setOnFightListener(OnFightListener onFightListener) {
         this.onFightListener = onFightListener;
+    }
+
+    public void setOnLevelUpListener(GameLogic onLevelUpListener) {
+        this.onLevelUpListener = onLevelUpListener;
     }
 }

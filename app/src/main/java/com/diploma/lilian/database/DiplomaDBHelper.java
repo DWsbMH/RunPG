@@ -9,7 +9,7 @@ import com.diploma.lilian.database.entity.Backpack;
 import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.database.entity.PlayerBuilder;
 import com.diploma.lilian.database.entity.Potion;
-import com.diploma.lilian.database.entity.PotionType;
+import com.diploma.lilian.database.entity.Reward;
 import com.diploma.lilian.database.entity.SportActivity;
 import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.database.entity.Weapon;
@@ -33,6 +33,8 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Potion, Integer> potionDao;
     private Dao<Weapon, Integer> weaponDao;
     private Dao<Attributes, Integer> attributesDao;
+    private Dao<Backpack, Integer> backpackDao;
+    private Dao<Reward, Integer> rewardsDao;
 
     private static DiplomaDBHelper INSTANCE;
 
@@ -79,11 +81,26 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             Backpack backpack = new Backpack();
             backpackDao.create(backpack);
 
-            weaponDao.create(new Weapon(backpack, "kard", "tile0001", 5, 10));
-            weaponDao.create(new Weapon(backpack, "kard", "tile0001", 5, 10));
-            weaponDao.create(new Weapon(backpack, "kard", "tile0002", 5, 10));
-            potionDao.create(new Potion(backpack, "health", "tile2016", 5, PotionType.HEALTH));
-            potionDao.create(new Potion(backpack, "health", "tile2032", 5, PotionType.HEALTH));
+            weaponDao.create(new Weapon(backpack, "kard", "kard", 5, 10));
+            weaponDao.create(new Weapon(backpack, "kard", "kard", 5, 10));
+            weaponDao.create(new Weapon(backpack, "kard", "kard", 5, 10));
+
+/*
+            potionDao.create(new Potion(backpack, "small health", "small_health", 2, PotionType.HEALTH));
+            potionDao.create(new Potion(backpack, "small luck", "small_luck", 2, PotionType.LUCK));
+            potionDao.create(new Potion(backpack, "small strength", "small_strength", 2, PotionType.STRENGTH));
+            potionDao.create(new Potion(backpack, "small endurance", "small_endurance", 2, PotionType.ENDURANCE));
+
+            potionDao.create(new Potion(backpack, "medium health", "medium_health", 4, PotionType.HEALTH));
+            potionDao.create(new Potion(backpack, "medium luck", "medium_luck", 4, PotionType.LUCK));
+            potionDao.create(new Potion(backpack, "medium strength", "medium_strength", 4, PotionType.STRENGTH));
+            potionDao.create(new Potion(backpack, "medium endurance", "medium_endurance", 4, PotionType.ENDURANCE));
+
+            potionDao.create(new Potion(backpack, "large health", "large_health", 6, PotionType.HEALTH));
+            potionDao.create(new Potion(backpack, "large luck", "large_luck", 6, PotionType.LUCK));
+            potionDao.create(new Potion(backpack, "large strength", "large_strength ", 6, PotionType.STRENGTH));
+            potionDao.create(new Potion(backpack, "large endurance", "large_endurance", 6, PotionType.ENDURANCE));
+*/
 
             Attributes attributes = new Attributes();
             attributes.setLevel(1);
@@ -112,7 +129,7 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
         }
 
     }
-    
+
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         // onUpgrade
@@ -158,6 +175,20 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             attributesDao = getDao(Attributes.class);
         }
         return attributesDao;
+    }
+
+    public Dao<Backpack, Integer> getBackpackDao() throws SQLException {
+        if (backpackDao == null) {
+            backpackDao = getDao(Backpack.class);
+        }
+        return backpackDao;
+    }
+
+    public Dao<Reward, Integer> getRewardsDao() throws SQLException {
+        if (rewardsDao == null) {
+            rewardsDao = getDao(Reward.class);
+        }
+        return rewardsDao;
     }
 
     @Override

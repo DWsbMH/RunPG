@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorAccent"
     tools:context="com.diploma.lilian.game.fragment.InventoryFragment">
 
@@ -44,12 +45,13 @@
                     android:paddingRight="48dp">
 
                     <ImageView
-                        android:layout_width="256dp"
-                        android:layout_height="256dp"
+                        android:layout_width="@dimen/player_image_size"
+                        android:layout_height="@dimen/player_image_size"
                         android:layout_gravity="center_horizontal|center"
                         android:background="#33ffffff"
                         android:src="@drawable/player1"
-                        android:id="@+id/player_image" />
+                        android:id="@+id/player_image"
+                        />
 
                     <TextView
                         android:id="@+id/player_level"
@@ -83,14 +85,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="?android:attr/textColorPrimaryInverse"
-                        android:textSize="40sp"
+                        android:textSize="@dimen/player_name_size"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="@dimen/inventory_barview_margin_size"
+                        android:layout_marginTop="@dimen/inventory_barview_margin_size"
                         android:text="Health Bar"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="?android:attr/textColorPrimaryInverse"
@@ -108,14 +110,15 @@
                         <com.diploma.lilian.game.view.BarView
                             android:id="@+id/player_info_details_healthbar"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/barview_height" />
+                            android:layout_height="@dimen/barview_height"
+                            app:exampleColor="@android:color/holo_red_dark"/>
                     </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="@dimen/inventory_barview_margin_size"
+                        android:layout_marginTop="@dimen/inventory_barview_margin_size"
                         android:text="Experience Bar"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="?android:attr/textColorPrimaryInverse"
@@ -128,7 +131,8 @@
                         android:paddingBottom="3dp"
                         android:paddingEnd="25dp"
                         android:paddingStart="25dp"
-                        android:paddingTop="3dp">
+                        android:paddingTop="3dp"
+                        >
 
                         <com.diploma.lilian.game.view.BarView
                             android:id="@+id/player_info_details_experiencebar"
@@ -139,8 +143,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="@dimen/inventory_barview_margin_size"
+                        android:layout_marginTop="@dimen/inventory_barview_margin_size"
                         android:text="Stamina Bar"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="?android:attr/textColorPrimaryInverse"
@@ -158,7 +162,8 @@
                         <com.diploma.lilian.game.view.BarView
                             android:id="@+id/player_info_details_staminabar"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/barview_height" />
+                            android:layout_height="@dimen/barview_height"
+                            app:exampleColor="@color/colorPrimary"/>
                     </RelativeLayout>
 
                     <LinearLayout
@@ -168,8 +173,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="@dimen/inventory_barview_margin_size"
+                            android:layout_marginTop="@dimen/inventory_barview_margin_size"
                             android:text="Free ability points:"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="?android:attr/textColorPrimaryInverse"
@@ -179,9 +184,9 @@
                             android:id="@+id/player_attribute_free_points"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
+                            android:layout_marginBottom="@dimen/inventory_barview_margin_size"
                             android:layout_marginLeft="12dp"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/inventory_barview_margin_size"
                             android:text="4"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="?android:attr/textColorPrimaryInverse"
@@ -207,8 +212,8 @@
                 <android.support.v4.widget.Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp" />
+                    android:layout_marginBottom="@dimen/player_attribute_space_margin"
+                    android:layout_marginTop="@dimen/player_attribute_space_margin" />
 
                 <include
                     android:id="@+id/player_attribute_endurance"
@@ -217,8 +222,8 @@
                 <android.support.v4.widget.Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp" />
+                    android:layout_marginBottom="@dimen/player_attribute_space_margin"
+                    android:layout_marginTop="@dimen/player_attribute_space_margin" />
 
                 <include
                     android:id="@+id/player_attribute_luck"
@@ -252,7 +257,7 @@
                 android:id="@+id/backpack_weapon_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="48dp" />
+                android:layout_marginBottom="@dimen/equipment_bottom_margin" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -268,7 +273,7 @@
                 android:id="@+id/backpack_potion_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="48dp" />
+                android:layout_marginBottom="@dimen/equipment_bottom_margin" />
 
         </LinearLayout>
 

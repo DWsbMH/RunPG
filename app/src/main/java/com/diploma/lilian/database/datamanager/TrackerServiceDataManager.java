@@ -75,12 +75,12 @@ public class TrackerServiceDataManager extends DataManager<TrackerService> {
     }
 
     public TrackerService connectedTo(TrackerService trackerService) {
-//        try{
+        try{
         trackerService.setConnected(true);
-//            dao.update(trackerService);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+            dao.update(trackerService);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return trackerService;
     }
@@ -102,5 +102,16 @@ public class TrackerServiceDataManager extends DataManager<TrackerService> {
         return null;
     }
 
+    public List<TrackerService> getConnectedServices() {
+        try {
+            List<TrackerService> all = dao.queryForAll();
+            PreparedQuery<TrackerService> preparedQuery = dao.queryBuilder().where().eq("connected", true).prepare();
+            return dao.query(preparedQuery);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 

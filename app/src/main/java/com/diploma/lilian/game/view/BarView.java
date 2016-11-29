@@ -23,7 +23,7 @@ public class BarView extends View {
     Paint remainPointPaint;
     Paint backgroundPaint;
     private int maxPoint = 100;
-    private int actualPoint = 100;
+    private float actualPoint = 100;
 
     private TextPaint mTextPaint;
     private float mTextWidth;
@@ -103,11 +103,11 @@ public class BarView extends View {
         int contentHeight = getHeight() - paddingTop - paddingBottom;
 
         canvas.drawRect(paddingLeft, paddingTop, contentWidth, contentHeight, backgroundPaint);
-        canvas.drawRect(paddingLeft, paddingTop, ((float) actualPoint / maxPoint)*contentWidth, contentHeight, remainPointPaint);
+        canvas.drawRect(paddingLeft, paddingTop, (actualPoint / maxPoint)*contentWidth, contentHeight, remainPointPaint);
 
 
         // Draw the text.
-        canvas.drawText(actualPoint + " / " + maxPoint,
+        canvas.drawText((int)actualPoint + " / " + maxPoint,
                 (canvas.getWidth()) / 2,
                 (int) ((canvas.getHeight() / 2) - ((mTextPaint.descent() + mTextPaint.ascent()) / 2)),
                 mTextPaint);
@@ -177,9 +177,13 @@ public class BarView extends View {
         return maxPoint;
     }
 
-    public void setActualPoint(int actualPoint) {
+    public void setActualPoint(float actualPoint) {
         this.actualPoint = actualPoint;
         invalidate();
+    }
+
+    public float getActualPoint() {
+        return actualPoint;
     }
 
     public void setMaxPoint(int maxPoint) {

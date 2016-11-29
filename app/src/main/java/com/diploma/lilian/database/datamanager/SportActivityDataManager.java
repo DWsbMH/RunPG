@@ -47,6 +47,11 @@ public class SportActivityDataManager extends DataManager<SportActivity> {
 
     @Override
     public List<SportActivity> queryForAll() {
+        try {
+            return dao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

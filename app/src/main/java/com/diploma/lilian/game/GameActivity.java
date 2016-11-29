@@ -76,4 +76,10 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
         openInventoryButton.setVisibility(View.VISIBLE);
         setFragment(((BaseScene)canvas.getGameScene()).getHUD());
     }
+
+    @Override
+    protected void onPause() {
+        presenter.onPause();
+        super.onPause();
+    }
 }

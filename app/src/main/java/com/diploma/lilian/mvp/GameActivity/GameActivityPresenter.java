@@ -35,4 +35,8 @@ public class GameActivityPresenter extends MvpBasePresenter<GameActivityView> im
     public Player getPlayer() {
         return gameLogic.getPlayer();
     }
+
+    public void onPause() {
+        gameLogic.savePlayer();
+    }
 }

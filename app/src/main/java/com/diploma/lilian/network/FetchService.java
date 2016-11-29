@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.diploma.lilian.database.datamanager.PlayerDataManager;
 import com.diploma.lilian.database.entity.SportActivity;
 import com.diploma.lilian.database.entity.TrackerService;
+import com.diploma.lilian.runpg.RewardDrawer;
 import com.diploma.lilian.tracker.IProvider;
 import com.diploma.lilian.tracker.ProviderFactory;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -17,6 +19,7 @@ import java.util.List;
 public class FetchService extends IntentService {
     public static final String ACTION_FETCH_TOKEN = "com.diploma.lilian.network.action.FETCH_TOKEN";
     private static final String ACTION_FETCH_ALL_ACTIVITY = "com.diploma.lilian.network.action.FETCH_ALL_ACTIVITY";
+    private static final String ACTION_FETCH_NEW_ACTIVITY = "com.diploma.lilian.network.action.FETCH_NEW_ACTIVITY";
 
     private static final String EXTRA_AUTH_TOKEN = "com.diploma.lilian.network.extra.AUTH_TOKEN";
     private static final String EXTRA_TRACKER = "com.diploma.lilian.network.extra.TRACKER";
@@ -40,6 +43,7 @@ public class FetchService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
+            TrackerService trackerService;
             switch (action){
                 case ACTION_FETCH_TOKEN:
                     final String auth_token = intent.getStringExtra(EXTRA_AUTH_TOKEN);
@@ -47,17 +51,38 @@ public class FetchService extends IntentService {
                     handleActionFetchToken(tracker, auth_token);
                     break;
                 case ACTION_FETCH_ALL_ACTIVITY:
-                    TrackerService trackerService = intent.getParcelableExtra(EXTRA_TRACKER_SERVICE);
+                    trackerService = intent.getParcelableExtra(EXTRA_TRACKER_SERVICE);
                     handleActionFetchAllActivity(trackerService);
                     break;
+                case ACTION_FETCH_NEW_ACTIVITY:
+                    trackerService = intent.getParcelableExtra(EXTRA_TRACKER_SERVICE);
+                    handleActionFetchNewActivities(trackerService);
             }
         }
     }
 
+    private void handleActionFetchNewActivities(TrackerService trackerService) {
+        ProviderFactory factory = new ProviderFactory(getBaseContext(),trackerService.getName());
+        IProvider provider = factory.create();
+        List<SportActivity> list = provider.getNewActivityFromService(getBaseContext(), trackerService);
+
+        RewardDrawer rewardDrawer = new RewardDrawer(getBaseContext(), factory.getPlayer());
+
+        for(SportActivity sportActivity : list){
+            rewardDrawer.checkForGift(sportActivity);
+        }
+
+        new PlayerDataManager(getBaseContext()).update(factory.getPlayer());
+
+        Intent localIntent;
+        localIntent = new Intent(Constants.FETCH_NEW_ACTIVITY_DONE);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
+
+    }
+
     private void handleActionFetchAllActivity(TrackerService trackerService) {
         IProvider provider = new ProviderFactory(getBaseContext(),trackerService.getName()).create();
-        List<SportActivity> list = provider.getAllActivityFromService(getBaseContext(), trackerService);
-
+        provider.getAllActivityFromService(getBaseContext(), trackerService);
     }
 
     private void handleActionFetchToken(String tracker, String auth_token) {
@@ -84,6 +109,13 @@ public class FetchService extends IntentService {
     public static void startFetchActivities(Context context, TrackerService tracker) {
         Intent intent = new Intent(context, FetchService.class);
         intent.setAction(ACTION_FETCH_ALL_ACTIVITY);
+        intent.putExtra(EXTRA_TRACKER_SERVICE, tracker);
+        context.startService(intent);
+    }
+
+    public static void startFetchNewActivities(Context context, TrackerService tracker) {
+        Intent intent = new Intent(context, FetchService.class);
+        intent.setAction(ACTION_FETCH_NEW_ACTIVITY);
         intent.putExtra(EXTRA_TRACKER_SERVICE, tracker);
         context.startService(intent);
     }

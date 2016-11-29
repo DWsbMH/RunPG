@@ -15,5 +15,8 @@ public interface IProvider {
     OAuth20Service getOAuthService();
     String getTrackerName();
     List<SportActivity> getAllActivityFromService(Context context, TrackerService tracker);
+    List<SportActivity> getNewActivityFromService(Context context, TrackerService tracker);
+    SportActivityType getUnifiedType(String trackerType);
+
 
 }

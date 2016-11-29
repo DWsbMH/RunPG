@@ -18,6 +18,7 @@ public class ProviderFactory {
 
     private Context context;
     private String tracker;
+    private Player player;
 
     public ProviderFactory(Context context, String tracker) {
         this.context = context;
@@ -28,7 +29,7 @@ public class ProviderFactory {
         IProvider temp;
         OAuth20Service service;
         DataManager<SportActivity> dataManager;
-        Player player = new PlayerDataManager(context).getPlayer();
+        player = new PlayerDataManager(context).getPlayer();
 
         switch (tracker){
 
@@ -55,4 +56,7 @@ public class ProviderFactory {
         return temp;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 }
