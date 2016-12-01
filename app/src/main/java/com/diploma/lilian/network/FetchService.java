@@ -18,6 +18,7 @@ import java.util.List;
 
 public class FetchService extends IntentService {
     public static final String ACTION_FETCH_TOKEN = "com.diploma.lilian.network.action.FETCH_TOKEN";
+    public static final String ACTION_FETCH_NEW_ACTIVITY_INGAME = "com.diploma.lilian.network.action.FETCH_NEW_ACTIVITY_INGAME";
     private static final String ACTION_FETCH_ALL_ACTIVITY = "com.diploma.lilian.network.action.FETCH_ALL_ACTIVITY";
     private static final String ACTION_FETCH_NEW_ACTIVITY = "com.diploma.lilian.network.action.FETCH_NEW_ACTIVITY";
 
@@ -57,8 +58,32 @@ public class FetchService extends IntentService {
                 case ACTION_FETCH_NEW_ACTIVITY:
                     trackerService = intent.getParcelableExtra(EXTRA_TRACKER_SERVICE);
                     handleActionFetchNewActivities(trackerService);
+                    break;
+                case ACTION_FETCH_NEW_ACTIVITY_INGAME:
+                    trackerService = intent.getParcelableExtra(EXTRA_TRACKER_SERVICE);
+                    handleActionFetchNewActivitiesIngame(trackerService);
+                    break;
             }
         }
+    }
+
+    private void handleActionFetchNewActivitiesIngame(TrackerService trackerService) {
+        ProviderFactory factory = new ProviderFactory(getBaseContext(),trackerService.getName());
+        IProvider provider = factory.create();
+        List<SportActivity> list = provider.getNewActivityFromService(getBaseContext(), trackerService);
+
+        RewardDrawer rewardDrawer = new RewardDrawer(getBaseContext(), factory.getPlayer());
+
+        for(SportActivity sportActivity : list){
+            rewardDrawer.checkForGift(sportActivity);
+        }
+
+        PlayerDataManager.INSTANCE(getBaseContext()).update(factory.getPlayer());
+
+        Intent localIntent;
+        localIntent = new Intent(Constants.FETCH_REFRESH_ACTIVITY_DONE);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
+
     }
 
     private void handleActionFetchNewActivities(TrackerService trackerService) {
@@ -72,7 +97,7 @@ public class FetchService extends IntentService {
             rewardDrawer.checkForGift(sportActivity);
         }
 
-        new PlayerDataManager(getBaseContext()).update(factory.getPlayer());
+        PlayerDataManager.INSTANCE(getBaseContext()).update(factory.getPlayer());
 
         Intent localIntent;
         localIntent = new Intent(Constants.FETCH_NEW_ACTIVITY_DONE);
@@ -83,6 +108,7 @@ public class FetchService extends IntentService {
     private void handleActionFetchAllActivity(TrackerService trackerService) {
         IProvider provider = new ProviderFactory(getBaseContext(),trackerService.getName()).create();
         provider.getAllActivityFromService(getBaseContext(), trackerService);
+        System.out.println("All activity saved!");
     }
 
     private void handleActionFetchToken(String tracker, String auth_token) {
@@ -116,6 +142,13 @@ public class FetchService extends IntentService {
     public static void startFetchNewActivities(Context context, TrackerService tracker) {
         Intent intent = new Intent(context, FetchService.class);
         intent.setAction(ACTION_FETCH_NEW_ACTIVITY);
+        intent.putExtra(EXTRA_TRACKER_SERVICE, tracker);
+        context.startService(intent);
+    }
+
+    public static void startFetchNewActivitiesIngame(Context context, TrackerService tracker) {
+        Intent intent = new Intent(context, FetchService.class);
+        intent.setAction(ACTION_FETCH_NEW_ACTIVITY_INGAME);
         intent.putExtra(EXTRA_TRACKER_SERVICE, tracker);
         context.startService(intent);
     }

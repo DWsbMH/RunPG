@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.diploma.lilian.database.datamanager.PlayerDataManager;
 import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.game.view.BarView;
 import com.diploma.lilian.game.view.EquipmentItemRow;
@@ -37,7 +38,7 @@ public class InventoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private static Player player;
+    private Player player;
 
     @BindView(R.id.backpack_weapon_row)
     EquipmentItemRow backpackWeaponRow;
@@ -76,8 +77,7 @@ public class InventoryFragment extends Fragment {
 
     }
 
-    public static InventoryFragment newInstance(String param1, String param2, Player player) {
-        InventoryFragment.player = player;
+    public static InventoryFragment newInstance(String param1, String param2) {
         InventoryFragment fragment = new InventoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -100,6 +100,8 @@ public class InventoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
         ButterKnife.bind(this, view);
+
+        player = PlayerDataManager.INSTANCE(getContext()).getPlayer();
 
         playerName.setText(player.getPlayerName());
 
@@ -171,6 +173,11 @@ public class InventoryFragment extends Fragment {
         mListener.onInventoryClose();
     }
 
+    @OnClick(R.id.reward_open)
+    public void openRewardList() {
+        mListener.onRewardOpen();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -191,6 +198,7 @@ public class InventoryFragment extends Fragment {
 
     public interface OnInventoryListener {
         void onInventoryClose();
+        void onRewardOpen();
     }
 
 }

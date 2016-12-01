@@ -12,8 +12,21 @@ import java.util.List;
 
 public class PlayerDataManager extends DataManager<Player> {
 
-    public PlayerDataManager(Context context) {
+    private static PlayerDataManager INSTANCE;
+    private Player player;
+
+    private PlayerDataManager(Context context) {
         super(context);
+    }
+
+    public static PlayerDataManager INSTANCE(Context context){
+
+        if(INSTANCE == null){
+            INSTANCE = new PlayerDataManager(context);
+        }
+
+        return INSTANCE;
+
     }
 
     @Override
@@ -27,10 +40,15 @@ public class PlayerDataManager extends DataManager<Player> {
     }
 
     public Player getPlayer(){
+        if(player != null){
+            return player;
+        }
+
         try {
             List<Player> temp = dao.queryForAll();
             if(temp != null && temp.size()>0){
-                return temp.get(0);
+                player = temp.get(0);
+                return player;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,6 +81,8 @@ public class PlayerDataManager extends DataManager<Player> {
             backpacksDao.update(player.getBackpack());
             attributesDao.update(player.getAttributes());
             dao.update(player);
+
+            player.setBackpack(databaseHelper.getBackpackDao().queryForAll().get(0));
         } catch (SQLException e) {
             e.printStackTrace();
         }

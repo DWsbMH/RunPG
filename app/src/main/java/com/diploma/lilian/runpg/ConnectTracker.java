@@ -19,7 +19,7 @@ public class ConnectTracker extends BaseActivity<ConnectTrackerView, ConnectTrac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connect_trcker);
+        setContentView(R.layout.activity_connect_tracker);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);

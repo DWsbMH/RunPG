@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ListView;
 
-import com.diploma.lilian.database.datamanager.SportActivityDataManager;
-import com.diploma.lilian.database.entity.SportActivity;
 import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.game.GameActivity;
 import com.diploma.lilian.mvp.StartActivity.StartActivityPresenter;
@@ -86,9 +84,6 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
             Intent gameIntent = new Intent(this, GameActivity.class);
             startActivity(gameIntent);
         }
-
-        SportActivityDataManager dataManager = new SportActivityDataManager(getApplicationContext());
-        List<SportActivity> list = dataManager.queryForAll();
 
     }
 

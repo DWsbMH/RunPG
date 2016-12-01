@@ -605,7 +605,8 @@ public class IsoSprite extends AnimatedSprite implements IElement {
 			if(moveVelocoty == 0.0f) {
 				Vec3 target = path[pathIdx];
 				//Point p = Transformer.isoToPlot(target.x, target.y);
-				listener.onStep();
+				if(listener!=null)
+					listener.onStep();
 
 				moveTo(target.x, target.y, z, pathVelocity, false);
 				pathIdx--;

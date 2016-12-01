@@ -231,6 +231,17 @@
 
             </LinearLayout>
 
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginRight="12dp"
+                android:id="@+id/reward_open"
+                android:src="@drawable/reward_icon"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/inventory_close" />
+
         </RelativeLayout>
 
 

@@ -1,0 +1,65 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.diploma.lilian.game.fragment.RewardFragment"
+    android:background="#f1f0f0">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/reward_list_container">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:id="@+id/reward_header_container"
+            android:background="@drawable/player_info_drawable">
+
+            <ImageButton
+                android:id="@+id/reward_close"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:src="@drawable/inventory_close"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="REWARDS"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/reward_close" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/reward_list"
+            android:layout_width="match_parent"
+            android:layout_height="565dp"
+            android:layout_below="@+id/reward_header_container">
+
+        </ListView>
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/reward_list_container"
+        app:layout_anchorGravity="bottom|right|end"
+        android:src="@drawable/ic_refresh_black_24dp"
+        android:id="@+id/reward_refresh" />
+
+
+</android.support.design.widget.CoordinatorLayout>

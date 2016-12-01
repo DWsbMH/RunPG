@@ -59,6 +59,7 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Weapon.class);
             TableUtils.createTable(connectionSource, Potion.class);
             TableUtils.createTable(connectionSource, Attributes.class);
+            TableUtils.createTable(connectionSource, Reward.class);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -8,15 +8,23 @@ public class Reward {
 
     @DatabaseField(columnName = "id", generatedId = true)
     private int id;
-
     @DatabaseField
-    private String description;
+    private String what;
+    @DatabaseField
+    private String whatFor;
+    @DatabaseField
+    private String when;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private SportActivity sportActivity;
 
-    public Reward(String description, SportActivity sportActivity) {
-        this.description = description;
+    public Reward() {
+    }
+
+    public Reward(String what, String whatFor, String when, SportActivity sportActivity) {
+        this.what = what;
+        this.whatFor = whatFor;
+        this.when = when;
         this.sportActivity = sportActivity;
     }
 
@@ -28,12 +36,28 @@ public class Reward {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getWhat() {
+        return what;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setWhat(String what) {
+        this.what = what;
+    }
+
+    public String getWhatFor() {
+        return whatFor;
+    }
+
+    public void setWhatFor(String whatFor) {
+        this.whatFor = whatFor;
+    }
+
+    public String getWhen() {
+        return when;
+    }
+
+    public void setWhen(String when) {
+        this.when = when;
     }
 
     public SportActivity getSportActivity() {

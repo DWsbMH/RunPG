@@ -22,4 +22,8 @@ public class ActivityFetcher {
         FetchService.startFetchNewActivities(context, tracker);
     }
 
+    public void refreshInGame(){
+        FetchService.startFetchNewActivitiesIngame(context, tracker);
+    }
+
 }

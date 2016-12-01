@@ -29,7 +29,7 @@ public class ProviderFactory {
         IProvider temp;
         OAuth20Service service;
         DataManager<SportActivity> dataManager;
-        player = new PlayerDataManager(context).getPlayer();
+        player = PlayerDataManager.INSTANCE(context).getPlayer();
 
         switch (tracker){
 

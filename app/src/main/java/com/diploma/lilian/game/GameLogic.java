@@ -35,7 +35,7 @@ public class GameLogic implements OnFightListener, OnLevelUpListener {
         this.metrics = metrics;
         this.listener = listener;
 
-        playerDataManager = new PlayerDataManager(context);
+        playerDataManager = PlayerDataManager.INSTANCE(context);
         player = playerDataManager.getPlayer();
     }
 

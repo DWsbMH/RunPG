@@ -3,16 +3,19 @@ package com.diploma.lilian.runpg;
 import android.content.Context;
 
 import com.diploma.lilian.database.datamanager.PotionDataManager;
+import com.diploma.lilian.database.datamanager.RewardDataManager;
 import com.diploma.lilian.database.datamanager.WeaponDataManager;
 import com.diploma.lilian.database.entity.Backpack;
 import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.database.entity.Potion;
 import com.diploma.lilian.database.entity.PotionType;
+import com.diploma.lilian.database.entity.Reward;
 import com.diploma.lilian.database.entity.SportActivity;
 import com.diploma.lilian.database.entity.Weapon;
 import com.diploma.lilian.game.util.Formulas;
 import com.diploma.lilian.tracker.SportActivityType;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -26,6 +29,7 @@ public class RewardDrawer {
     private Backpack backpack;
     private WeaponDataManager weaponDataManager;
     private PotionDataManager potionDataManager;
+    private RewardDataManager rewardDataManager;
     private String[] weapons;
 
     public RewardDrawer(Context context, Player player) {
@@ -34,6 +38,7 @@ public class RewardDrawer {
         backpack = player.getBackpack();
         weaponDataManager = new WeaponDataManager(context);
         potionDataManager = new PotionDataManager(context);
+        rewardDataManager = new RewardDataManager(context);
 
         weapons = new String[7];
         weapons[0] = "hosszukard";
@@ -86,10 +91,12 @@ public class RewardDrawer {
             int chance = random.nextInt(100);
             double cumulativeProbability = 0.0;
             RewardItem[] items = rewardChance.get(sportActivity.getActivityType());
+            boolean drawn = false;
             for (RewardItem item : items) {
                 cumulativeProbability += item.getProbability();
-                if (chance <= cumulativeProbability) {
-                    addRewardToPlayer(item.getType());
+                if (chance <= cumulativeProbability && !drawn) {
+                    drawn = true;
+                    addRewardToPlayer(item.getType(), sportActivity, stamina);
                 }
             }
 
@@ -97,7 +104,8 @@ public class RewardDrawer {
 
     }
 
-    private void addRewardToPlayer(RewardType type) {
+    private void addRewardToPlayer(RewardType type, SportActivity sportActivity, int stamina) {
+        String what = "";
         switch (type) {
             case REWARD_WEAPON:
 
@@ -107,6 +115,7 @@ public class RewardDrawer {
                         Formulas.getRewardWeaponDamage(player.getLevel()),
                         Formulas.getRewardWeaponDamage(player.getLevel() + 1));
                 weaponDataManager.add(weapon);
+                what = weapons[weapontemp];
 
                 break;
             case REWARD_POTION:
@@ -136,6 +145,8 @@ public class RewardDrawer {
                     imageName = "large_endurance";
                 }
 
+                what = "large "+name+" potion";
+
                 Potion potion = new Potion(backpack, name, imageName, 6, potionType);
                 potionDataManager.add(potion);
 
@@ -144,8 +155,12 @@ public class RewardDrawer {
 
                 player.setGold(player.getGold() + 1200);
 
+                what = "1200 gold";
+
+
                 break;
         }
+        rewardDataManager.add(new Reward(what+" + "+stamina+" stamina", sportActivity.getActivityType().toString(), new Date().toString(), sportActivity));
 
     }
 

@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import com.diploma.lilian.engine.GLCanvas;
 import com.diploma.lilian.game.fragment.FightFragment;
 import com.diploma.lilian.game.fragment.InventoryFragment;
+import com.diploma.lilian.game.fragment.RewardFragment;
 import com.diploma.lilian.game.scene.BaseScene;
 import com.diploma.lilian.mvp.GameActivity.GameActivityPresenter;
 import com.diploma.lilian.mvp.GameActivity.GameActivityView;
@@ -20,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GameActivity extends BaseActivity<GameActivityView, GameActivityPresenter> implements GameActivityView, FightFragment.OnFightFragmentListener, InventoryFragment.OnInventoryListener {
+public class GameActivity extends BaseActivity<GameActivityView, GameActivityPresenter> implements GameActivityView, FightFragment.OnFightFragmentListener, InventoryFragment.OnInventoryListener, RewardFragment.OnRewardListener {
 
     @BindView(R.id.glcanvas)
     GLCanvas canvas;
@@ -67,7 +68,7 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
     @OnClick(R.id.inventory_open)
     public void showInventory(){
         openInventoryButton.setVisibility(View.GONE);
-        setFragment(InventoryFragment.newInstance("","", presenter.getPlayer()));
+        setFragment(InventoryFragment.newInstance("",""));
     }
 
 
@@ -78,8 +79,18 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
     }
 
     @Override
+    public void onRewardOpen() {
+        setFragment(new RewardFragment());
+    }
+
+    @Override
     protected void onPause() {
         presenter.onPause();
         super.onPause();
+    }
+
+    @Override
+    public void onRewardListClose() {
+        setFragment(InventoryFragment.newInstance("",""));
     }
 }
