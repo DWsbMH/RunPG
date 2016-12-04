@@ -12,6 +12,7 @@ import com.diploma.lilian.game.scene.BaseScene;
 import com.diploma.lilian.game.scene.handler.BattleFieldSceneHandler;
 import com.diploma.lilian.game.scene.handler.FightSceneHandler;
 import com.diploma.lilian.game.scene.handler.TownSceneHandler;
+import com.diploma.lilian.game.util.Formulas;
 
 public class GameLogic implements OnFightListener, OnLevelUpListener {
 
@@ -91,6 +92,8 @@ public class GameLogic implements OnFightListener, OnLevelUpListener {
     @Override
     public void levelUpTo(int newLevel) {
         player.getAttributes().setLevel(newLevel);
+        player.getAttributes().setFreePoints(4);
+        player.getAttributes().setExperienceNeeded((int) Formulas.experienceForNextLevel(newLevel));
         // TODO player stat change according to level -> use Formulas in Player class
     }
 

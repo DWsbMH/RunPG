@@ -93,4 +93,8 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
     public void onRewardListClose() {
         setFragment(InventoryFragment.newInstance("",""));
     }
+
+    public void inventoryOnClick(View view) {
+
+    }
 }

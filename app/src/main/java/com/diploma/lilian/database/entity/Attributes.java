@@ -45,7 +45,7 @@ public class Attributes {
     public Attributes() {
     }
 
-    public int getMaxHealthPoint() {
+    int getMaxHealthPoint() {
         return maxHealthPoint;
     }
 
@@ -53,7 +53,7 @@ public class Attributes {
         this.maxHealthPoint = maxHealthPoint;
     }
 
-    public int getActualHealthPoint() {
+    int getActualHealthPoint() {
         return actualHealthPoint;
     }
 

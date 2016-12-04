@@ -8,6 +8,7 @@ import com.diploma.lilian.database.datamanager.WeaponDataManager;
 import com.diploma.lilian.database.entity.Backpack;
 import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.database.entity.Potion;
+import com.diploma.lilian.database.entity.PotionEffect;
 import com.diploma.lilian.database.entity.PotionType;
 import com.diploma.lilian.database.entity.Reward;
 import com.diploma.lilian.database.entity.SportActivity;
@@ -147,7 +148,7 @@ public class RewardDrawer {
 
                 what = "large "+name+" potion";
 
-                Potion potion = new Potion(backpack, name, imageName, 6, potionType);
+                Potion potion = new Potion(backpack, name, imageName, potionType, PotionEffect.LARGE);
                 potionDataManager.add(potion);
 
                 break;

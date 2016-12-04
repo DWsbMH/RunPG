@@ -11,8 +11,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.diploma.lilian.database.entity.Item;
+import com.diploma.lilian.database.entity.Potion;
+import com.diploma.lilian.database.entity.Weapon;
+import com.diploma.lilian.game.OnEquipInventoryListener;
 import com.diploma.lilian.runpg.R;
 
 import java.util.ArrayList;
@@ -26,10 +30,12 @@ public class EquipmentItemRowAdapter<T extends Item> extends RecyclerView.Adapte
     private final List<T> items;
     private LayoutInflater layoutInflater;
     private PopupWindow popupWindow;
+    private OnEquipInventoryListener listener;
 
-    public EquipmentItemRowAdapter(Context context, List<T> items) {
+    public EquipmentItemRowAdapter(Context context, List<T> items, OnEquipInventoryListener listener) {
         this.context = context;
         this.items = new ArrayList<>(items);
+        this.listener = listener;
         layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -40,10 +46,13 @@ public class EquipmentItemRowAdapter<T extends Item> extends RecyclerView.Adapte
         return new ViewHolder(v);
     }
 
+
     @Override
-    public void onBindViewHolder(final EquipmentItemRowAdapter<T>.ViewHolder holder, int position) {
+    public void onBindViewHolder(final EquipmentItemRowAdapter<T>.ViewHolder holder, final int position) {
+
+
         holder.ivEquipmentItem.setImageResource(
-                context.getResources().getIdentifier(items.get(position).getImageName(),"drawable",
+                context.getResources().getIdentifier(items.get(position).getImageName(), "drawable",
                         context.getPackageName())
         );
         holder.ivEquipmentItem.setOnLongClickListener(new View.OnLongClickListener() {
@@ -52,10 +61,29 @@ public class EquipmentItemRowAdapter<T extends Item> extends RecyclerView.Adapte
                 Log.e(TAG, "onLongClick: ");
                 View contentView = layoutInflater.inflate(R.layout.equipment_popupwindow_content, null);
 
-                if(popupWindow!=null && popupWindow.isShowing()){
+                if (popupWindow != null && popupWindow.isShowing()) {
                     popupWindow.dismiss();
                 }
 
+                int pos = holder.getAdapterPosition();
+
+                TextView equipmentDetails = (TextView) contentView.findViewById(R.id.equipment_details);
+                TextView equipmentPopupName = (TextView) contentView.findViewById(R.id.equipment_popup_name);
+
+                equipmentPopupName.setText(items.get(pos).getName());
+
+                String details = "";
+                if (items.get(pos) instanceof Weapon) {
+                    details += ((Weapon) items.get(pos)).getMinDamage();
+                    details += " - ";
+                    details += ((Weapon) items.get(pos)).getMaxDamage();
+                    details += " damage";
+                } else if(items.get(pos) instanceof Potion){
+                    details += String.valueOf(((Potion) items.get(pos)).getEffect().getDurability());
+                    details += " more round(s)";
+                }
+
+                equipmentDetails.setText(details);
                 popupWindow = new PopupWindow(contentView,LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT, false);
 
@@ -68,7 +96,7 @@ public class EquipmentItemRowAdapter<T extends Item> extends RecyclerView.Adapte
 
                 int[] location = new int[2];
                 v.getLocationInWindow(location);
-                popupWindow.showAtLocation(contentView, Gravity.NO_GRAVITY , location[0], location[1]+v.getHeight());
+                popupWindow.showAtLocation(contentView, Gravity.NO_GRAVITY, location[0], location[1]-150);
                 return true;
             }
         });
@@ -76,7 +104,16 @@ public class EquipmentItemRowAdapter<T extends Item> extends RecyclerView.Adapte
         holder.btnEquipmentItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(listener!=null){
+                    Item item = listener.equipItem(items.get(holder.getAdapterPosition()));
+                    items.remove(items.get(holder.getAdapterPosition()));
+                    if (item != null) {
+                        items.add((T) item);
+                    }
+                    notifyDataSetChanged();
+                } else {
+                    throw new NullPointerException("Listener cannot be null!");
+                }
             }
         });
     }

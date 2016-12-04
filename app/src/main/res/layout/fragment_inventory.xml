@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorAccent"
-    tools:context="com.diploma.lilian.game.fragment.InventoryFragment">
+    tools:context="com.diploma.lilian.game.fragment.InventoryFragment"
+    android:onClick="inventoryOnClick">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -64,7 +65,30 @@
                     <LinearLayout
                         android:id="@+id/equiped_with_container"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:id="@+id/equippedWeapon"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:id="@+id/equippedStrength" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:id="@+id/equippedEndurance" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:id="@+id/equippedLuck" />
 
                     </LinearLayout>
 
@@ -101,11 +125,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/barview_height"
-                        android:background="@drawable/frame"
-                        android:paddingBottom="3dp"
-                        android:paddingEnd="25dp"
-                        android:paddingStart="25dp"
-                        android:paddingTop="3dp">
+                        android:background="@drawable/frame_patch">
 
                         <com.diploma.lilian.game.view.BarView
                             android:id="@+id/player_info_details_healthbar"
@@ -127,12 +147,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/barview_height"
-                        android:background="@drawable/frame"
-                        android:paddingBottom="3dp"
-                        android:paddingEnd="25dp"
-                        android:paddingStart="25dp"
-                        android:paddingTop="3dp"
-                        >
+                        android:background="@drawable/frame_patch">
+
 
                         <com.diploma.lilian.game.view.BarView
                             android:id="@+id/player_info_details_experiencebar"
@@ -153,11 +169,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/barview_height"
-                        android:background="@drawable/frame"
-                        android:paddingBottom="3dp"
-                        android:paddingEnd="25dp"
-                        android:paddingStart="25dp"
-                        android:paddingTop="3dp">
+                        android:background="@drawable/frame_patch">
 
                         <com.diploma.lilian.game.view.BarView
                             android:id="@+id/player_info_details_staminabar"

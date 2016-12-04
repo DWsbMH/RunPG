@@ -9,6 +9,7 @@ public class PlayerBuilder {
     private Date lastPlayed;
     private Backpack backpack;
     private Attributes attributes;
+    private PlayerSheet playerSheet;
 
     public PlayerBuilder setId(int id) {
         this.id = id;
@@ -40,7 +41,12 @@ public class PlayerBuilder {
         return this;
     }
 
+    public PlayerBuilder setPlayerSheet(PlayerSheet playerSheet) {
+        this.playerSheet = playerSheet;
+        return this;
+    }
+
     public Player createPlayer() {
-        return new Player(id, playerName, playerImage, lastPlayed, attributes, backpack);
+        return new Player(id, playerName, playerImage, lastPlayed, attributes, backpack, playerSheet);
     }
 }

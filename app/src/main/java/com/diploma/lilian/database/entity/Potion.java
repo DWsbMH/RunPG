@@ -7,26 +7,18 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Potion extends Item {
 
     @DatabaseField
-    private int durability;
+    private PotionType potionType;
 
     @DatabaseField
-    private PotionType potionType;
+    private PotionEffect effect;
 
     public Potion() {
     }
 
-    public Potion(Backpack backpack, String name, String imageName, int durability, PotionType potionType) {
+    public Potion(Backpack backpack, String name, String imageName, PotionType potionType, PotionEffect effect) {
         super(backpack, name, imageName);
-        this.durability = durability;
         this.potionType = potionType;
-    }
-
-    public int getDurability() {
-        return durability;
-    }
-
-    public void setDurability(int durability) {
-        this.durability = durability;
+        this.effect = effect;
     }
 
     public PotionType getPotionType() {
@@ -35,5 +27,13 @@ public class Potion extends Item {
 
     public void setPotionType(PotionType potionType) {
         this.potionType = potionType;
+    }
+
+    public PotionEffect getEffect() {
+        return effect;
+    }
+
+    public void setEffect(PotionEffect effect) {
+        this.effect = effect;
     }
 }

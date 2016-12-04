@@ -1,5 +1,6 @@
 package com.diploma.lilian.game.util;
 
+import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.database.entity.SportActivity;
 import com.diploma.lilian.game.data.CreatureData;
 
@@ -14,7 +15,7 @@ public class Formulas {
     private static final Random random = new Random();
 
     public static long experienceForNextLevel(int actualLevel){
-        return (long)(Math.exp((actualLevel - B) / A) - C);
+        return (long)(Math.exp((actualLevel - B) / A) - C) + 30;
     }
 
     public static long experienceForEnemy(CreatureData enemy){
@@ -63,10 +64,17 @@ public class Formulas {
     }
 
     public static int getRewardWeaponDamage(int playerLevel){
-
         return (int) (Math.log10( Math.pow(3,playerLevel) )* ((3*playerLevel)/(Math.log10(3))));
 
     }
+
+    public static int getMaxHealth(Player player){
+        return player.getAttributes().getEndurance() * 5 * (player.getLevel() + 1)+100;
+    }
+
+
+
+
 
 
 }

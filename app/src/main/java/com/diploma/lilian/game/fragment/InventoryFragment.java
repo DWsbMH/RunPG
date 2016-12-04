@@ -11,12 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.diploma.lilian.database.datamanager.PlayerDataManager;
+import com.diploma.lilian.database.entity.Item;
 import com.diploma.lilian.database.entity.Player;
+import com.diploma.lilian.database.entity.Potion;
+import com.diploma.lilian.database.entity.Weapon;
+import com.diploma.lilian.game.OnEquipInventoryListener;
+import com.diploma.lilian.game.util.Formulas;
 import com.diploma.lilian.game.view.BarView;
 import com.diploma.lilian.game.view.EquipmentItemRow;
 import com.diploma.lilian.game.view.EquipmentItemRowAdapter;
 import com.diploma.lilian.runpg.R;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -54,13 +60,19 @@ public class InventoryFragment extends Fragment {
 
     @BindView(R.id.player_image)
     ImageView playerImage;
+    @BindView(R.id.equippedWeapon)
+    ImageView equippedWeapon;
+    @BindView(R.id.equippedStrength)
+    ImageView equippedStrength;
+    @BindView(R.id.equippedEndurance)
+    ImageView equippedEndurance;
+    @BindView(R.id.equippedLuck)
+    ImageView equippedLuck;
 
     @BindView(R.id.player_attribute_free_points)
     TextView playerAttributeFreePoints;
-
     @BindView(R.id.player_name)
     TextView playerName;
-
     @BindView(R.id.player_level)
     TextView playerLevel;
 
@@ -105,7 +117,7 @@ public class InventoryFragment extends Fragment {
 
         playerName.setText(player.getPlayerName());
 
-        playerLevel.setText("Level: "+String.valueOf(player.getLevel()));
+        playerLevel.setText("Level: " + String.valueOf(player.getLevel()));
 
         playerImage.setImageResource(getResources().getIdentifier(player.getPlayerImage(), "drawable", getContext().getPackageName()));
 
@@ -118,11 +130,72 @@ public class InventoryFragment extends Fragment {
 
         playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
 
-        backpackWeaponRow.setAdapter(new EquipmentItemRowAdapter<>(
-                getContext(), new ArrayList<>(player.getBackpack().getWeapons())
-        ));
+        final EquipmentItemRowAdapter<Weapon> weaponAdapter = new EquipmentItemRowAdapter<>(
+                getContext(), new ArrayList<>(player.getBackpack().getWeapons()), new OnEquipInventoryListener() {
+            @Override
+            public Weapon equipItem(Item item) {
+                Weapon returnWeapon = null;
+                item.setBackpack(null);
+                try {
+                    player.getBackpack().getWeapons().update((Weapon) item);
+                    PlayerDataManager.INSTANCE(getContext()).update(player);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if(player.getPlayerSheet().getWeapon() != null){
+                    player.getPlayerSheet().getWeapon().setBackpack(player.getBackpack());
+                    try {
+                        player.getBackpack().getWeapons().update(player.getPlayerSheet().getWeapon());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    returnWeapon = player.getPlayerSheet().getWeapon();
+                }
+                player.getPlayerSheet().setWeapon((Weapon) item);
+                setEquippedImage(equippedWeapon, item.getImageName());
+                return returnWeapon;
+            }
+        }
+        );
+
+        backpackWeaponRow.setAdapter(weaponAdapter);
         backpackPotionRow.setAdapter(new EquipmentItemRowAdapter<>(
-                getContext(), new ArrayList<>(player.getBackpack().getPotions())
+                getContext(), new ArrayList<>(player.getBackpack().getPotions()), new OnEquipInventoryListener() {
+            @Override
+            public Potion equipItem(Item item) {
+                item.setBackpack(null);
+                player.getPlayerSheet().setPotion((Potion) item);
+                try {
+                    player.getBackpack().getPotions().update((Potion) item);
+                    PlayerDataManager.INSTANCE(getContext()).update(player);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                switch (((Potion) item).getPotionType()){
+                    case HEALTH:
+                        if(player.getActualHealthPoint()*((Potion) item).getEffect().getEffect() > player.getMaxHealthPoint()){
+                            player.setActualHealthPoint(player.getMaxHealthPoint());
+                        } else {
+                            player.setActualHealthPoint((int) (player.getActualHealthPoint()*((Potion) item).getEffect().getEffect()));
+                        }
+                        healthBar.setActualPoint(player.getActualHealthPoint());
+
+                        break;
+                    case LUCK:
+                        setEquippedImage(equippedLuck, item.getImageName());
+                        break;
+                    case STRENGTH:
+                        setEquippedImage(equippedStrength, item.getImageName());
+                        break;
+                    case ENDURANCE:
+                        healthBar.setActualPoint(player.getActualHealthPoint());
+                        healthBar.setMaxPoint(player.getMaxHealthPoint());
+                        setEquippedImage(equippedEndurance, item.getImageName());
+                        break;
+                }
+                return null;
+            }
+        }
         ));
 
         ((TextView) playerAttributeStrength.findViewById(R.id.player_attribute_item_name)).setText("Strength");
@@ -136,36 +209,59 @@ public class InventoryFragment extends Fragment {
         playerAttributeStrength.findViewById(R.id.player_attribute_addPoint).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player.getAttributes().getFreePoints() > 0){
-                    player.getAttributes().setStrength(player.getAttributes().getStrength()+1);
-                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints()-1);
+                if (player.getAttributes().getFreePoints() > 0) {
+                    player.getAttributes().setStrength(player.getAttributes().getStrength() + 1);
+                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints() - 1);
                     playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
+                    ((TextView) playerAttributeStrength.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getStrength()));
+                    healthBar.setMaxPoint(player.getMaxHealthPoint());
                 }
             }
         });
         playerAttributeEndurance.findViewById(R.id.player_attribute_addPoint).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player.getAttributes().getFreePoints() > 0){
-                    player.getAttributes().setEndurance(player.getAttributes().getEndurance()+1);
-                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints()-1);
+                if (player.getAttributes().getFreePoints() > 0) {
+                    player.getAttributes().setEndurance(player.getAttributes().getEndurance() + 1);
+                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints() - 1);
+                    player.getAttributes().setMaxHealthPoint(Formulas.getMaxHealth(player));
                     playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
+                    ((TextView) playerAttributeEndurance.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getEndurance()));
+                    healthBar.setMaxPoint(player.getMaxHealthPoint()    );
                 }
             }
         });
         playerAttributeLuck.findViewById(R.id.player_attribute_addPoint).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player.getAttributes().getFreePoints() > 0){
-                    player.getAttributes().setLuck(player.getAttributes().getLuck()+1);
-                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints()-1);
+                if (player.getAttributes().getFreePoints() > 0) {
+                    player.getAttributes().setLuck(player.getAttributes().getLuck() + 1);
+                    player.getAttributes().setFreePoints(player.getAttributes().getFreePoints() - 1);
                     playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
+                    ((TextView) playerAttributeLuck.findViewById(R.id.player_attribute_item_number)).setText(String.valueOf(player.getAttributes().getLuck()));
                 }
             }
         });
 
+        if(player.getPlayerSheet().getWeapon() != null){
+            setEquippedImage(equippedWeapon, player.getPlayerSheet().getWeapon().getImageName());
+        }
+        if(player.getPlayerSheet().getEndurance() != null){
+            setEquippedImage(equippedEndurance, player.getPlayerSheet().getEndurance().getImageName());
+        }
+        if(player.getPlayerSheet().getStrength() != null){
+            setEquippedImage(equippedStrength, player.getPlayerSheet().getStrength().getImageName());
+        }
+        if(player.getPlayerSheet().getLuck() != null){
+            setEquippedImage(equippedLuck, player.getPlayerSheet().getLuck().getImageName());
+        }
+
 
         return view;
+    }
+
+    private void setEquippedImage(ImageView iv, String imageName) {
+        iv.setImageResource(getResources().getIdentifier(imageName,"drawable",getContext().getPackageName()));
     }
 
     @OnClick(R.id.inventory_close)
@@ -198,6 +294,7 @@ public class InventoryFragment extends Fragment {
 
     public interface OnInventoryListener {
         void onInventoryClose();
+
         void onRewardOpen();
     }
 

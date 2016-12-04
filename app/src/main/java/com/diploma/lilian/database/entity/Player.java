@@ -1,6 +1,7 @@
 package com.diploma.lilian.database.entity;
 
 import com.diploma.lilian.game.data.CreatureData;
+import com.diploma.lilian.game.util.Formulas;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -34,19 +35,23 @@ public class Player implements CreatureData {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Backpack backpack;
 
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private PlayerSheet playerSheet;
+
     @ForeignCollectionField(eager = true)
     private ForeignCollection<SportActivity> sportActivities;
 
     public Player() {
     }
 
-    public Player(int id, String playerName, String playerImage, Date lastPlayed, Attributes attributes, Backpack backpack) {
+    public Player(int id, String playerName, String playerImage, Date lastPlayed, Attributes attributes, Backpack backpack, PlayerSheet playerSheet) {
         this.id = id;
         this.playerName = playerName;
         this.playerImage = playerImage;
         this.lastPlayed = lastPlayed;
         this.attributes = attributes;
         this.backpack = backpack;
+        this.playerSheet = playerSheet;
     }
 
     public int getId() {
@@ -88,7 +93,11 @@ public class Player implements CreatureData {
 
     @Override
     public int getMaxHealthPoint() {
-        return attributes.getMaxHealthPoint();
+        int maxHealth = Formulas.getMaxHealth(this);
+        if(playerSheet.getEndurance() != null){
+            maxHealth *= playerSheet.getEndurance().getEffect().getEffect();
+        }
+        return maxHealth;
     }
 
     @Override
@@ -136,6 +145,14 @@ public class Player implements CreatureData {
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+
+    public PlayerSheet getPlayerSheet() {
+        return playerSheet;
+    }
+
+    public void setPlayerSheet(PlayerSheet playerSheet) {
+        this.playerSheet = playerSheet;
     }
 
     @Override

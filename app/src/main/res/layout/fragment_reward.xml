@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.diploma.lilian.game.fragment.RewardFragment"
-    android:background="#f1f0f0">
+    android:background="#f1f0f0"
+    android:onClick="inventoryOnClick">
 
     <RelativeLayout
         android:layout_width="match_parent"

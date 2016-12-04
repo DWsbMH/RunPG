@@ -8,11 +8,15 @@ import com.diploma.lilian.database.entity.Attributes;
 import com.diploma.lilian.database.entity.Backpack;
 import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.database.entity.PlayerBuilder;
+import com.diploma.lilian.database.entity.PlayerSheet;
 import com.diploma.lilian.database.entity.Potion;
+import com.diploma.lilian.database.entity.PotionEffect;
+import com.diploma.lilian.database.entity.PotionType;
 import com.diploma.lilian.database.entity.Reward;
 import com.diploma.lilian.database.entity.SportActivity;
 import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.database.entity.Weapon;
+import com.diploma.lilian.game.util.Formulas;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -35,6 +39,7 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Attributes, Integer> attributesDao;
     private Dao<Backpack, Integer> backpackDao;
     private Dao<Reward, Integer> rewardsDao;
+    private Dao<PlayerSheet, Integer> playerSheetsDao;
 
     private static DiplomaDBHelper INSTANCE;
 
@@ -60,6 +65,7 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Potion.class);
             TableUtils.createTable(connectionSource, Attributes.class);
             TableUtils.createTable(connectionSource, Reward.class);
+            TableUtils.createTable(connectionSource, PlayerSheet.class);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -78,20 +84,21 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             Dao<Weapon, Integer> weaponDao = getDao(Weapon.class);
             Dao<Potion, Integer> potionDao = getDao(Potion.class);
             Dao<Attributes, Integer> attributesDao = getDao(Attributes.class);
+            Dao<PlayerSheet, Integer> playerSheetsDao = getDao(PlayerSheet.class);
 
             Backpack backpack = new Backpack();
             backpackDao.create(backpack);
 
-            weaponDao.create(new Weapon(backpack, "kard", "kard", 5, 10));
-            weaponDao.create(new Weapon(backpack, "kard", "kard", 5, 10));
+            weaponDao.create(new Weapon(backpack, "szablya", "szablya", 5, 10));
+            weaponDao.create(new Weapon(backpack, "tor", "tor", 5, 10));
             weaponDao.create(new Weapon(backpack, "kard", "kard", 5, 10));
 
+
+            potionDao.create(new Potion(backpack, "small health", "small_health", PotionType.HEALTH, PotionEffect.SMALL));
+            potionDao.create(new Potion(backpack, "small luck", "small_luck", PotionType.LUCK, PotionEffect.SMALL));
+            potionDao.create(new Potion(backpack, "small strength", "small_strength", PotionType.STRENGTH, PotionEffect.SMALL));
+            potionDao.create(new Potion(backpack, "small endurance", "small_endurance", PotionType.ENDURANCE, PotionEffect.SMALL));
 /*
-            potionDao.create(new Potion(backpack, "small health", "small_health", 2, PotionType.HEALTH));
-            potionDao.create(new Potion(backpack, "small luck", "small_luck", 2, PotionType.LUCK));
-            potionDao.create(new Potion(backpack, "small strength", "small_strength", 2, PotionType.STRENGTH));
-            potionDao.create(new Potion(backpack, "small endurance", "small_endurance", 2, PotionType.ENDURANCE));
-
             potionDao.create(new Potion(backpack, "medium health", "medium_health", 4, PotionType.HEALTH));
             potionDao.create(new Potion(backpack, "medium luck", "medium_luck", 4, PotionType.LUCK));
             potionDao.create(new Potion(backpack, "medium strength", "medium_strength", 4, PotionType.STRENGTH));
@@ -105,20 +112,23 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
 
             Attributes attributes = new Attributes();
             attributes.setLevel(1);
-            attributes.setMaxHealthPoint(100);
-            attributes.setActualHealthPoint(100);
+            attributes.setMaxHealthPoint(110);
+            attributes.setActualHealthPoint(110);
             attributes.setMaxStamina(100);
             attributes.setActualStamina(100);
             attributes.setExperienceGained(0);
-            attributes.setExperienceNeeded(100);
+            attributes.setExperienceNeeded((int) Formulas.experienceForNextLevel(1));
             attributes.setStrength(1);
             attributes.setLuck(1);
             attributes.setEndurance(1);
-
             attributesDao.create(attributes);
 
+            PlayerSheet playerSheet = new PlayerSheet();
+            playerSheetsDao.create(playerSheet);
+
             Player player = new PlayerBuilder().setPlayerName("Player 1").setPlayerImage("player1").setLastPlayed(new Date(0)).
-                    setBackpack(backpack).setAttributes(attributes).createPlayer();
+                    setBackpack(backpack).setAttributes(attributes).setPlayerSheet(playerSheet).createPlayer();
+
 
             playerDao = getPlayerDao();
             playerDao.create(player);
@@ -190,6 +200,13 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             rewardsDao = getDao(Reward.class);
         }
         return rewardsDao;
+    }
+
+    public Dao<PlayerSheet, Integer> getPlayerSheetsDao() throws SQLException {
+        if (playerSheetsDao == null) {
+            playerSheetsDao = getDao(PlayerSheet.class);
+        }
+        return playerSheetsDao;
     }
 
     @Override
