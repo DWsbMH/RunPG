@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 import com.diploma.lilian.database.entity.Player;
+import com.diploma.lilian.game.OnTownListener;
 import com.diploma.lilian.game.provider.BaseSpriteProvider;
 import com.diploma.lilian.game.provider.TownSceneProvider;
 import com.diploma.lilian.game.scene.TownScene;
@@ -23,5 +24,7 @@ public class TownSceneHandler extends BaseSceneHandler<TownScene> {
     }
 
 
-
+    public void setTownListener(OnTownListener listener) {
+        scene.setTownListener(listener);
+    }
 }

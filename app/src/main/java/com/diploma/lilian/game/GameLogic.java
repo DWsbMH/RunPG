@@ -14,7 +14,7 @@ import com.diploma.lilian.game.scene.handler.FightSceneHandler;
 import com.diploma.lilian.game.scene.handler.TownSceneHandler;
 import com.diploma.lilian.game.util.Formulas;
 
-public class GameLogic implements OnFightListener, OnLevelUpListener {
+public class GameLogic implements OnFightListener, OnLevelUpListener, OnTownListener {
 
     private Context context;
 
@@ -27,6 +27,9 @@ public class GameLogic implements OnFightListener, OnLevelUpListener {
     private BattleFieldSceneHandler battleFieldSceneHandler;
     private FightSceneHandler fightSceneHandler;
     private TownSceneHandler townSceneHandler;
+
+    private static final String SCENE_BATTLEFIELD = "BATTLEFIELD";
+    private static final String SCENE_TOWN = "TOWN";
 
     public GameLogic(Context context, DisplayMetrics metrics, OnGameListener listener) {
 
@@ -47,6 +50,7 @@ public class GameLogic implements OnFightListener, OnLevelUpListener {
         fightSceneHandler = new FightSceneHandler(context, metrics, player);
         fightSceneHandler.setOnLevelUpListener(this);
         townSceneHandler = new TownSceneHandler(context, metrics, player);
+        townSceneHandler.setTownListener(this);
     }
 
 
@@ -64,14 +68,52 @@ public class GameLogic implements OnFightListener, OnLevelUpListener {
     @Override
     public void onFightWin() {
         battleFieldSceneHandler.updatePlayer();
-        battleFieldSceneHandler.getScene().removeEnemy();
         battleFieldSceneHandler.getScene().resetCollisionDetector();
+        battleFieldSceneHandler.removeEnemy();
         listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getScene().getHUD());
+        player.setLastScene(SCENE_BATTLEFIELD);
+        afterBattleTasks();
     }
 
     @Override
     public void onFightLost() {
+        afterBattleTasks();
+        player.getPlayerSheet().deleteEndurancePotion();
+        player.getPlayerSheet().deleteStrengthPotion();
+        player.getPlayerSheet().deleteLuckPotion();
+        player.setLastScene(SCENE_TOWN);
+        player.setActualHealthPoint(player.getMaxHealthPoint());
+        townSceneHandler.getScene().getPlayer().getSprite().setX(700);
+        townSceneHandler.getScene().getPlayer().getSprite().setY(1612);
+        listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getScene().getHUD());
+
         /* TODO place player on town with 10-20% health, maybe some penalty*/
+    }
+
+    private void afterBattleTasks() {
+        if (player.getPlayerSheet().getEndurance() != null) {
+            player.getPlayerSheet().getEndurance().getEffect().decreaseDurability();
+            if (player.getPlayerSheet().getEndurance().getEffect().getDurability() == 0) {
+                player.getPlayerSheet().deleteEndurancePotion();
+            }
+        }
+        if (player.getPlayerSheet().getStrength() != null) {
+            if (player.getPlayerSheet().getStrength() != null) {
+                player.getPlayerSheet().getStrength().getEffect().decreaseDurability();
+                if (player.getPlayerSheet().getStrength().getEffect().getDurability() == 0) {
+                    player.getPlayerSheet().deleteStrengthPotion();
+                }
+            }
+
+        }
+        if (player.getPlayerSheet().getLuck() != null) {
+            if (player.getPlayerSheet().getLuck() != null) {
+                player.getPlayerSheet().getLuck().getEffect().decreaseDurability();
+                if (player.getPlayerSheet().getLuck().getEffect().getDurability() == 0) {
+                    player.getPlayerSheet().deleteLuckPotion();
+                }
+            }
+        }
     }
 
     public void startFight() {
@@ -80,9 +122,17 @@ public class GameLogic implements OnFightListener, OnLevelUpListener {
 
     public void startGame() {
         initHandlers();
-//        listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getHUD());
-        listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getHUD());
-        battleFieldSceneHandler.getScene().resetCollisionDetector();
+
+        if (player.getLastScene() == null || player.getLastScene().equals(SCENE_TOWN)) {
+            listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getHUD());
+        } else if (player.getLastScene().equals(SCENE_BATTLEFIELD)) {
+            if (player.getLastXPosition() != -1 && player.getLastYPosition() != -1) {
+                battleFieldSceneHandler.getScene().getPlayer().getSprite().setX(player.getLastXPosition());
+                battleFieldSceneHandler.getScene().getPlayer().getSprite().setY(player.getLastYPosition());
+            }
+            battleFieldSceneHandler.getScene().resetCollisionDetector();
+            listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getHUD());
+        }
     }
 
     public Player getPlayer() {
@@ -94,11 +144,19 @@ public class GameLogic implements OnFightListener, OnLevelUpListener {
         player.getAttributes().setLevel(newLevel);
         player.getAttributes().setFreePoints(4);
         player.getAttributes().setExperienceNeeded((int) Formulas.experienceForNextLevel(newLevel));
-        // TODO player stat change according to level -> use Formulas in Player class
     }
 
     public void savePlayer() {
         playerDataManager.update(player);
+    }
+
+    @Override
+    public void onGateCollision() {
+        // switch to actual level of battlefield
+        battleFieldSceneHandler.getScene().resetCollisionDetector();
+        listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getHUD());
+        player.setLastScene(SCENE_BATTLEFIELD);
+
     }
 
     public interface OnGameListener {

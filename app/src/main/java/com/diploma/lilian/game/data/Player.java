@@ -1,5 +1,7 @@
 package com.diploma.lilian.game.data;
 
+import com.diploma.lilian.game.util.Formulas;
+
 import java.util.Random;
 
 public class Player implements CreatureData {
@@ -29,11 +31,16 @@ public class Player implements CreatureData {
 
     @Override
     public int getDamage() {
-        return random.nextInt(20)+10;
+        return Formulas.getDamage(player);
     }
 
     @Override
     public void setActualHealthPoint(int actualHealthPoint) {
         player.setActualHealthPoint(actualHealthPoint);
+    }
+
+    @Override
+    public int getId() {
+        return player.getId();
     }
 }

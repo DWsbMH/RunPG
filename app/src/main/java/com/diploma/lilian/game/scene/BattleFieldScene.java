@@ -52,6 +52,7 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
     private OnFightListener onFightListener;
 
     private IsoSprite enemy;
+    private SpriteInfo enemyInfo;
 
     private SpriteInfo player;
 
@@ -180,6 +181,7 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
                 }
 
                 SpriteInfo enemySpriteInfo = getEnemySpriteInfo(enemy);
+                enemyInfo = enemySpriteInfo;
 
                 onFightListener.fightAgainst(enemySpriteInfo);
             }
@@ -307,6 +309,10 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     public void resetCollisionDetector() {
         collitionDetector.addOnCollisionListener(this);
+    }
+
+    public SpriteInfo getEnemy() {
+        return enemyInfo;
     }
 
     public void removeEnemy() {

@@ -41,6 +41,15 @@ public class Player implements CreatureData {
     @ForeignCollectionField(eager = true)
     private ForeignCollection<SportActivity> sportActivities;
 
+    @DatabaseField
+    private String lastScene;
+
+    @DatabaseField
+    private float lastXPosition;
+
+    @DatabaseField
+    private float lastYPosition;
+
     public Player() {
     }
 
@@ -153,6 +162,30 @@ public class Player implements CreatureData {
 
     public void setPlayerSheet(PlayerSheet playerSheet) {
         this.playerSheet = playerSheet;
+    }
+
+    public String getLastScene() {
+        return lastScene;
+    }
+
+    public void setLastScene(String lastScene) {
+        this.lastScene = lastScene;
+    }
+
+    public float getLastXPosition() {
+        return lastXPosition;
+    }
+
+    public void setLastXPosition(float lastXPosition) {
+        this.lastXPosition = lastXPosition;
+    }
+
+    public float getLastYPosition() {
+        return lastYPosition;
+    }
+
+    public void setLastYPosition(float lastYPosition) {
+        this.lastYPosition = lastYPosition;
     }
 
     @Override

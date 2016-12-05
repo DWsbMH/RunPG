@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.diploma.lilian.database.entity.Attributes;
 import com.diploma.lilian.database.entity.Backpack;
+import com.diploma.lilian.database.entity.BattleField;
+import com.diploma.lilian.database.entity.Enemy;
 import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.database.entity.PlayerBuilder;
 import com.diploma.lilian.database.entity.PlayerSheet;
@@ -14,6 +16,7 @@ import com.diploma.lilian.database.entity.PotionEffect;
 import com.diploma.lilian.database.entity.PotionType;
 import com.diploma.lilian.database.entity.Reward;
 import com.diploma.lilian.database.entity.SportActivity;
+import com.diploma.lilian.database.entity.Sprite;
 import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.database.entity.Weapon;
 import com.diploma.lilian.game.util.Formulas;
@@ -40,6 +43,9 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Backpack, Integer> backpackDao;
     private Dao<Reward, Integer> rewardsDao;
     private Dao<PlayerSheet, Integer> playerSheetsDao;
+    private Dao<BattleField, Integer> battleFieldDao;
+    private Dao<Sprite, Integer> spriteDao;
+    private Dao<Enemy, Integer> enemyDao;
 
     private static DiplomaDBHelper INSTANCE;
 
@@ -66,6 +72,9 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Attributes.class);
             TableUtils.createTable(connectionSource, Reward.class);
             TableUtils.createTable(connectionSource, PlayerSheet.class);
+            TableUtils.createTable(connectionSource, BattleField.class);
+            TableUtils.createTable(connectionSource, Sprite.class);
+            TableUtils.createTable(connectionSource, Enemy.class);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -129,7 +138,8 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             Player player = new PlayerBuilder().setPlayerName("Player 1").setPlayerImage("player1").setLastPlayed(new Date(0)).
                     setBackpack(backpack).setAttributes(attributes).setPlayerSheet(playerSheet).createPlayer();
 
-
+            player.setLastXPosition(-1);
+            player.setLastYPosition(-1);
             playerDao = getPlayerDao();
             playerDao.create(player);
 
@@ -207,6 +217,27 @@ public class DiplomaDBHelper extends OrmLiteSqliteOpenHelper {
             playerSheetsDao = getDao(PlayerSheet.class);
         }
         return playerSheetsDao;
+    }
+
+    public Dao<BattleField, Integer> getBattleFieldDao() throws SQLException {
+        if (battleFieldDao == null) {
+            battleFieldDao = getDao(BattleField.class);
+        }
+        return battleFieldDao;
+    }
+
+    public Dao<Sprite, Integer> getSpriteDao() throws SQLException {
+        if (spriteDao == null) {
+            spriteDao = getDao(Sprite.class);
+        }
+        return spriteDao;
+    }
+
+    public Dao<Enemy, Integer> getEnemyDao() throws SQLException {
+        if (enemyDao == null) {
+            enemyDao = getDao(Enemy.class);
+        }
+        return enemyDao;
     }
 
     @Override

@@ -7,4 +7,5 @@ public interface CreatureData {
     int getActualHealthPoint();
     int getDamage();
     void setActualHealthPoint(int actualHealthPoint);
+    int getId();
 }

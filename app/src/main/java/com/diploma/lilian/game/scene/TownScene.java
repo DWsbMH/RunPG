@@ -20,6 +20,7 @@ import com.diploma.lilian.engine.ai.IPathFinder;
 import com.diploma.lilian.engine.ai.IsoGridPathFinder;
 import com.diploma.lilian.engine.collition.CollisionDetector;
 import com.diploma.lilian.engine.collition.OnCollisionListener;
+import com.diploma.lilian.game.OnTownListener;
 import com.diploma.lilian.game.provider.CollisionType;
 import com.diploma.lilian.game.provider.SpriteInfo;
 
@@ -30,7 +31,7 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
 
     private static final String TAG = "TownScene";
 
-    public static int WORLD_WIDTH = 5000;
+    public static int WORLD_WIDTH = 4000;
     public static int WORLD_HEIGHT = 5000;
 
     public static int GROUND_LAYER;
@@ -41,6 +42,7 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
     private GestureDetector motions;
 
     private SpriteInfo player;
+    private OnTownListener listener;
 
     public TownScene(Context context, int surfaceWidth, int surfaceHeight) {
         super(context, surfaceWidth, surfaceHeight);
@@ -85,8 +87,7 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
 
     @Override
     public void init(Context context) {
-        vp.addElement(spriteProvider.getPlayerSpriteInfo().getSprite(), spriteProvider.getPlayerSpriteInfo().getLayerType());
-        for (SpriteInfo spriteInfo : spriteProvider.getSpriteInfoCollection()){
+        for (SpriteInfo spriteInfo : spriteProvider.getSpriteInfoCollection()) {
             if (spriteInfo.getSprite().getCollisionTypeBitmap() != CollisionType.INVALID.getValue()) {
                 collitionDetector.add(spriteInfo.getSprite());
             }
@@ -120,9 +121,17 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
         motions.onTouchEvent(e);
         return true;
     }
+
     @Override
     public void handleCollision(IsoSprite s1, IsoSprite s2, int collisionGroupMask) {
-        Log.w(TAG, "handleCollision: "+s1+" + "+s2 );
+        if (s1.getName().equals("gates") || s2.getName().equals("gates")) {
+            if(listener != null){
+                player.getSprite().stopMove();
+                listener.onGateCollision();
+            }
+        }
+
+        Log.w(TAG, "handleCollision: " + s1 + " + " + s2);
     }
 
     @Override
@@ -173,6 +182,8 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
 
         if (player != null) {
 
+
+
             Point a = Transformer.isoToPlot(player.getSprite().getIminX(), player.getSprite().getIminY());
             Point b = Transformer.isoToPlot(player.getSprite().getImaxX(), player.getSprite().getImaxY());
 
@@ -211,5 +222,13 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
     @Override
     public void onClick(View v) {
 
+    }
+
+    public void setTownListener(OnTownListener listener) {
+        this.listener = listener;
+    }
+
+    public SpriteInfo getPlayer() {
+        return player;
     }
 }

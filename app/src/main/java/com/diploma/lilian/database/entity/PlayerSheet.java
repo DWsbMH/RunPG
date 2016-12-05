@@ -70,4 +70,16 @@ public class PlayerSheet {
                 break;
         }
     }
+
+    public void deleteEndurancePotion() {
+        endurance = null;
+    }
+
+    public void deleteStrengthPotion() {
+        strength = null;
+    }
+
+    public void deleteLuckPotion() {
+        luck = null;
+    }
 }

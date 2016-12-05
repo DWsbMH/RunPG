@@ -5,7 +5,7 @@ public enum PotionEffect {
     SMALL(1.1, 2), MEDIUM(1.15, 4), LARGE(1.25, 6);
 
     private final double effect;
-    private final int durability;
+    private int durability;
 
     PotionEffect(double effect, int durability) {
         this.effect = effect;
@@ -18,5 +18,9 @@ public enum PotionEffect {
 
     public int getDurability() {
         return durability;
+    }
+
+    public void decreaseDurability() {
+        durability--;
     }
 }

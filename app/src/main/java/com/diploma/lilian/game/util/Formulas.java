@@ -72,6 +72,16 @@ public class Formulas {
         return player.getAttributes().getEndurance() * 5 * (player.getLevel() + 1)+100;
     }
 
+    public static int getDamage(Player player){
+        int averageDamage = (player.getPlayerSheet().getWeapon().getMaxDamage() +
+                player.getPlayerSheet().getWeapon().getMinDamage()) / 2;
+        int strength = player.getAttributes().getStrength();
+        if (player.getPlayerSheet().getStrength() != null){
+            strength *= player.getPlayerSheet().getStrength().getEffect().getEffect();
+        }
+        return averageDamage * (1 + strength / 10);
+    }
+
 
 
 

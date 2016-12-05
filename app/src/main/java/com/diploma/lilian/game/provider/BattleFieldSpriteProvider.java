@@ -2,25 +2,52 @@ package com.diploma.lilian.game.provider;
 
 import android.content.Context;
 
+import com.diploma.lilian.database.datamanager.BattleFieldDataManager;
+import com.diploma.lilian.database.entity.BattleField;
 import com.diploma.lilian.database.entity.Player;
+import com.diploma.lilian.database.entity.Sprite;
 import com.diploma.lilian.engine.IsoSprite;
 import com.diploma.lilian.engine.io.SpriteDataParser;
 import com.diploma.lilian.game.data.Enemy;
 import com.diploma.lilian.game.scene.BattleFieldScene;
+import com.diploma.lilian.game.util.BattleFieldGenerator;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Random;
+import java.util.List;
 
 public class BattleFieldSpriteProvider extends BaseSpriteProvider {
 
+    private BattleFieldDataManager battleFieldDataManager;
+
     public BattleFieldSpriteProvider(Context context, Player player) {
         super(context, player);
+        battleFieldDataManager = new BattleFieldDataManager(context);
+        enemiesSpriteInfoCollection = new ArrayList<>();
     }
 
     @Override
     public void loadSprites() {
+        List<BattleField> temp = battleFieldDataManager.queryForAll();
+        BattleField battleField;
+        if (temp.isEmpty()) {
+            battleField = BattleFieldGenerator.generate(context, 1);
+            System.out.println();
+        } else {
+            battleField = temp.get(0);
+        }
+
+        for (Sprite sprite : battleField.getSprites()) {
+            if (sprite.getEnemyData() == null)
+                spriteInfoCollection.add(getSpriteInfo(sprite));
+            else {
+                enemiesSpriteInfoCollection.add(getSpriteInfo(sprite));
+            }
+        }
+
+        System.out.println();
+/*
         IsoSprite sprite = null;
 
         try {
@@ -37,105 +64,54 @@ public class BattleFieldSpriteProvider extends BaseSpriteProvider {
 
         spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.GROUND_LAYER));
 
-        for(int i = 0; i<1600;i+=120) {
-            try {
-                sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/route.xml"));
-                sprite.setAnimation("default");
-                sprite.moveInPlot(i, 1400, 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-        }
-
         try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/route.xml"));
+            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/gates.xml"));
             sprite.setAnimation("default");
-            sprite.moveInPlot(1560, 1100, 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/route.xml"));
-            sprite.setAnimation("default");
-            sprite.moveInPlot(1560, 1200, 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/route.xml"));
-            sprite.setAnimation("default");
-            sprite.moveInPlot(1560, 1300, 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/route.xml"));
-            sprite.setAnimation("default");
-            sprite.moveInPlot(700, 1300, 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-
-        for(int i = 1420; i<3600; i+=120){
-            try {
-                sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/route.xml"));
-                sprite.setAnimation("default");
-                sprite.moveInPlot(1560, i, 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-
-        }
-
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/well.xml"));
-            sprite.setAnimation("default");
-            sprite.moveInPlot(1400, 1500, 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/templom.xml"));
-            sprite.moveInPlot(0, 0, 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/own_house.xml"));
-            sprite.moveInPlot(0, 1024, 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/kocsma.xml"));
-            sprite.moveInPlot(1500, 0, 0);
+            sprite.moveInPlot(BattleFieldScene.WORLD_WIDTH / 2, BattleFieldScene.WORLD_HEIGHT / 2, 0);
             sprite.addCollisionType(CollisionType.PLAYER_BUILDING.getValue());
         } catch (IOException e) {
             e.printStackTrace();
         }
         spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
+*/
 
+    }
+
+
+    private SpriteInfo getSpriteInfo(Sprite sprite) {
+        IsoSprite isoSprite = null;
+        SpriteInfo spriteInfo;
         try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/fegyverbolt.xml"));
-            sprite.moveInPlot(1536, 1024, 0);
+            isoSprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/" + sprite.getName() + ".xml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
 
+        isoSprite.setAnimation("default");
+
+        if (sprite.getLayer() == BattleFieldScene.GROUND_LAYER) {
+            isoSprite.setWidth(BattleFieldScene.WORLD_WIDTH);
+            isoSprite.setHeight(BattleFieldScene.WORLD_HEIGHT);
+            isoSprite.setAnimation("copy");
+        }
+
+        isoSprite.moveInPlot(sprite.getX(), sprite.getY(), 0);
+        isoSprite.addCollisionType(sprite.getCollisionType().getValue());
+
+        if (sprite.getEnemyData() != null) {
+            isoSprite.setAnimation("stand");
+            isoSprite.setAnimationStartFrame(0);
+            isoSprite.moveInIso(1, 0, 0);
+
+            isoSprite.setMoveAnimationNames(new String[]{"stand", "fight"});
+            spriteInfo = new SpriteInfo(isoSprite, sprite.getLayer(), new Enemy(sprite.getEnemyData().getLevel(), sprite.getId()));
+
+        } else {
+            spriteInfo = new SpriteInfo(isoSprite, sprite.getLayer());
+        }
+
+
+        return spriteInfo;
     }
 
     @Override
@@ -149,7 +125,7 @@ public class BattleFieldSpriteProvider extends BaseSpriteProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        playerIsoSprite.moveInPlot(1200, 1200, 0);
+        playerIsoSprite.moveInPlot(BattleFieldScene.WORLD_WIDTH / 2, BattleFieldScene.WORLD_HEIGHT / 2, 0);
         playerIsoSprite.setAnimation("left_down_move");
         playerIsoSprite.setAnimationStartFrame(0);
 
@@ -167,6 +143,7 @@ public class BattleFieldSpriteProvider extends BaseSpriteProvider {
 
     @Override
     public Collection<SpriteInfo> getEnemiesSpriteInfo() {
+/*
         if(enemiesSpriteInfoCollection!=null)
             return enemiesSpriteInfoCollection;
 
@@ -190,6 +167,7 @@ public class BattleFieldSpriteProvider extends BaseSpriteProvider {
 
             enemiesSpriteInfoCollection.add(new SpriteInfo(mushroom, BattleFieldScene.MAIN_LAYER, new Enemy(1)));
         }
+*/
 
         return enemiesSpriteInfoCollection;
     }

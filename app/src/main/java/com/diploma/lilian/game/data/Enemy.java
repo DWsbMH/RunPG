@@ -5,11 +5,13 @@ import java.util.Random;
 public class Enemy implements CreatureData{
 
     private final int level;
+    private final int id;
     private Random random;
     private int actualHealthPoint;
     private int maxHealthPoint;
 
-    public Enemy(int level) {
+    public Enemy(int level, int id) {
+        this.id = id;
         this.random = new Random();
         this.level = level;
         this.maxHealthPoint = getLevel()*15*(1+100/(random.nextInt(100)+1));
@@ -39,5 +41,10 @@ public class Enemy implements CreatureData{
     @Override
     public void setActualHealthPoint(int actualHealthPoint) {
         this.actualHealthPoint = actualHealthPoint;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 }
