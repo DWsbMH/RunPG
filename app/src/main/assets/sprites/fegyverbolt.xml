@@ -4,8 +4,10 @@
     imgname="fegyverbolt"
     spritewidth="1536"
     spriteheight="1536"
-    bodyheight="128"
-
+    bodyheight="512"
+    ax="300" ay="1300"
+    bx="1100" by="1300"
+    discoverRadius="1"
 
 >
 

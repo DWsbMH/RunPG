@@ -20,7 +20,7 @@ public class ProviderFactory {
     private String tracker;
     private Player player;
 
-    public ProviderFactory(Context context, String tracker) {
+    public  ProviderFactory(Context context, String tracker) {
         this.context = context;
         this.tracker = tracker;
     }

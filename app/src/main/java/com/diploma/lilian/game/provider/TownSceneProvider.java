@@ -106,6 +106,7 @@ public class TownSceneProvider extends BaseSpriteProvider {
         try {
             sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/templom.xml"));
             sprite.moveInPlot(0, 512, 0);
+            sprite.addCollisionType(CollisionType.PLAYER_BUILDING.getValue());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,6 +115,7 @@ public class TownSceneProvider extends BaseSpriteProvider {
         try {
             sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/own_house.xml"));
             sprite.moveInPlot(0, 1536, 0);
+            sprite.addCollisionType(CollisionType.PLAYER_BUILDING.getValue());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,6 +133,7 @@ public class TownSceneProvider extends BaseSpriteProvider {
         try {
             sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/fegyverbolt.xml"));
             sprite.moveInPlot(1536, 1536, 0);
+            sprite.addCollisionType(CollisionType.PLAYER_BUILDING.getValue());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -159,7 +162,7 @@ public class TownSceneProvider extends BaseSpriteProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        playerIsoSprite.moveInPlot(1200, 1200, 0);
+        playerIsoSprite.moveInPlot(2500, 2500, 0);
         playerIsoSprite.setAnimation("left_down_move");
         playerIsoSprite.setAnimationStartFrame(0);
 

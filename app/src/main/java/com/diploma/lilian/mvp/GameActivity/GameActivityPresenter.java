@@ -28,6 +28,15 @@ public class GameActivityPresenter extends MvpBasePresenter<GameActivityView> im
         }
     }
 
+    @Override
+    public void switchHUDTo(Fragment HUD) {
+
+        if(isViewAttached()){
+            getView().setFragment(HUD);
+        }
+
+    }
+
     public void startGame() {
         gameLogic.startGame();
     }
@@ -38,5 +47,9 @@ public class GameActivityPresenter extends MvpBasePresenter<GameActivityView> im
 
     public void onPause() {
         gameLogic.savePlayer();
+    }
+
+    public void resetFightListeners(Fragment hud) {
+        gameLogic.resetFightListeners(hud);
     }
 }

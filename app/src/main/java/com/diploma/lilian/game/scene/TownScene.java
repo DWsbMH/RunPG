@@ -20,7 +20,10 @@ import com.diploma.lilian.engine.ai.IPathFinder;
 import com.diploma.lilian.engine.ai.IsoGridPathFinder;
 import com.diploma.lilian.engine.collition.CollisionDetector;
 import com.diploma.lilian.engine.collition.OnCollisionListener;
-import com.diploma.lilian.game.OnTownListener;
+import com.diploma.lilian.game.GameLogic;
+import com.diploma.lilian.game.OnGateListener;
+import com.diploma.lilian.game.OnShopListener;
+import com.diploma.lilian.game.fragment.ShopFragment;
 import com.diploma.lilian.game.provider.CollisionType;
 import com.diploma.lilian.game.provider.SpriteInfo;
 
@@ -42,7 +45,10 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
     private GestureDetector motions;
 
     private SpriteInfo player;
-    private OnTownListener listener;
+    private OnGateListener onGateListener;
+
+    boolean collisionHappened = false;
+    private OnShopListener shopListener;
 
     public TownScene(Context context, int surfaceWidth, int surfaceHeight) {
         super(context, surfaceWidth, surfaceHeight);
@@ -124,11 +130,23 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
 
     @Override
     public void handleCollision(IsoSprite s1, IsoSprite s2, int collisionGroupMask) {
+        player.getSprite().stopMove();
         if (s1.getName().equals("gates") || s2.getName().equals("gates")) {
-            if(listener != null){
-                player.getSprite().stopMove();
-                listener.onGateCollision();
+            if(onGateListener != null){
+                collisionHappened = true;
+                player.getSprite().moveInPlot(0,-200,0);
+                onGateListener.onGateCollision(GameLogic.SCENE_TOWN);
             }
+        }
+        if(s1.getName().equals("fegyverbolt") || s2.getName().equals("fegyverbolt")){
+            collisionHappened = true;
+            player.getSprite().moveInPlot(300,300,0);
+            shopListener.onShopEnter(ShopFragment.SHOP_TYPE_WEAPON);
+        }
+        if(s1.getName().equals("templom") || s2.getName().equals("templom")){
+            collisionHappened = true;
+            player.getSprite().moveInPlot(300,300,0);
+            shopListener.onShopEnter(ShopFragment.SHOP_TYPE_POTION);
         }
 
         Log.w(TAG, "handleCollision: " + s1 + " + " + s2);
@@ -224,11 +242,20 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
 
     }
 
-    public void setTownListener(OnTownListener listener) {
-        this.listener = listener;
+    public void resetCollisionDetector() {
+        collitionDetector.addOnCollisionListener(this);
+    }
+
+    public void setGateListener(OnGateListener listener) {
+        this.onGateListener = listener;
     }
 
     public SpriteInfo getPlayer() {
         return player;
     }
+
+    public void setShopListener(OnShopListener shopListener) {
+        this.shopListener = shopListener;
+    }
+
 }

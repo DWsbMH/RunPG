@@ -457,6 +457,8 @@ public class IsoSprite extends AnimatedSprite implements IElement {
 	public void stopMove(){
 		path = null;
 
+		pathIdx = -1;
+
 		setLoopAnimation(false);
 		setAnimationFrame(0);
 		stopAnimation();
@@ -599,8 +601,6 @@ public class IsoSprite extends AnimatedSprite implements IElement {
 	
 	private void pathMoveUpdate(long elapsedTime) {
 		if(pathIdx > -1 && path != null) {
-
-			/* TODO csökkenteni a staminát */
 
 			if(moveVelocoty == 0.0f) {
 				Vec3 target = path[pathIdx];

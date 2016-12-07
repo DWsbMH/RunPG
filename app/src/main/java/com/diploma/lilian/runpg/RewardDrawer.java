@@ -113,8 +113,8 @@ public class RewardDrawer {
                 int weapontemp = random.nextInt(weapons.length);
 
                 Weapon weapon = new Weapon(backpack, weapons[weapontemp], weapons[weapontemp],
-                        Formulas.getRewardWeaponDamage(player.getLevel()),
-                        Formulas.getRewardWeaponDamage(player.getLevel() + 1));
+                        Formulas.getRewardWeaponDamage(player.getLevel()+ 1),
+                        Formulas.getRewardWeaponDamage(player.getLevel() + 2));
                 weaponDataManager.add(weapon);
                 what = weapons[weapontemp];
 

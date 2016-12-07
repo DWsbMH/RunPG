@@ -1,5 +1,6 @@
 package com.diploma.lilian.game.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,8 @@ public class FightFragment extends Fragment implements OnPlayerListener, OnEnemy
 
     private OnFightFragmentListener mListener;
 
+    private Activity mActivity;
+
     public FightFragment() {
         // Required empty public constructor
     }
@@ -72,6 +75,7 @@ public class FightFragment extends Fragment implements OnPlayerListener, OnEnemy
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mActivity = (Activity) context;
         if (context instanceof OnFightFragmentListener) {
             mListener = (OnFightFragmentListener) context;
         } else {
@@ -103,7 +107,7 @@ public class FightFragment extends Fragment implements OnPlayerListener, OnEnemy
 
     @Override
     public void setPlayerHealth(final int health) {
-        getActivity().runOnUiThread(new Runnable() {
+        mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 playerHealthBar.setActualPoint(health);
@@ -113,7 +117,7 @@ public class FightFragment extends Fragment implements OnPlayerListener, OnEnemy
 
     @Override
     public void setEnemyHealth(final int health) {
-        getActivity().runOnUiThread(new Runnable() {
+        mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 enemyHealthBar.setActualPoint(health);

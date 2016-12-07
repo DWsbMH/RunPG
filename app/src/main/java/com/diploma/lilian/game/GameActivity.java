@@ -11,7 +11,9 @@ import com.diploma.lilian.engine.GLCanvas;
 import com.diploma.lilian.game.fragment.FightFragment;
 import com.diploma.lilian.game.fragment.InventoryFragment;
 import com.diploma.lilian.game.fragment.RewardFragment;
+import com.diploma.lilian.game.fragment.ShopFragment;
 import com.diploma.lilian.game.scene.BaseScene;
+import com.diploma.lilian.game.scene.FightScene;
 import com.diploma.lilian.mvp.GameActivity.GameActivityPresenter;
 import com.diploma.lilian.mvp.GameActivity.GameActivityView;
 import com.diploma.lilian.runpg.BaseActivity;
@@ -21,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GameActivity extends BaseActivity<GameActivityView, GameActivityPresenter> implements GameActivityView, FightFragment.OnFightFragmentListener, InventoryFragment.OnInventoryListener, RewardFragment.OnRewardListener {
+public class GameActivity extends BaseActivity<GameActivityView, GameActivityPresenter> implements GameActivityView, FightFragment.OnFightFragmentListener, InventoryFragment.OnInventoryListener, RewardFragment.OnRewardListener, OnShopListener {
 
     @BindView(R.id.glcanvas)
     GLCanvas canvas;
@@ -66,16 +68,22 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
     }
 
     @OnClick(R.id.inventory_open)
-    public void showInventory(){
+    public void showInventory() {
         openInventoryButton.setVisibility(View.GONE);
-        setFragment(InventoryFragment.newInstance("",""));
+        ((BaseScene) canvas.getGameScene()).setInventoryOpen(true);
+        setFragment(InventoryFragment.newInstance("", ""));
     }
 
 
     @Override
     public void onInventoryClose() {
         openInventoryButton.setVisibility(View.VISIBLE);
-        setFragment(((BaseScene)canvas.getGameScene()).getHUD());
+        ((BaseScene) canvas.getGameScene()).setInventoryOpen(false);
+        Fragment hud = ((BaseScene) canvas.getGameScene()).getHUD();
+        if (canvas.getGameScene() instanceof FightScene) {
+            presenter.resetFightListeners(hud);
+        }
+        setFragment(hud);
     }
 
     @Override
@@ -91,10 +99,30 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
 
     @Override
     public void onRewardListClose() {
-        setFragment(InventoryFragment.newInstance("",""));
+        setFragment(InventoryFragment.newInstance("", ""));
     }
 
-    public void inventoryOnClick(View view) {
+    public void inventoryOnClick(View view) { }
 
+    @Override
+    public void onShopEnter(final String shopType) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                openInventoryButton.setVisibility(View.GONE);
+                setFragment(ShopFragment.newInstance(shopType));
+            }
+        });
+    }
+
+    @Override
+    public void onShopExit() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                openInventoryButton.setVisibility(View.VISIBLE);
+                setFragment(new Fragment());
+            }
+        });
     }
 }

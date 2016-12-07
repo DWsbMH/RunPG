@@ -14,6 +14,7 @@ import com.diploma.lilian.tracker.ProviderFactory;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
+import java.util.Date;
 import java.util.List;
 
 public class FetchService extends IntentService {
@@ -72,10 +73,14 @@ public class FetchService extends IntentService {
         IProvider provider = factory.create();
         List<SportActivity> list = provider.getNewActivityFromService(getBaseContext(), trackerService);
 
+        factory.getPlayer().setLastPlayed(new Date());
+
         RewardDrawer rewardDrawer = new RewardDrawer(getBaseContext(), factory.getPlayer());
 
-        for(SportActivity sportActivity : list){
-            rewardDrawer.checkForGift(sportActivity);
+        if(list != null) {
+            for (SportActivity sportActivity : list) {
+                rewardDrawer.checkForGift(sportActivity);
+            }
         }
 
         PlayerDataManager.INSTANCE(getBaseContext()).update(factory.getPlayer());
@@ -91,12 +96,17 @@ public class FetchService extends IntentService {
         IProvider provider = factory.create();
         List<SportActivity> list = provider.getNewActivityFromService(getBaseContext(), trackerService);
 
+        factory.getPlayer().setLastPlayed(new Date());
+
         RewardDrawer rewardDrawer = new RewardDrawer(getBaseContext(), factory.getPlayer());
 
-        for(SportActivity sportActivity : list){
-            rewardDrawer.checkForGift(sportActivity);
-        }
+        if(list != null) {
 
+            for (SportActivity sportActivity : list) {
+                rewardDrawer.checkForGift(sportActivity);
+            }
+
+        }
         PlayerDataManager.INSTANCE(getBaseContext()).update(factory.getPlayer());
 
         Intent localIntent;
@@ -106,8 +116,14 @@ public class FetchService extends IntentService {
     }
 
     private void handleActionFetchAllActivity(TrackerService trackerService) {
-        IProvider provider = new ProviderFactory(getBaseContext(),trackerService.getName()).create();
+        ProviderFactory factory = new ProviderFactory(getBaseContext(),trackerService.getName());
+        IProvider provider = factory.create();
         provider.getAllActivityFromService(getBaseContext(), trackerService);
+
+        factory.getPlayer().setLastPlayed(new Date());
+
+        PlayerDataManager.INSTANCE(getBaseContext()).update(factory.getPlayer());
+
         System.out.println("All activity saved!");
     }
 

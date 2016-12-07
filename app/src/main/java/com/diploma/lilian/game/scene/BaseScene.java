@@ -8,9 +8,10 @@ import com.diploma.lilian.game.provider.BaseSpriteProvider;
 
 public abstract class BaseScene extends GameScene{
     protected Context context;
-    protected BaseSpriteProvider spriteProvider;
+    BaseSpriteProvider spriteProvider;
+    private boolean inventoryOpen = false;
 
-    public BaseScene(Context context, int surfaceWidth, int surfaceHeight) {
+    BaseScene(Context context, int surfaceWidth, int surfaceHeight) {
         super(context, surfaceWidth, surfaceHeight);
         this.context = context;
     }
@@ -28,4 +29,11 @@ public abstract class BaseScene extends GameScene{
     public abstract Fragment getHUD();
 
 
+    public void setInventoryOpen(boolean inventoryOpen) {
+        this.inventoryOpen = inventoryOpen;
+    }
+
+    boolean isInventoryOpen() {
+        return inventoryOpen;
+    }
 }

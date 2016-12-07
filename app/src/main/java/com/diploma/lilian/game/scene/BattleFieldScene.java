@@ -25,17 +25,20 @@ import com.diploma.lilian.engine.ai.IPathFinder;
 import com.diploma.lilian.engine.ai.IsoGridPathFinder;
 import com.diploma.lilian.engine.collition.CollisionDetector;
 import com.diploma.lilian.engine.collition.OnCollisionListener;
+import com.diploma.lilian.game.GameLogic;
 import com.diploma.lilian.game.OnFightListener;
+import com.diploma.lilian.game.OnGateListener;
 import com.diploma.lilian.game.fragment.BattleFieldFragment;
 import com.diploma.lilian.game.provider.CollisionType;
 import com.diploma.lilian.game.provider.SpriteInfo;
+import com.diploma.lilian.runpg.R;
 
 import java.util.Collection;
 
 import javax.microedition.khronos.opengles.GL11;
 
 
-public class BattleFieldScene extends BaseScene implements OnClickListener, OnCollisionListener, OnGestureListener, ScaleGestureDetector.OnScaleGestureListener {
+public class BattleFieldScene extends BaseScene implements OnClickListener, OnCollisionListener, OnGestureListener, ScaleGestureDetector.OnScaleGestureListener, BattleFieldFragment.OnZoomListener {
 
     private static final String TAG = "BattleFieldScene";
 
@@ -57,6 +60,9 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
     private SpriteInfo player;
 
     private Fragment HUD;
+    private OnGateListener onGateListener;
+
+    boolean collisionHappened = false;
 
     public BattleFieldScene(Context context, int surfaceWidth, int surfaceHeight) {
         super(context, surfaceWidth, surfaceHeight);
@@ -130,7 +136,9 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
                     float actualStamina = ((Player) player.getData()).getAttributes().getActualStamina();
                     if (actualStamina >= 0) {
                         ((Player) player.getData()).getAttributes().setActualStamina(actualStamina - 0.05f);
-                        ((BattleFieldFragment) HUD).decreaseStamina();
+                        if (!isInventoryOpen()) {
+                            ((BattleFieldFragment) HUD).decreaseStamina();
+                        }
                     } else {
                         player.getSprite().stopMove();
                     }
@@ -164,7 +172,17 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.zoomDefault:
+                setZoom(1.0f);
+                break;
+            case R.id.zoom3:
+                setZoom(-3.0f);
+                break;
+            case R.id.zoom5:
+                setZoom(-5.0f);
+                break;
+        }
     }
 
     @Override
@@ -174,6 +192,7 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
         if (collisionGroupMask == CollisionType.PLAYER_ENEMY.getValue()) {
             if (!s1.equals(s2)) {
                 player.getSprite().stopMove();
+                player.getSprite().moveInPlot(0,300,0);
                 if (player.getSprite().equals(s1)) {
                     enemy = s2;
                 } else {
@@ -186,8 +205,12 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
                 onFightListener.fightAgainst(enemySpriteInfo);
             }
         } else {
-            player.getSprite().stopMove();
-            Log.w(TAG, "epulet....");
+            if((s1.getName().equals("gates") || s2.getName().equals("gates")) && !collisionHappened){
+                collisionHappened = true;
+                player.getSprite().stopMove();
+                player.getSprite().moveInPlot(0,300,0);
+                onGateListener.onGateCollision(GameLogic.SCENE_BATTLEFIELD);
+            }
         }
     }
 
@@ -205,8 +228,10 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        if(((Player)player.getData()).getAttributes().getActualStamina() > 0) {
+        if (((Player) player.getData()).getAttributes().getActualStamina() > 0) {
+
             player.getSprite().movePathTo(pathFinder, (e.getX() / getZoom()) + vp.getX(), (e.getY() / getZoom()) + vp.getY(), 500);
+            collisionHappened = false;
         }
         Log.e(TAG, "TAP: x: " + (e.getX() + vp.getX()) + " Y: " + (e.getY() + vp.getY()));
         startPos = player.getSprite().getCenter();
@@ -334,6 +359,8 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
                 ((Player) player.getData()).getAttributes().getMaxStamina(),
                 ((Player) player.getData()).getAttributes().getActualStamina());
 
+        ((BattleFieldFragment)HUD).setOnZoomListener(this);
+
         return HUD;
     }
 
@@ -345,6 +372,7 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
     public boolean onScale(ScaleGestureDetector detector) {
         Log.w(TAG, "onScale: " + detector.getScaleFactor());
         setZoom(getZoom() * detector.getScaleFactor());
+        Log.w(TAG, "zoom: " + getZoom());
         return true;
     }
 
@@ -357,5 +385,31 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
 
+    }
+
+    public void deleteAllSprite() {
+        IsoSprite[] isoSprites = vp.getAllSprite(GROUND_LAYER);
+        for (IsoSprite isoSprite : isoSprites) {
+            if (isoSprite != null) {
+                collitionDetector.remove(isoSprite);
+                vp.removeElement(isoSprite);
+            }
+        }
+        isoSprites = vp.getAllSprite(MAIN_LAYER);
+        for (IsoSprite isoSprite : isoSprites) {
+            if (isoSprite != null) {
+                collitionDetector.remove(isoSprite);
+                vp.removeElement(isoSprite);
+            }
+        }
+    }
+
+    public void setOnGateListener(OnGateListener onGateListener) {
+        this.onGateListener = onGateListener;
+    }
+
+    @Override
+    public void onZoom(float zoom) {
+        setZoom(zoom);
     }
 }

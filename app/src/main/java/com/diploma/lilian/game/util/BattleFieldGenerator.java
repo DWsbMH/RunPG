@@ -34,7 +34,7 @@ public class BattleFieldGenerator {
         sprite = new Sprite("gates", "gates", BattleFieldScene.WORLD_WIDTH / 2, BattleFieldScene.WORLD_HEIGHT / 2, battleField, BattleFieldScene.MAIN_LAYER, CollisionType.PLAYER_BUILDING);
         spriteDataManager.add(sprite);
 
-        for(int i = 0; i<2;i++){
+        for(int i = 0; i<10;i++){
             enemy = new Enemy(level);
             enemyDataManager.add(enemy);
             sprite = new Sprite("mushroom", "mushroom", random.nextInt(BattleFieldScene.WORLD_WIDTH), random.nextInt(BattleFieldScene.WORLD_HEIGHT),enemy,battleField, BattleFieldScene.MAIN_LAYER, CollisionType.PLAYER_ENEMY);

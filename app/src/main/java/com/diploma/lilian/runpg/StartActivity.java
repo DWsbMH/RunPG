@@ -30,6 +30,8 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
     ListView connectServiceList;
     private FetchReceiver receiver;
 
+    private static int updatedCount = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +82,7 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
             activityFetcher.update();
         }
 
-        if(services.isEmpty()){
+        if (services.isEmpty()) {
             Intent gameIntent = new Intent(this, GameActivity.class);
             startActivity(gameIntent);
         }
@@ -97,11 +99,12 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Intent gameIntent = new Intent(context, GameActivity.class);
-            startActivity(gameIntent);
-
+            updatedCount++;
+            if (updatedCount == presenter.getConnectedTrackerServices().size()) {
+                Intent gameIntent = new Intent(context, GameActivity.class);
+                startActivity(gameIntent);
+            }
         }
     }
-
 
 }

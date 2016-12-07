@@ -30,10 +30,6 @@ public class StartActivityPresenter extends MvpBasePresenter<StartActivityView> 
         trackerServiceDataManager = new TrackerServiceDataManager(context);
     }
 
-    public void setAdapter(TrackerServiceAdapter adapter) {
-        this.adapter = adapter;
-    }
-
     public void onConnect(TrackerService trackerService) {
         Intent intent = new Intent(context, ConnectTracker.class);
         intent.putExtra(StartActivity.EXTRA_TRACKER_SERVICE, trackerService);

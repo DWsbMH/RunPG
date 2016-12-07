@@ -85,6 +85,9 @@ public class InventoryFragment extends Fragment {
 
     private OnInventoryListener mListener;
 
+    private EquipmentItemRowAdapter<Weapon> weaponAdapter;
+    private EquipmentItemRowAdapter<Potion> potionAdapter;
+
     public InventoryFragment() {
 
     }
@@ -130,7 +133,7 @@ public class InventoryFragment extends Fragment {
 
         playerAttributeFreePoints.setText(String.valueOf(player.getAttributes().getFreePoints()));
 
-        final EquipmentItemRowAdapter<Weapon> weaponAdapter = new EquipmentItemRowAdapter<>(
+       weaponAdapter = new EquipmentItemRowAdapter<>(
                 getContext(), new ArrayList<>(player.getBackpack().getWeapons()), new OnEquipInventoryListener() {
             @Override
             public Weapon equipItem(Item item) {
@@ -159,7 +162,8 @@ public class InventoryFragment extends Fragment {
         );
 
         backpackWeaponRow.setAdapter(weaponAdapter);
-        backpackPotionRow.setAdapter(new EquipmentItemRowAdapter<>(
+
+        potionAdapter = new EquipmentItemRowAdapter<>(
                 getContext(), new ArrayList<>(player.getBackpack().getPotions()), new OnEquipInventoryListener() {
             @Override
             public Potion equipItem(Item item) {
@@ -196,7 +200,9 @@ public class InventoryFragment extends Fragment {
                 return null;
             }
         }
-        ));
+        );
+
+        backpackPotionRow.setAdapter(potionAdapter);
 
         ((TextView) playerAttributeStrength.findViewById(R.id.player_attribute_item_name)).setText("Strength");
         ((TextView) playerAttributeEndurance.findViewById(R.id.player_attribute_item_name)).setText("Endurance");
@@ -289,6 +295,10 @@ public class InventoryFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
+        weaponAdapter.closePopup();
+        potionAdapter.closePopup();
+
         mListener = null;
     }
 

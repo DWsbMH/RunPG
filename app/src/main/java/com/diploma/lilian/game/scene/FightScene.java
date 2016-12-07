@@ -16,11 +16,11 @@ import com.diploma.lilian.engine.ai.IPathFinder;
 import com.diploma.lilian.engine.ai.IsoGridPathFinder;
 import com.diploma.lilian.engine.collition.CollisionDetector;
 import com.diploma.lilian.engine.collition.OnCollisionListener;
-import com.diploma.lilian.game.provider.CollisionType;
+import com.diploma.lilian.game.OnFightTurnListener;
 import com.diploma.lilian.game.fragment.FightFragment;
 import com.diploma.lilian.game.provider.BaseSpriteProvider;
+import com.diploma.lilian.game.provider.CollisionType;
 import com.diploma.lilian.game.provider.SpriteInfo;
-import com.diploma.lilian.game.scene.handler.FightSceneHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +34,7 @@ public class FightScene extends BaseScene implements OnCollisionListener {
     public static int GROUND_LAYER;
     private SpriteInfo player;
     private SpriteInfo enemy;
-    private FightSceneHandler onFightTurnListener;
+    private OnFightTurnListener onFightTurnListener;
 
 
     public FightScene(Context context, int surfaceWidth, int surfaceHeight, BaseSpriteProvider spriteProvider) {
@@ -140,7 +140,7 @@ public class FightScene extends BaseScene implements OnCollisionListener {
         return enemy;
     }
 
-    public void setOnFightTurnListener(FightSceneHandler onFightTurnListener) {
+    public void setOnFightTurnListener(OnFightTurnListener onFightTurnListener) {
         this.onFightTurnListener = onFightTurnListener;
     }
 

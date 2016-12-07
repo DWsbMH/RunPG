@@ -1,33 +1,34 @@
 package com.diploma.lilian.game.fragment;
 
+import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.diploma.lilian.runpg.R;
 import com.diploma.lilian.game.view.BarView;
+import com.diploma.lilian.runpg.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link BattleFieldFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link BattleFieldFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BattleFieldFragment extends Fragment {
 
     @BindView(R.id.healthBar)
     BarView playerHealthBar;
     @BindView(R.id.staminaBar)
     BarView staminaBar;
+
+    @BindView(R.id.zoomDefault)
+    Button zoom1;
+    @BindView(R.id.zoom3)
+    Button zoom3;
+    @BindView(R.id.zoom5)
+    Button zoom5;
 
     private static final String ARG_PLAYER_MAX_HEALTH = "ARG_PLAYER_MAX_HEALTH";
     private static final String ARG_PLAYER_ACTUAL_HEALTH = "ARG_PLAYER_ACTUAL_HEALTH";
@@ -39,22 +40,14 @@ public class BattleFieldFragment extends Fragment {
     private int playerMaxStamina;
     private float playerActualStamina;
 
-    private OnFragmentInteractionListener mListener;
+    private Activity mActivity;
+
+    private OnZoomListener onZoomListener;
 
     public BattleFieldFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @param maxStamina
-     *@param actualStamina @return A new instance of fragment BattleFieldFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static BattleFieldFragment newInstance(int playerMaxHealthPoint, int playerActualHealthPoint, int maxStamina, float actualStamina) {
         BattleFieldFragment fragment = new BattleFieldFragment();
         Bundle args = new Bundle();
@@ -90,16 +83,8 @@ public class BattleFieldFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
     public void decreaseStamina() {
-        getActivity().runOnUiThread(new Runnable() {
+        mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 staminaBar.setActualPoint(staminaBar.getActualPoint() - 0.05f);
@@ -110,33 +95,32 @@ public class BattleFieldFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFightFragmentListener) {
-//            mListener = (OnFightFragmentListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFightFragmentListener");
-//        }
-
+        mActivity = (Activity) context;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public interface OnZoomListener{
+        void onZoom(float zoom);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @OnClick({R.id.zoomDefault, R.id.zoom3, R.id.zoom5})
+    public void setZoom(View view){
+        if(onZoomListener != null){
+            switch (view.getId()){
+                case R.id.zoomDefault:
+                    onZoomListener.onZoom(1);
+                    break;
+                case R.id.zoom3:
+                    onZoomListener.onZoom((float) 1/3);
+                    break;
+                case R.id.zoom5:
+                    onZoomListener.onZoom((float) 1/5);
+                    break;
+
+            }
+        }
+    }
+
+    public void setOnZoomListener(OnZoomListener onZoomListener) {
+        this.onZoomListener = onZoomListener;
     }
 }

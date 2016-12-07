@@ -26,7 +26,8 @@
         android:layout_height="@dimen/barview_height"
         android:background="@drawable/frame_patch"
         android:layout_below="@+id/healthBarContainer"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:id="@+id/relativeLayout">
 
 
         <com.diploma.lilian.game.view.BarView
@@ -36,5 +37,29 @@
             android:layout_width="180dp"
             app:exampleColor="@color/colorPrimary"/>
     </RelativeLayout>
+
+    <Button
+        android:text="Zoom out [1×]"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/zoomDefault"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Zoom out [3×]"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/zoom3"
+        android:layout_above="@+id/zoomDefault"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Zoom out [5×]"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/zoom5"
+        android:layout_above="@+id/zoom3"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
