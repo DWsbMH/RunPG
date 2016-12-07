@@ -1,0 +1,228 @@
+%% Based on a TeXnicCenter-Template by Tino Weinkauf.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEADER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,oneside,10pt]{report}
+% Alternative Options:
+%	Paper Size: a4paper / a5paper / b5paper / letterpaper / legalpaper / executivepaper
+% Duplex: oneside / twoside
+% Base Font Size: 10pt / 11pt / 12pt
+
+\usepackage{hegyhati}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{t1enc} 
+\usepackage{lmodern} 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+
+
+\begin{titlepage}
+\begin{center}
+\Large
+Pannon Egyetem
+
+\vspace{10mm}
+Műszaki Informatikai Kar
+
+\vspace{10mm}
+Rendszer- és Számítástudományi Tanszék
+
+\vspace{10mm}
+Mérnökinformatikus MSc
+
+\vspace{40mm}
+\huge
+DIPLOMAMUNKA
+
+\vspace{10mm}
+\LARGE
+"Free to play, run to win" játék Androidra
+
+\vspace{10mm}
+\Large
+Nyitrai Tamás
+
+\vspace{40mm}
+Témavezető: Dr. Hegyháti Máté
+
+\vspace{10mm}
+2016
+\normalsize
+\end{center}
+\end{titlepage}
+
+
+
+\pagestyle{empty} %No headings for the first pages.
+
+
+
+\newpage
+\Large
+\begin{center}
+	\textbf{KÖSZÖNETNYILVÁNÍTÁS}
+\end{center}
+\normalsize
+\noindent
+Meg szeretném köszönni édesanyámnak támogatását és folyamatos bátorítását. Továbbiakban köszönettel tartozom témavezetőmnek, Dr. Hegyháti Máténak, aki ötleteivel és tanácsaival végig a helyes úton tartott.
+
+Továbbá szeretném megköszönni Hollósi Tamásnak a dream-iso-android elkészítőjének a segítségét, akihez bátran fordulhattam, ha bármi kérdésem volt a játékmotorral kapcsolatban. Valamint köszönöm Böröndi Evelinnek a grafikák elkészítésében vállalt segítségét.
+\newpage
+\Large
+\begin{center}
+	\textbf{TARTALMI ÖSSZEFOGLALÓ}
+\end{center}
+\normalsize
+\noindent
+
+
+Tartalmi összefoglaló...
+
+\textbf{Kulcsszavak:} dream-iso-droid, Android, testmozgás, szerepjáték
+
+\newpage
+
+\Large
+\begin{center}
+	\textbf{ABSTRACT}
+\end{center}
+\normalsize
+\noindent
+Angol tartalmi összefoglaló...
+
+\textbf{Keywords:} dream-iso-droid, Android, sports, RPG game
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+
+%======================================================================
+
+
+%% Title Page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ==> Write your text here or include other files.
+
+%% The simple version:
+%\title{Címoldal}
+%\author{Nyitrai Tamás}
+%\date{} %%If commented, the current date is used.
+%\maketitle
+
+%% Inhaltsverzeichnis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\tableofcontents %Table of contents
+%\cleardoublepage %The first chapter should start on an odd page.
+
+\pagestyle{plain} %Now display headings: headings / fancy / ...
+
+
+
+%% Chapters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ==> Write your text here or include other files.
+
+%\input{intro} %You need a file 'intro.tex' for this.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%1. fejezet
+\chapter{Bevezetés}
+\label{bev}
+\input{parts/bevezetes.tex}
+
+%2. fejezet
+\chapter{Hasonló fejlesztések, szerepjátékokról általánosan}
+\label{bem}
+\input{parts/hasonlofejl.tex}
+
+%3. fejezet
+\chapter{Követelmények, technológiák}
+\label{fejlesztes}
+\input{parts/fejlesztes.tex}
+
+
+%% <== End of hints
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BIBLIOGRAPHY AND OTHER LISTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% A small distance to the other stuff in the table of contents (toc)
+\addtocontents{toc}{\protect\vspace*{\baselineskip}}
+
+
+\bibliographystyle{mybibstyle}
+\bibliography{cite}
+
+%% The List of Figures
+%\clearpage
+%\addcontentsline{toc}{chapter}{List of Figures}
+%\listoffigures
+
+%% The List of Tables
+%\clearpage
+%\addcontentsline{toc}{chapter}{List of Tables}
+%\listoftables
+
+
+\newpage
+
+\Large
+\begin{center}
+	\textbf{MELLÉKLET}
+\end{center}
+\normalsize
+\noindent
+A mellékelt CD könyvtárszerkezete
+
+
+% \begin{itemize}
+%    \item \textbf{Dokumentum}
+%    \begin{itemize}
+%        \item \textbf{Forrás} - A szakdolgozat szerkeszthető formátumban
+%        \item \textbf{Hivatkozások} - A szakdolgozatban lévő internetes hivatkozások letöltve
+%        \item szakdolgozat.pdf
+%    \end{itemize}
+%    \item \textbf{Forrás} - A program forrásállománya
+%    \begin{itemize}
+%        \item \textbf{HexEngine}
+%        \item \textbf{HexEngine-android}
+%        \item \textbf{HexEngine-desktop}
+%    \end{itemize}
+%    \item \textbf{Program} - A futtatható program
+%    \begin{itemize}
+%        \item \textbf{bin} - A program grafikai és konfigurációs fájljai ami szükségesek az indításhoz
+%        \item \textbf{hav} - A program a mentéseket tárolja itt
+%        \item \textbf{java\_telepito} - A Java környezet telepítői
+%        \item \textbf{libs} - Futtatáshoz kapcsolódó java fájlok
+%        \item starter.jar
+%    \end{itemize}
+% \end{itemize}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% APPENDICES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+%% ==> Write your text here or include other files.
+
+%\input{FileName} %You need a file 'FileName.tex' for this.
+
+
+\end{document}
+

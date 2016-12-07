@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string playerName="hello">Hello World, MainActivity!</string>
-    <string playerName="app_name">GLEngine</string>
-</resources>

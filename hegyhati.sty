@@ -1,0 +1,165 @@
+% Nagyon fontos, nélküle a szöveg bizonyos esetekben túllóghat a margón / papíron
+\sloppy
+
+% Alap beállítások magyar nyelvhez
+\usepackage[magyar]{babel}
+\frenchspacing
+
+% Alap karakterkodolasi dolgok
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% fontok kiválasztása
+\usepackage{times}
+\usepackage{newtxmath}
+%\usepackage{amsmath}
+\usepackage{amssymb}
+
+\input glyphtounicode.tex
+\pdfgentounicode=1
+\usepackage{microtype}
+
+%\usepackage{verbatim}
+\usepackage{float}
+\usepackage{url}
+\usepackage[hidelinks,pdfstartview=FitH,pdffitwindow=true,unicode=true]{hyperref}
+\usepackage{bookmark}
+
+\usepackage{indentfirst}
+
+% Kepek betoltesehez
+\usepackage{graphicx}
+\newcommand{\Picture}[3]
+{
+  \begin{figure}[hpt!]
+    \begin{center}
+      \includegraphics[#3]{pictures/#2}
+	\caption{#1}
+      \label{fig_#2}
+    \end{center}
+  \end{figure}
+}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+%Tobb file osszemosasahoz
+\newcommand{\parts}[0]{parts/}
+\newcommand{\Chapter}[2]{\chapter{#1}\label{sec_#2}\input{\parts #2.tex}}
+\newcommand{\Section}[2]{\section{#1}\label{sec_#2}\input{\parts #2.tex}}
+\newcommand{\Subsection}[2]{\subsection{#1}\label{sec_#2}\input{\parts #2.tex}}
+\newcommand{\Subsubsection}[2]{\subsubsection{#1}\label{sec_#2\input{\parts #2.tex}}}
+\newcommand{\Paragraph}[2]{\paragraph{#1}\input{\parts #2.tex}}
+
+%forraskodokhoz
+\usepackage{listings}
+\lstloadlanguages{C++,XML,JAVA}
+\lstset{
+%  showstringspaces=false,
+%  commentstyle=\scriptsize,
+  frame=single,
+%  tabsize=1,
+%  captionpos=b,
+  breaklines=true,
+  breakatwhitespace=false,
+  keepspaces=true,
+  numbers=left,
+  title=\lstname
+}
+\renewcommand\lstlistingname{Forráskód}
+\renewcommand\lstlistlistingname{Forráskódok}
+
+\newcommand{\fname}[1]{\emph{#1}}
+
+\newcommand{\Source}[2]
+{
+  \lstinputlisting[#1]{sources/#2}
+}
+
+% sorkoz allitasa
+%\usepackage{setspace}
+\linespread{1.5}
+\usepackage[top=3cm,left=4cm,right=3cm,bottom=3cm]{geometry}
+%\usepackage[top=3cm,inner=4cm,outer=3cm,bottom=3cm]{geometry}
+%\usepackage[margin=2.5cm]{geometry}
+\setlength{\parskip}{3pt plus1mm minus1mm}
+
+% pszeudo kodokhoz:
+\usepackage{algorithm}
+%\usepackage{algorithmicx}
+%\usepackage{algpascal}
+\usepackage{algpseudocode}
+%\usepackage{algorithm2e}
+\newcommand{\Algorithm}[3]
+{
+  \begin{algorithm}[h]
+    \caption{#1}
+    \label{alg_#2}
+    \begin{algorithmic}
+      #3
+    \end{algorithmic}
+  \end{algorithm}
+}
+\renewcommand{\ALG@name}{Algoritmus}
+%\SetAlgorithmName{Algoritmus}{algoritmus}{Algoritmusok}
+
+\usepackage{xcolor}
+
+\renewcommand{\labelitemi}{--}
+\renewcommand{\labelitemii}{--}
+\renewcommand{\labelitemiii}{--}
+
+\usepackage{sectsty}
+\allsectionsfont{\fontfamily{phv}\selectfont}
+\usepackage{titlesec}
+
+\setlength{\parindent}{0cm}
+
+%\usepackage[backend=biber,url=false,isbn=false,style=numeric,maxcitenames=2,maxbibnames=10]{biblatex}
+%\DefineBibliographyStrings{english}{%
+%  bibliography = {Irodalomjegyzék},	% replace "references" with "bibliography"  for `book`/`report`
+%}
+%\AtEveryBibitem{\clearfield{note}}    % clears notes
+%% prints author names as bold face
+%\renewcommand{\mkbibnamefirst}[1]{\textbf{#1}}
+%\renewcommand{\mkbibnamelast}[1]{\textbf{#1}}
+%\renewcommand{\mkbibnameprefix}[1]{\textbf{#1}}
+%\renewcommand{\mkbibnameaffix}[1]{\textbf{#1}}
+%% prints date with bold face
+%\DeclareFieldFormat{date}{\textbf{#1}}
+%\renewbibmacro*{date}{\printtext[date]{\printdate}}
+
+% Egyéb hasznos csomagok
+\usepackage{pdflscape}
+\usepackage{pdfpages}
+\usepackage{comment}
+
+
+
+% Egyéb - forráskód
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=M,
+  xleftmargin=\parindent,
+  language=JAVA,
+  showstringspaces=false,
+  basicstyle=\linespread{1.0}\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+  moredelim=[il][\textcolor{pgrey}]{$$},
+}
+%\fontsize{11}{13}
+
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  frame=L,
+  xleftmargin=\parindent,
+  language=[x86masm]Assembler,
+  basicstyle=\fontsize{10}{12}\footnotesize\ttfamily,
+  commentstyle=\itshape\color{purple!40!black},
+}
+%\fontsize{11}{13}
+\lstset{escapechar=÷,style=customc}

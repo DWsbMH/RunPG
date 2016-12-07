@@ -1,0 +1,69 @@
+%3. fejezet
+
+A fejezetben szó esik a szoftverrel szemben támasztott követelményekről, valamint a felhasznált programok technológiák kerülnek bemutatásra. 
+
+%3.1
+\section{Követelmények}
+\label{resz3_1}
+
+Az alkalmazással szemben különféle követelményeket támasztok, melyeknek mindenképp meg kell felelnie, melyek a következőek:
+
+\begin{itemize}
+	\item Motiválás:
+	\\
+	Első és legfontosabb követelmény, hogy képes legyen az embereket ösztönöznie a sportolásra. Ezt minél érdekesebb és izgalmasabb játékmechanikai elemekkel kívánom elérni.
+	\item Kiterjeszthetőség:
+	\\
+	Az elkészítendő játék nem különálló tracker alkalmazásként fog működni, önmagában nem lesz képes mérni a sporttevékenységeket. Minden esetben más tracker szolgáltatások által elmentett tevékenységet fog lekérni az alkalmazás. Emiatt fontos, hogy minél több alkalmazástól tudjon lementett sporttevékenységeket lekérni. Amiatt is fontos lenne minél több tracker alkalmazás támogatása, mivel azon felhasználók, akik már régebb óta sportolnak, ne kelljen a számukra bevált sport nyomkövető szolgáltatást lecserélni.
+	\item Érdeklődés fenntartás
+	\\
+	Miután a játék felkeltette a felhasználó figyelmét, el kell érni, hogy tovább játsszon vele. Ahogy a korábbiakban említettem, a játékmechanikai elemekkel és különböző kihívásokkal szeretném megvalósítani, melyeket lejjebb fejtek ki bővebben.
+
+	\item Gyors, sok eszközön, ezt majd ki kell fejteni....
+	\\
+	Kifejtés..
+\end{itemize}
+
+
+%3.1.1
+\section*{Funkcionális követelmények}
+\label{resz3_1_1}
+
+Az alábbiakban a főbb funkcionális követelmények kerülnek bemutatásra.
+
+\begin{itemize}
+	\item A játéknak képesnek kell lennie csatlakozni sport-nyomkövető alkalmazásokhoz. Lehetőleg minél több alkalmazást kell támogatnia a játéknak, mivel így nagyobb lehet az elérhető potenciális játékos-közösség is.
+	\item A minél nagyobb számú támogatottság elérése érdekében az alkalmazásnak mindenképp támogatnia kell az OAuth szabványt. A legtöbb, ha nem minden sport tracker alkalmazás ezt a szabványt használja a külső alkalmazásokkal való kapcsolódásra. Amikor csatlakozni szeretnénk az adott profilunkhoz külső alkalmazásból, meg kell adni az engedélyt, hogy az alkalmazás mely adatainkhoz férjen hozzá.
+	\item Csatlakozás után az alkalmazásnak le kell töltenie a felhasználó legújabb sport tevékenységeit. Erőforrás takarékosság szempontjából először meg kell bizonyosodni, hogy van-e új tevékenység. Törekedni kell, hogy a felhasználóhoz tartozó összes adatot csak az első csatlakozás alkalmával, vagy más eszközön való bejelentkezés esetén töltsük le.
+	\item Ha a felhasználó nem csatlakozik más sport tracker alkalmazáshoz, akkor bejelentkezés esetén kell megbizonyosodni, hogy van-e csatlakoztatott sport trackerek esetén történt-e új tevékenység felvitel. Amennyiben igen, úgy csak ezeket az új tevékenységeket kell letölteni.
+	\item A letöltött adatokat az Androidos eszközökön kell tárolni. Erre azért van szükség, hogy a későbbiekben a régebbi eseményeket, vagy a már jutalmazott tevékenységekért ne adjunk újra bónuszt. Ennél a pontnál szembe kell nézni a ténnyel, hogy a különböző sport trackerek bizonyos adatokat másként tárolnak, vagy teljesen hiányoznak. Emiatt létre kell hozni egy olyan általános adatbázis táblát, amelyben minden olyan adatot tárolunk, amelyekért jutalmat akarunk osztani a játékos számára. A későbbiekben támogatottságot nyerő sport trackereknek így valamilyen módon szolgáltatnia kell legalább azokat az információkat, amik ebben az adattáblában kapnak helyet. Az adattípusuk különbözhet, és amennyiben egy bizonyos adatot nem szolgáltat, de más adatokból származtatni lehet, úgy az nem okozhat akadályt.
+	\item Bejelentkezés után az újonnan letöltött adatok alapján a felhasználó staminát (kitartást) kap. Egy játékosnak maximum 100 staminája lehet. A kapott stamina mennyisége összhangban kell lennie ezzel a maximális értékkel, a játékos szintjével, és a tevékenységben szereplő adatok nagyságával. Azaz az alacsony és magas szintű felhasználóknak is egyaránt élvezetesnek kell maradnia a játéknak, nem szabad se túl sokat, se túl keveset kapni. Túl sok stamina esetén nagyon könnyen haladhatna a felhasználó a játékban, így egy idő után beleunna, túl kevés esetén viszont a folyamatosan túl nagy kihívást jelentő és csak nagy megerőltetést jelentő tevékenységek szintén ugyanezt a hatást érnék el.
+	\item A jutalomként megkapott staminát a felhasználó a játékosa fejlődésére használhatja fel különböző módokon. Az egyik ilyen mód a világban való "barangolás", ami közben szörnyek támadhatnak a játékosra, amelyeket legyőzve játékbeli pénzt és tapasztalati pontot kap a játékos. A másik mód küldetések vállalása, amelyet a felhasználónak kell ténylegesen sportolva teljesíteni, és csak a teljesítése után kapja meg az érte járó játékbeli jutalmat.
+	\item A játékos ezen kívül rendelkeznie kell tulajdonságokkal is, melyek a szörnyek elleni csatában segíthetnek számára. Tulajdonságot növeli szintlépéssel vagy valamilyen kirívó sportteljesítményért cserébe lenne érdemes megengedni.
+	\item További tárgyakat is érdemes lenne megvalósítani a játékos számára, melyek védelemmel vagy támadóerővel növelhetnék a játékos erejét.
+\end{itemize}
+
+
+\section{Felhasznált technológiák}
+\label{resz3_2}
+
+\section*{Játékmotorok}
+\label{resz3_2_1}
+
+Játékmotornak nevezzük a játékok - legyen az akár számítógépre vagy konzolra készült – azon részét, amely a program alapjául szolgáló technológiát adja. Szerepe, hogy megkönnyítse a fejlesztést illetve segítségével több platformon is futtatható lesz a játék.
+
+A fejlesztés megkezdése előtt több fajta játékmotort is megvizsgáltam abból a célból, hogy kiválasszam a legmegfelelőbbet a diplomamunkám elkészítéséhez. 
+
+A fő szempontom az volt, hogy ingyenesen elérhető legyen, illetve illeszkedjen a választott játéktípus játékmenetéhez.
+
+A két legnépszerűbb motorral kezdtem az ismerkedést, a Unity és az Unreal engine-ekkel. Mivel a programomat Android platformon terveztem elkészíteni, amit Java nyelven kell implementálni, ezek a motorok pedig a C++ nyelvet támogatják, így nem lehet közvetlenül Java nyelven használni őket ezért hamar kiestek. Méretük alapján túl nagynak is bizonyultak volna egy ilyen kisebb méretű projekthez. A következő játékmotor, amit megvizsgáltam a HexEngine volt, amit Szabó László készített el MSc diplomamunkájaként. Ez a motor kifejezetten körökre osztott játékokra lett kifejlesztve, amivel az általam írt játék is rendelkezik, viszont a játéktér hatszögű blokkokra van osztva, amivel megbonyolította volna a közlekedést a játékon belül.
+
+A választásom így Hollósi Tamás által készített dream-iso-droid játékmotorra esett, amit témavezetőm ismertetett meg velem. Mivel készítője elérhető közelségben volt, ezért könnyebben sikerült megismerkednem a motor nyújtotta funkciókkal.
+
+\Picture{Játékmotorok összehasonlítása}{3/2}{width=10cm}
+
+A dream-iso-droid egy olyan speciális játékmotor, ami kifejezetten Android platformra készült és a két dimenziós izometrikus nézetet támogatja. Ez a két funkciója pontosan megfelelt az elvárásaimnak, amit a játékmotor felé támasztottam, aminek segítségével fejleszteni szerettem volna az RPG játékomat.
+
+
+
+
