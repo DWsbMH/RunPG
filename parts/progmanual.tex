@@ -1,0 +1,111 @@
+Az első fejezetben bemutatásra került egy alapgondolat, és az ebben megfogalmazódott problémára megoldásként elkészítettem egy Androidos szerepjátékot. 
+A játék fő célja az, hogy az embereket valamilyen testmozgásra sarkallja. 
+Ha képesek vagyunk ilyen módon motiválni az embereket, akkor egy nagy lépést tettünk a probléma megszűnéséért. 
+
+Ahhoz, hogy a játék beteljesíthesse a célját a harmadik fejezetben lefektetett követelményeknek mindenképp meg kell felelnie. 
+A játék megtervezése ezeknek a követelményeknek a figyelembe vételével történt. 
+A tervezés során ügyelnem kellett, hogy kiküszöböljem a hasonló játékok egyik legnagyobb hátrányát, azaz az általam készített játéknak nem szabad önálló nyomkövető alkalmazásként funkcionálnia. 
+Ezek után ki kellett választanom egy olyan játékstílust amely felkelti és meg is tartja a felhasználó figyelmét. 
+Továbbiakban fontos volt olyan grafikai megjelenítő keretrendszert találnom amely a játék stílusjegyeinek megvalósítását nagyban támogatja a választott platformon, amelyek az Androidos operációs rendszerrel rendelkező okos-eszközök.
+
+
+\section{Architektúra}
+\label{architektura}
+
+\Picture{A program architektúrája}{5/architektura}{width=14cm}
+
+Az \ref{fig_5/architektura}. ábrán látható a játék architektúrája. 
+Két fő részre bontható fel, egy megjelenítő egységre és egy logikai egységre. 
+A megjelenítő egység elkészítéséhez Hollósi Tamás által készített dream-iso-droid nevű keretrendszert használtam fel. 
+A játékban megjelenő grafikai elemek túlnyomó részét ez kezeli. 
+A logikai egység feladata a megtervezett szabályok és játékmechanikai elemek felügyelete. 
+Ez az egység több kisebb modulra bontható fel, melyeknek mind megvan a saját jól elkülöníthető feladata. 
+Az egység ezeket a modulokat kezeli, és a belső működésükbe nem szól bele, elfedve azokat. 
+Elkerülhetetlen, hogy két modul kommunikáljon egymással, ezt is a logikai egység szabályozza. 
+A két egység szoros együttműködéseként valósul meg a játék. 
+A továbbiakban ezeket az egységeket, és a modulok megvalósítását mutatom be bővebben. 
+
+\section{A játék indítása}
+\label{jatekinditas}
+
+Az alkalmazás indítása után a felhasználót egy egyszerű menü fogadja. 
+A menü tetején található a játék logója, melyet a játékban található több grafikai elemmel együtt Börönd Evelin hallgatótársam készített el számomra. 
+Itt két lehetőség tárul a felhasználó elé, képes csatlakozni új sport-nyomkövető szolgáltatásokhoz, vagy elkezdhet játszani. 
+A csatlakoztatható szolgáltatások egy egyszerű listában tárolódnak soronként, ami tartalmazza a nevét, és egy gombot, amely elindítja a csatlakozási folyamatot. 
+
+\subsection*{Csatlakozás nyomkövető alkalmazáshoz}
+\label{trackerconnect}
+Minden, nagyobb felhasználói bázissal rendelkező weboldalnál fontos, hogy a felhasználóik adatait bizalmasan kezeljék, kívülről érkező illetéktelen hozzáférési kéréseket ne szolgálják ki. 
+Ez nem csak adatok felvitelére vagy meglévőek módosítására vonatkozik, hanem a jelenlegi információk megtekintését is sokszor biztonságosan kell kezelni. 
+Az előbb röviden felvázolt szempontokat teljesítő protokollt használnak szinte minden hasonló portálon. 
+Ennek a protokollnak a neve OAuth \cite{oauthprotocol}, melynek legfrisebb verziója a 2.0-s. 
+
+\Picture{Az OAuth protokoll absztrakt működési ábrája}{5/oauthflow}{width=14cm}
+
+Az \ref{fig_5/oauthflow}. ábrán látható módon működik a protokoll. 
+Ha egy alkalmazás el akar érni olyan adatot ami bizalmasan van kezelve, ahhoz előbb engedélyt kell kérnie hozzá. 
+Az alkalmazás továbbirányítja a felhasználót az adott szolgáltatás felületére - többnyire valamilyen webböngészőbe -, ahol engedélyt tud adni számára. 
+Ekkor a felhasználónak be kell jelentkeznie a fiókjába, és megadni a kért engedélyeket. 
+Az engedély megadása utána a hitelesítő szerver egy megerősítő kódot juttat el az alkalmazás számára. 
+Az alkalmazás ezt a megerősítő kódot tudja "elcserélni" a szerverrel egy tokenre. 
+A későbbi adatelérés alkalmával minden kéréshez csatolnia kell az alkalmazásnak ezt a tokent. 
+A szerver ezt a tokent vizsgálva tudja eldönteni, hogy a kért információhoz a felhasználó engedélyt adott-e. 
+Ez a folyamat implementálása sok biztonsági és hibakezelési kérdést vet fel, így úgy döntöttem, hogy egy már kész könyvtárat használok hozzá. 
+
+A választott könyvtáram a ScribeJava \cite{scribejava}, mely a protokoll több verzióját is támogatja és számos szolgáltatáshoz már kész API-val rendelkezik. 
+Az általam integrált két sport-nyomkövető nem voltak elkészítve, így ezeket nekem kellett megvalósítanom. 
+Szerencsére a könyvtár úgy lett kialakítva, hogy minden, a protokollt használó szolgáltatáshoz egységesen lehessen API-t készíteni. 
+
+A Runkeeper nyomkövetőhöz elkészített API legfontosabb része a következőként néz ki:
+
+\begin{lstlisting}
+    private static final String AUTHORIZATION_URL = "https://runkeeper.com/apps/authorize?client_id=%s&response_type=code&redirect_uri=%s";
+    private static final String ACCESS_TOKEN_URL = "https://runkeeper.com/apps/token";
+
+    @Override
+    public String getAccessTokenEndpoint() { return ACCESS_TOKEN_URL; }
+
+    @Override
+    public String getAuthorizationUrl(OAuthConfig config) {
+        Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback.");
+        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback())));
+        // ...
+        return sb.toString();
+    }
+\end{lstlisting}
+
+Mivel ez a kommunikáció hálózati tevékenységgel jár, nem történhet az Android fő programszálán. 
+Egyrészt ha a fő szálon folyna ez a kommunikáció, az alkalmazás nem tudna tovább futni, amíg hitelesítési folyamat be nem fejeződik. 
+Ez akár több másodpercbe is telhet a hálózati körülményeket figyelembe véve, így addig az alkalmazás blokkolódna. 
+A felhasználói élmény miatt ez nem megengedhető, így ezt a folyamatot a háttérben kell elvégezni, hogy az alkalmazás zavartalanul futhasson tovább. 
+Az Android SDK-ban több beépített lehetőség segítségével is meg tudjuk valósítani ezt:
+
+\begin{itemize}
+	\item Normál Java szálak 
+	\item AsyncTask 
+	\item IntentService 
+\end{itemize}
+
+Ezeknek a lehetőségeknek megvan a maguk előnye és hátránya. 
+A sima Java szálak használata széles körben elterjedt, de nagyobb, bonyolultabb programszerkezet mellett használatuk nehézkes. 
+A következő választási lehetőség az Android SDk-ban bemutatott AsyncTask osztály használata. 
+Ennek segítségével könnyedén indíthatunk háttérben futó kódrészleteket. 
+Az osztályon belül felülírható metódusok, amelyek az adott tevékenység elején, közben, vagy a feladata végeztével hívódnak meg. 
+Ez a fajta megoldás sokkal kötetlenebb, viszont ahogy az előző pontban taglalt sima szálhoz hasonlóan, ha az adott Activity, amelyikből el lett indítva háttérbe kerül, az operációs rendszer meg tudja szakítani a folyamat futását. 
+Az \it IntentService \rm esetén ez nem történik meg, tovább egyrészt nincs \it Activity \rm-hez kötve, másrészt a kéréseket egy sorba teszi, amelynek a későbbieknek még fontos szerepe lesz. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

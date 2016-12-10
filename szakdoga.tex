@@ -19,8 +19,6 @@
 \usepackage{lmodern} 
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DOCUMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -126,31 +124,21 @@ Angol tartalmi összefoglaló...
 
 \pagestyle{plain} %Now display headings: headings / fancy / ...
 
-
-
-%% Chapters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ==> Write your text here or include other files.
-
-%\input{intro} %You need a file 'intro.tex' for this.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%1. fejezet
 \chapter{Bevezetés}
 \label{bev}
 \input{parts/bevezetes.tex}
 
-%2. fejezet
 \chapter{Hasonló fejlesztések, szerepjátékokról általánosan}
 \label{bem}
 \input{parts/hasonlofejl.tex}
 
-%3. fejezet
 \chapter{Követelmények, technológiák}
 \label{fejlesztes}
 \input{parts/fejlesztes.tex}
 
+\chapter{Fejlesztői dokumentáció}
+\label{devmanual}
+\input{parts/progmanual.tex}
 
 %% <== End of hints
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,17 +153,6 @@ Angol tartalmi összefoglaló...
 
 \bibliographystyle{mybibstyle}
 \bibliography{cite}
-
-%% The List of Figures
-%\clearpage
-%\addcontentsline{toc}{chapter}{List of Figures}
-%\listoffigures
-
-%% The List of Tables
-%\clearpage
-%\addcontentsline{toc}{chapter}{List of Tables}
-%\listoftables
-
 
 \newpage
 

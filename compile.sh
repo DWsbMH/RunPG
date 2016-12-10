@@ -4,5 +4,6 @@ rm szakdoga.aux szakdoga.pdf szakdoga.dvi szakdoga.out.ps szakdoga.ps szakdoga.b
 
 pdflatex szakdoga.tex
 biber szakdoga
+makeindex szakdoga.idx
 dvips szakdoga.dvi
 pdflatex szakdoga.tex
