@@ -226,6 +226,78 @@ A technikai részletek elfedése érdekében létrehoztam egy absztrakt \Highlig
 Ez az osztály továbbá tartalmaz egy objektumot a korábban említett \Highlight{@OrmLiteSqliteOpenHelper}-ből származtatott osztályból, és az adott entitáshoz tartozó DAO-ból.
 A gyerekosztályok implementálása után ugyanazon felületet használva tudunk a megfelelő adatbázis-táblával kommunikálni. 
 
+\section{Játék megjelenítése}
+\label{megjelenites}
+
+A játékban megjelenő grafikai elemekért a \ref{jatekmotor} alfejezetben megvitatott indokok alapján választott dream-iso-droid játékmotor a felelős. 
+Az alkalmazás indulása és az esetleges új sportadatok letöltése után a felhasználói interakcióra betöltődik a játék fő grafikus felülete. 
+A korábbiakkal ellentétben, ahol is natív Androidos grafikai felületekkel találkozhattunk, az itt található legtöbb elemet a játékmotor rendereli le. 
+Ez a felület egy új \Highlight{Activity}-ből származtatott gyerekosztályban található, aminek a neve \Highlight{GameActivity}. 
+Az osztályhoz tartozik egy xml leíró fájl, amiben megadhatjuk, hogy az Activity által megjelenített vizuális elemeknek milyen szerkezete van. 
+A legfőbb adatok a fájlban található elemekről az alább tekinthető meg:
+
+\begin{lstlisting}
+<RelativeLayout>
+    <com.diploma.lilian.engine.GLCanvas android:id="@+id/glcanvas" />
+
+    <FrameLayout android:id="@+id/hud_container" />
+
+    <ImageButton android:id="@+id/inventory_open" />
+</RelativeLayout>
+\end{lstlisting}
+
+A \Highlight{RelativeLayout} tulajdonsága miatt az egymás után következő elemek, ha nincs meghatározva pozíciójuk, a előttük lévő elem fölé kerülnek. 
+Ezt kihasználva a legelső elem a játékmotorban megtalálható úgynevezett vászon, a \Highlight{GLCanvas} osztály mely minden megjelenítendő vizuális elemet itt rajzol ki. 
+Efölött található egy hud\_container nevű elem, amely teljes egészében a vászon fölé terül, feladata hogy megjelenítse a játékoshoz kapcsolódó legfontosabb információkat.
+
+A vászonra a játékmotor mindig a beállított \Highlight{GameScene} osztály által szolgáltatott képkockákat rajzolja ki. 
+Ez szintén a játékmotorban található, az osztály maga absztrakt, így önmagában nem, csakis örököltetett gyerekei képesek tartalmukat megjeleníteni a vásznon. 
+Az elkészült játék három fő jelenetre bontható, amelyek a következőek:
+
+\begin{itemize}
+	\item Városi jelenet 
+	\item Harctér jelenet 
+	\item Harci jelenet 
+\end{itemize}
+
+A három jelenetnek jól elhatárolt feladatköre van és más-más grafikai elemek tárolására szolgálnak, ugyanakkor rendelkeznek olyan tulajdonságokkal is, amik mindhárom esetén megegyeznek. 
+Ennek érdekében létrehoztam egy absztrakt osztályt \Highlight{BaseScene} néven a \Highlight{GameScene} osztályból örököltetve, melyben ezen közös funkcionalitásokat valósítottam meg, így az egyes jeleneteknél ezeket nem kellett redundáns módon megvalósítani. 
+Minden gyerekosztályban rendelkezik az örököltetés révén egy \Highlight{init()} metódussal, amelyben az úgynevezett sprite-ok inicializálása történik. 
+Ezen sprite-ok tulajdonképpen kétdimenziós képek, így a vásznon csupán ezen képek sokasága látszódik, és folyamatos váltakozása kelti az animáció képzetét. 
+
+Ebben az esetben is ugyanazon funkciót kell megvalósítania jelenetfüggően, így itt is elkészítettem egy \Highlight{ISpriteProvider} nevű interfészt, amelyben definiálásra kerültek azok amelyek segítségével ez a folyamat egységesen végrehajtható minden jelenetben. 
+Elkészült egy \Highlight{BaseSpriteProvider} nevű absztrakt osztály, ami megvalósítja ezen interfész metódusait, továbbá tartalmazza a beolvasásához szükséges adattagokat. 
+Egy jelenet példányosítása során beállítjuk a hozzá tartozó \Highlight{ISpriteProvider}-t implementáló objektumot. 
+Amikor egy adott jelenet \Highlight{init()} metódusa lefut, az interfészen keresztül el tudjuk készíteni a jelenethez szükséges sprite-okat, és ezeket a játékmotor már a vászonra tud rajzolni. 
+A sprite-ok különböző adatait, amiket az \Highlight{assets} könyvtárban tárolt xml fájlokból olvasunk be, az engine-ben található \Highlight{IsoSprite} osztályban tároljuk. 
+A fájlban található animation tag-ekkel lehet megadni, hogy az adott sprite milyen animációk végrehajtására képes. 
+A frame tag-ek között megadjuk, hogy a forráskép milyen pixeltartománya tartalmazza azt a területet, amelyet a játékmotornak meg kell jeleníteni az animáció futása során. 
+Egy ilyen xml fájl szerkezete az alábbi kódrészletben látható, a hozzá tartozó kép pedig az \ref{fig_5/sprite}. ábrán látható:
+
+\begin{lstlisting}
+<isosprite name="male_light_sprite"	imgname="player_set">
+	<animations imgwidth="384" imgheight="384">
+		<animation name="up_move" steptime="150" startframe="0">
+			<frame left="0" right="32" top="144" bottom="192"/>
+			<frame left="32" right="64" top="144" bottom="192"/>
+			<frame left="64" right="96" top="144" bottom="192"/>
+		</animation>
+	</animations>
+	...
+</isosprite>
+
+\end{lstlisting}
+
+\Picture{A játékoshoz tartozó forráskép}{5/sprite}{width=3cm}
+
+
+
+
+
+
+
+
+
 
 
 
