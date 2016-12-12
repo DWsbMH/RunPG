@@ -22,7 +22,7 @@ Ebben a fájlban kell megadni többek közt, hogy mely harmadik féltől szárma
 Az alkalmazásnak csupán egy engeélyre van szüksége, amit az \Highlight{AndroidManifest.xml} fájlban határozhatunk meg a következő módon:
 
 \begin{lstlisting}
-    <uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.INTERNET" />
 \end{lstlisting}
 
 Ezen kívül a fájlban az alkalmazást leíró metaadatok, általános konfigurációs beállítások találhatóak, például hogy melyik legyen az induló Activity.
@@ -50,19 +50,19 @@ Szerencsére a könyvtár úgy lett kialakítva, hogy minden, a protokollt haszn
 A Runkeeper nyomkövetőhöz elkészített API legfontosabb része a következőként néz ki:
 
 \begin{lstlisting}
-    private static final String AUTHORIZATION_URL = "https://runkeeper.com/apps/authorize?client_id=%s&response_type=code&redirect_uri=%s";
-    private static final String ACCESS_TOKEN_URL = "https://runkeeper.com/apps/token";
+private static final String AUTHORIZATION_URL = "https://runkeeper.com/apps/authorize?client_id=%s&response_type=code&redirect_uri=%s";
+private static final String ACCESS_TOKEN_URL = "https://runkeeper.com/apps/token";
 
-    @Override
-    public String getAccessTokenEndpoint() { return ACCESS_TOKEN_URL; }
+@Override
+public String getAccessTokenEndpoint() { return ACCESS_TOKEN_URL; }
 
-    @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback.");
-        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback())));
-        // ...
-        return sb.toString();
-    }
+@Override
+public String getAuthorizationUrl(OAuthConfig config) {
+	Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback.");
+	final StringBuilder sb = new StringBuilder(String.format(AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback())));
+	// ...
+	return sb.toString();
+}
 \end{lstlisting}
 
 Mivel ez a kommunikáció hálózati tevékenységgel jár, nem történhet az Android fő programszálán. 
@@ -92,15 +92,15 @@ Egy adott sport-trackerhez tartozó összes eddigi elmentett sportteljesítmény
 \begin{lstlisting}
 
 public static void startFetchActivities(Context context, TrackerService tracker) {
-	Intent intent = new Intent(context, FetchService.class);
-	intent.setAction(ACTION_FETCH_ALL_ACTIVITY);
-	intent.putExtra(EXTRA_TRACKER_SERVICE, tracker);
-	context.startService(intent);
+    Intent intent = new Intent(context, FetchService.class);
+    intent.setAction(ACTION_FETCH_ALL_ACTIVITY);
+    intent.putExtra(EXTRA_TRACKER_SERVICE, tracker);
+    context.startService(intent);
 }
 
 \end{lstlisting}
 
-Ez a metódus egy sport-tracker alkalmazáshoz való sikeres csatlakozás esetén automatikus meghívódik. 
+Ez a metódus egy sport-tracker alkalmazáshoz való sikeres csatlakozás esetén automatikus meghívódik, második paramétere az a TrackerService objektum, amelyhez csatlakoztunk. 
 A beállított akció alapján tudjuk majd meghatározni az \Highlight{onHandleIntent()} metódusban, hogy milyen típusú műveletet kell végrehajtani. 
 
 Mivel az itt futó kód futási ideje nemdeterminisztikus, előre nem tudhatjuk hogy mikor ér véget, hisz nagyban függ az elérhető hálózati csatlakozások jelerősségétől, így nem tudjuk mikor engedhetjük tovább a játékost a játékfelületre. 
@@ -110,15 +110,122 @@ Az üzenet létrehozása során egy új \Highlight{Intent}-et hozunk létre spec
 Az ilyen broadcast üzenetekre feliratkozhatnak a különböző activity-k, további az is lehetséges, hogy csak bizonyos akciójú broadcast üzenetekre reagáljon, mely implementálásának főbb részlete az alábbi kódrészletben figyelhető meg:
 
 \begin{lstlisting}
-        IntentFilter mStatusIntentFilter = new IntentFilter();
-        mStatusIntentFilter.addAction(FETCH_NEW_ACTIVITY_DONE);
-        mStatusIntentFilter.addAction(FETCH_ALL_ACTIVITY_DONE);
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, mStatusIntentFilter);
+    IntentFilter mStatusIntentFilter = new IntentFilter();
+    mStatusIntentFilter.addAction(FETCH_NEW_ACTIVITY_DONE);
+    mStatusIntentFilter.addAction(FETCH_ALL_ACTIVITY_DONE);
+    LocalBroadcastManager.getInstance(this).registerReceiver(receiver, mStatusIntentFilter);
 \end{lstlisting}
 
 Ebben az esetben regisztrálunk egy fogadó osztályt, melyet a \Highlight{BroadcastReceiver} örököltettünk és \Highlight{onReceive} metódusát felülírtuk. 
 A második paramétere az az \Highlight{Intent} lesz, amelyet a háttérben futó kód befejeztével sugároztunk szét, és csak is akkor jutunk el ide, ha az adott intent objektum akciója megfelel a szűrőbe beállított akciók valamelyikének. 
 Amennyiben nem csatlakozni akarunk egy lehetséges sport-trackerhez, hanem el szeretnénk kezdeni játszani, abban az esetben hasonló folyamat játszódik le, annyi eltéréssel, hogy a már csatlakoztatott trackerektől csakis a legújabb sportteljesítményeket kérjük le. 
+
+\subsection*{Sportadatok letöltése}
+\label{trackerconnect}
+
+A különböző sportadatok letöltése olyan feladat, amely hasonlóságot és különbséget is mutat egymás között, ami az adott szolgáltatás API-jának kialakításában, és az eltárolt adatok típusában keresendő. 
+A jövőben többfajta sport-tracker integrálását elősegítve kialakítottam egy felületet, ahol a szolgáltatásokhoz szükséges egyedi megoldások el vannak fedve. 
+Ehhez létrehoztam egy \Highlight{IProvider} nevű interfészt, amelyben deklaráltam azokat a metódusokat, amelyek az egységes működést hivatottak megvalósítani. 
+Kialakítottam továbbá egy absztrakt  \Highlight{BaseProvider} nevű osztályt, mely implementálja ezt az interfészt, valamint tartalmazza a mindenképp szükséges adatmezőket, amik minden szolgáltatás esetén azonosak. 
+Mivel ez az osztály absztrakt, nem jöhet létre belőle példány, ezért nem is muszáj konkrétan megvalósítania az \Highlight{IProvider} metódusait, hanem csak a nem absztrakt gyerekeinek kell majd. 
+
+Egy integrált sport-trackerhez el kell készíteni egy osztályt, amely ebből az osztályból öröklődik. 
+A Strava-hoz elkészült osztály fontosabb elemei:
+
+\begin{lstlisting}
+
+@Override
+public List<SportActivity> getAllActivityFromService(Context context, TrackerService tracker) { ... }
+
+@Override
+public List<SportActivity> getNewActivityFromService(Context context, TrackerService tracker) { ... }
+
+@Override
+protected SportActivity convertActivity(Object item) { ... }
+
+@Override
+public SportActivityType getUnifiedType(String typeFromTracker) { ... }
+
+\end{lstlisting}
+
+Mindegyik metódus az interfészben lett deklarálva, így elérve, hogy csakis az adott szolgáltatáshoz tartozó osztály legyen felelős az onnan történő adatletöltés részleteiért. 
+A \Highlight{convertActivity()} metódusra azért van szükség, mert már a két integrált sport-tracker esetén is előfordult, hogy ugyanazon célt szolgáló információk nem ugyanolyan típusban tárolódnak. 
+A metódus segítségével egy sporttevékenységhez tartozó adatot az alkalmazás elvárt formátumba hozható, így segítve továbbá az egységes felületet, mivel ezt a metódust az összes letöltött adatra meg kell hívni. 
+
+\subsection*{Jutalmazás}
+\label{reward}
+
+A \ref{kovetelmenyek} fejezetben követelményként lett lefektetve, hogy a játékos a valós sportteljesítménye alapján jutalmakat kaphasson, amit a játékban felhasználhat. 
+Miután az adatok letöltése megtörtént és a kívánt formátumba kerültek, megkezdődhet a vizsgálat, hogy az újonnan letöltött adatokért jár-e a felhasználó számára ajándék. 
+A \Highlight{Requirements} osztály tudja megvizsgálni, hogy az adott sportolásért járhat-e ajándék. 
+Ennek egyetlen statikus metódusa van, amely igazzal tér vissza, ha megfelelt az elvárásoknak, hamissal, ha pedig nem érte el a minimum megszabott követelményeket. 
+A jutalom kisorsolására létrehoztam a \Highlight{RewardDrawer} osztályt, és minden új adatot megvizsgál. 
+A jutalmazás függ a sportolás típusától, hosszától, esetleges egyéb paramétereitől is, maga a jutalom is többféle lehet, ugyanakkor minden esetben mindenféle feltétel nélkül kiszámolásra kerül az adott sportteljesítmény alapján egy staminamennyiség, amit a játékos megkap. 
+
+A kiosztható jutalmak a következőek:
+
+\begin{itemize}
+	\item Arany
+	\item Fegyver 
+	\item Varázsital 
+\end{itemize}
+
+Továbbá elkészült három csoport, amelyekbe besorolásra kerültek a leggyakrabban előforduló sporttípusok. 
+Az előbb felsorolt jutalmak a három csoport esetén más-más eséllyel adományozható. 
+A kialakított csoportok és a hozzájuk tartozó esélyeket az \ref{fig_5/jutalom}. ábrán látható táblázatban nézhetjük meg. 
+
+\Picture{Jutalomcsoportok és esélyek táblázata}{5/jutalom}{width=14cm}
+
+\section{Adatbázis felépítése}
+\label{database}
+
+Minden Androidos alkalmazás rendelkezhet egy helyi SQLite adatbázissal, amelybe tárolhatja azokat az adatokat amelyeket két indítás között is meg akarunk őrizni az alkalmazásban. 
+Az SQLite egy több platformra fejlesztett, kisméretű relációs adatbázis-kezelő rendszer, mely tökéletesen illik a felhasználó okos-eszközének véges erőforrásaihoz. 
+Az adatbázissal való kommunikáció SQL utasításokkal történhet, amely nagyobb alkalmazások esetén nagyban megnövelheti a kódbázis méretét és potenciális hibákhoz vezethet. 
+Ezt elkerülendő az felhasználtam az ORMLite könyvtárat, amelyet részletesebben bemutattam a \ref{ormlite} alfejezetben. 
+
+A könyvtár használatához el kell készítenünk egy olyan osztályt, amelyen keresztül végre tudunk hajtani különböző akciókat az adatbázissal. 
+Ehhez örököltetni kell a könyvtárban található \Highlight{OrmLiteSqliteOpenHelper} osztályból és felül kell írni az \Highlight{onCreate()} és \Highlight{onUpgrade()} metódusokat.
+Az \Highlight{onCreate()} metódus az első adatbázis-elérés alkalmával fut le, az alkalmazás futása során egyetlen egyszer, így itt kell létrehozni az adattáblákat és esetleges kezdeti értékekkel feltölteni. 
+Az \Highlight{onUpgrade()} metódus akkor hívódik meg, ha az alkalmazás egy újabb verziója telepítődik az eszközre, így ha valami struktúrális változás történt az adatbázis szerkezetében a legutóbbi verzió óta, itt lehet a megfelelő lépéseket megtenni a kompatibilitás megőrzése érdekében. 
+
+Az elkészült adatbázis fontosabb adattáblái és azok kapcsolata az \ref{fig_5/adatbazis}. ábrán látható. 
+
+\Picture{Az adatbázis szerkezete}{5/adatbazis}{width=14cm}
+
+Egy adattábla elkészítéséhez elegendő egy egyszerű Java osztályt létrehozni, és ellátni a megfelelő annotációkkal, erről egy egyszerű példa az alábbiakban látható:
+
+\begin{lstlisting}
+@DatabaseTable(tableName = "player")
+public class Player implements CreatureData {
+
+    @DatabaseField(columnName = "id", generatedId = true)
+    private int id;
+
+    @DatabaseField(columnName = "player_gold", defaultValue = "0")
+    private int gold;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private Attributes attributes;
+
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<SportActivity> sportActivities;
+
+    // ...
+}
+\end{lstlisting}
+
+Az osztály tetején elhelyezett \Highlight{@DatabaseTable} annotációval lehet megadni, hogy a hozzá tartozó adatbázistáblát milyen néven hozza létre az OrmLite. 
+Miden olyan osztálynak rendelkezni kell egyedi azonosító attribútummal, amit szintén annotáció segítségével lehet megadni. 
+Képes a mező neve alapján automatikusan oszlopnevet generálni, de lehetőség van egyedileg is megadni azt. 
+Amennyiben nem használnánk semmilyen keretrendszert az adatbázis felett, akkor nekünk kéne gondoskodni, hogy az idegen kulcsokat rendben vissza legyenek fejtve objektumokká, ezt a terhet leveszi rólunk a könyvtár. 
+
+Miután elkészült az összes entitás, mindegyikhez létre kell hozni egy DAO objektumot, amely segítségével képesek leszünk az adott entitást kezelni az adatbázisban. 
+Az \Highlight{IManager} interfész tartalmazza azokat a metódusokat, amelyek segítenek egy egységes felület kialakításában. 
+A technikai részletek elfedése érdekében létrehoztam egy absztrakt \Highlight{DataManager} osztály amely implementálja ezt az interfészt. 
+Ez az osztály továbbá tartalmaz egy objektumot a korábban említett \Highlight{@OrmLiteSqliteOpenHelper}-ből származtatott osztályból, és az adott entitáshoz tartozó DAO-ból.
+A gyerekosztályok implementálása után ugyanazon felületet használva tudunk a megfelelő adatbázis-táblával kommunikálni. 
+
 
 
 

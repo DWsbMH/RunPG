@@ -15,6 +15,10 @@
 Oauth protocol.
 \newblock \ifshowURL {\showURL \path|https://tools.ietf.org/html/rfc6749|}\fi.
 
+\bibitem{ormlite}
+Ormlite weboldala.
+\newblock \ifshowURL {\showURL \path|http://ormlite.com/|}\fi.
+
 \bibitem{runkeeperapi}
 Runkeeper api.
 \newblock \ifshowURL {\showURL

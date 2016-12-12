@@ -111,3 +111,11 @@ Az engedély megadása utána a hitelesítő szerver egy megerősítő kódot ju
 Az alkalmazás ezt a megerősítő kódot tudja "elcserélni" a szerverrel egy tokenre. 
 A későbbi adatelérés alkalmával minden kéréshez csatolnia kell az alkalmazásnak ezt a tokent. 
 A szerver ezt a tokent vizsgálva tudja eldönteni, hogy a kért információhoz a felhasználó engedélyt adott-e. 
+
+\section*{OrmLite}
+\label{ormlite}
+
+Az alkalmazáson belül az adatok hosszútávú tárolására az OrmLite könyvtárat \cite{ormlite} használtam, amely képes Java objektumokat az alkalmazás helyi SQLite adatbázisába írni. 
+Több platformon is elérhető, az Androidos készülékeken natív API hívásokkal kezeli az adatbázist. 
+Használata könny, egyszerű Java osztályokat kell a megfelelő annotációkkal ellátni, majd az annotációk alapján a könyvtár képes a kívánt módon kiolvasni avagy eltárolni az adatokat. 
+A könyvtár a DAO, azaz Data Access Object tervezési mintát használja, amely elkülöníti az alacsony szintű API hívásokat a magasabb szintű szolgáltatásoktól. 

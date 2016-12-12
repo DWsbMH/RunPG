@@ -8,4 +8,5 @@
 \select@language {magyar} \contentsline {section}{\numberline {3.2}Felhaszn\IeC {\'a}lt technol\IeC {\'o}gi\IeC {\'a}k}{16}{section.3.2}
 \select@language {magyar} \contentsline {chapter}{\numberline {4}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{19}{chapter.4}
 \select@language {magyar} \contentsline {section}{\numberline {4.1}A j\IeC {\'a}t\IeC {\'e}k ind\IeC {\'\i }t\IeC {\'a}sa}{20}{section.4.1}
+\select@language {magyar} \contentsline {section}{\numberline {4.2}Adatb\IeC {\'a}zis fel\IeC {\'e}p\IeC {\'\i }t\IeC {\'e}se}{24}{section.4.2}
 \select@language {magyar} \vspace *{\baselineskip }
