@@ -1,5 +1,3 @@
-[0] Config.pm:343> INFO - This is Biber 2.5
-[1] Config.pm:346> INFO - Logfile is 'szakdoga.blg'
-[49] biber-MSWIN64:290> INFO - === 
-[478] Utils.pm:165> ERROR - Cannot find control file 'szakdoga.bcf'! - did you pass the "backend=biber" option to BibLaTeX?
-[479] Biber.pm:112> INFO - ERRORS: 1
+This is BibTeX, Version 0.99dThe top-level auxiliary file: szakdoga.aux
+The style file: mybibstyle.bst
+Database file #1: cite.bib

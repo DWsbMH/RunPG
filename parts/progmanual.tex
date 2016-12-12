@@ -1,20 +1,4 @@
-Az első fejezetben bemutatásra került egy alapgondolat, és az ebben megfogalmazódott problémára megoldásként elkészítettem egy Androidos szerepjátékot. 
-A játék fő célja az, hogy az embereket valamilyen testmozgásra sarkallja. 
-Ha képesek vagyunk ilyen módon motiválni az embereket, akkor egy nagy lépést tettünk a probléma megszűnéséért. 
-
-Ahhoz, hogy a játék beteljesíthesse a célját a harmadik fejezetben lefektetett követelményeknek mindenképp meg kell felelnie. 
-A játék megtervezése ezeknek a követelményeknek a figyelembe vételével történt. 
-A tervezés során ügyelnem kellett, hogy kiküszöböljem a hasonló játékok egyik legnagyobb hátrányát, azaz az általam készített játéknak nem szabad önálló nyomkövető alkalmazásként funkcionálnia. 
-Ezek után ki kellett választanom egy olyan játékstílust amely felkelti és meg is tartja a felhasználó figyelmét. 
-Továbbiakban fontos volt olyan grafikai megjelenítő keretrendszert találnom amely a játék stílusjegyeinek megvalósítását nagyban támogatja a választott platformon, amelyek az Androidos operációs rendszerrel rendelkező okos-eszközök.
-
-
-\section{Architektúra}
-\label{architektura}
-
-\Picture{A program architektúrája}{5/architektura}{width=14cm}
-
-Az \ref{fig_5/architektura}. ábrán látható a játék architektúrája. 
+\Aref{fig_5/architektura}. ábrán látható a játék architektúrája. 
 Két fő részre bontható fel, egy megjelenítő egységre és egy logikai egységre. 
 A megjelenítő egység elkészítéséhez Hollósi Tamás által készített dream-iso-droid nevű keretrendszert használtam fel. 
 A játékban megjelenő grafikai elemek túlnyomó részét ez kezeli. 
@@ -23,34 +7,41 @@ Ez az egység több kisebb modulra bontható fel, melyeknek mind megvan a saját
 Az egység ezeket a modulokat kezeli, és a belső működésükbe nem szól bele, elfedve azokat. 
 Elkerülhetetlen, hogy két modul kommunikáljon egymással, ezt is a logikai egység szabályozza. 
 A két egység szoros együttműködéseként valósul meg a játék. 
-A továbbiakban ezeket az egységeket, és a modulok megvalósítását mutatom be bővebben. 
+A továbbiakban bemutatásra kerülnek a megvalósítás részletei. 
+
+\Picture{A program architektúrája}{5/architektura}{width=14cm}
+
+\subsection*{Engedélyek, rendszerkövetelmények}
+\label{requirements}
+
+Ahhoz, hogy a játék minden funkcionalitása elérhetővé váljon néhány rendszerkövetelménynek meg kell felelnie a felhasználó eszközének. 
+Az eszközön legalább 4.4-es Android operációs rendszernek kell futnia, ami a 19-es API szintnek felel meg.
+Ezt feltételt a \Highlight{build.gradle} fájlban adhatjuk meg, ahol más, fontos paramétereket is megadunk. 
+Ebben a fájlban kell megadni többek közt, hogy mely harmadik féltől származó könyvtárakat használ az alkalmazás, és ezen könyvtárak használt verziószámát is. 
+
+Az alkalmazásnak csupán egy engeélyre van szüksége, amit az \Highlight{AndroidManifest.xml} fájlban határozhatunk meg a következő módon:
+
+\begin{lstlisting}
+    <uses-permission android:name="android.permission.INTERNET" />
+\end{lstlisting}
+
+Ezen kívül a fájlban az alkalmazást leíró metaadatok, általános konfigurációs beállítások találhatóak, például hogy melyik legyen az induló Activity.
 
 \section{A játék indítása}
 \label{jatekinditas}
 
-Az alkalmazás indítása után a felhasználót egy egyszerű menü fogadja. 
-A menü tetején található a játék logója, melyet a játékban található több grafikai elemmel együtt Börönd Evelin hallgatótársam készített el számomra. 
+Az alkalmazás indítása után a felhasználót egy egyszerű menü fogadja a \Highlight{StartActivity} nevű osztályban. 
+A menü tetején található a játék logója, melyet a játékban található több grafikai elemmel együtt Böröndi Evelin hallgatótársam készített el számomra. 
 Itt két lehetőség tárul a felhasználó elé, képes csatlakozni új sport-nyomkövető szolgáltatásokhoz, vagy elkezdhet játszani. 
 A csatlakoztatható szolgáltatások egy egyszerű listában tárolódnak soronként, ami tartalmazza a nevét, és egy gombot, amely elindítja a csatlakozási folyamatot. 
 
 \subsection*{Csatlakozás nyomkövető alkalmazáshoz}
 \label{trackerconnect}
-Minden, nagyobb felhasználói bázissal rendelkező weboldalnál fontos, hogy a felhasználóik adatait bizalmasan kezeljék, kívülről érkező illetéktelen hozzáférési kéréseket ne szolgálják ki. 
-Ez nem csak adatok felvitelére vagy meglévőek módosítására vonatkozik, hanem a jelenlegi információk megtekintését is sokszor biztonságosan kell kezelni. 
-Az előbb röviden felvázolt szempontokat teljesítő protokollt használnak szinte minden hasonló portálon. 
-Ennek a protokollnak a neve OAuth \cite{oauthprotocol}, melynek legfrisebb verziója a 2.0-s. 
+Jelenleg a két legnagyobb felhasználói bázissal rendelkező sport-trackerek a Runkeeper és a Strava. 
+Mindkettő rendelkezik publikusan elérhető API-val \cite{runkeeperapi} \cite{stravaapi}, mely segítségével könnyedén készíthetünk hozzájuk saját alkalmazásokat. 
+Mindkét szolgáltatás esetén ahhoz, hogy a játékkal össze tudja kötni a felhasználó a sport-tracker fiókját az OAuth protokollra van szükségünk, melyet a \ref{oauth} fejezeteben mutattam be. 
 
-\Picture{Az OAuth protokoll absztrakt működési ábrája}{5/oauthflow}{width=14cm}
-
-Az \ref{fig_5/oauthflow}. ábrán látható módon működik a protokoll. 
-Ha egy alkalmazás el akar érni olyan adatot ami bizalmasan van kezelve, ahhoz előbb engedélyt kell kérnie hozzá. 
-Az alkalmazás továbbirányítja a felhasználót az adott szolgáltatás felületére - többnyire valamilyen webböngészőbe -, ahol engedélyt tud adni számára. 
-Ekkor a felhasználónak be kell jelentkeznie a fiókjába, és megadni a kért engedélyeket. 
-Az engedély megadása utána a hitelesítő szerver egy megerősítő kódot juttat el az alkalmazás számára. 
-Az alkalmazás ezt a megerősítő kódot tudja "elcserélni" a szerverrel egy tokenre. 
-A későbbi adatelérés alkalmával minden kéréshez csatolnia kell az alkalmazásnak ezt a tokent. 
-A szerver ezt a tokent vizsgálva tudja eldönteni, hogy a kért információhoz a felhasználó engedélyt adott-e. 
-Ez a folyamat implementálása sok biztonsági és hibakezelési kérdést vet fel, így úgy döntöttem, hogy egy már kész könyvtárat használok hozzá. 
+A protokoll teljes működésének implementálása sok biztonsági és hibakezelési kérdést vet fel, így úgy döntöttem, hogy egy már kész könyvtárat használok hozzá. 
 
 A választott könyvtáram a ScribeJava \cite{scribejava}, mely a protokoll több verzióját is támogatja és számos szolgáltatáshoz már kész API-val rendelkezik. 
 Az általam integrált két sport-nyomkövető nem voltak elkészítve, így ezeket nekem kellett megvalósítanom. 
@@ -81,28 +72,53 @@ A felhasználói élmény miatt ez nem megengedhető, így ezt a folyamatot a h�
 Az Android SDK-ban több beépített lehetőség segítségével is meg tudjuk valósítani ezt:
 
 \begin{itemize}
-	\item Normál Java szálak 
+	\item Egyszerű Java szálak 
 	\item AsyncTask 
 	\item IntentService 
 \end{itemize}
 
 Ezeknek a lehetőségeknek megvan a maguk előnye és hátránya. 
-A sima Java szálak használata széles körben elterjedt, de nagyobb, bonyolultabb programszerkezet mellett használatuk nehézkes. 
+A normál Java szálak használata széles körben elterjedt, de nagyobb, bonyolultabb programszerkezet mellett használatuk nehézkes. 
 A következő választási lehetőség az Android SDk-ban bemutatott AsyncTask osztály használata. 
 Ennek segítségével könnyedén indíthatunk háttérben futó kódrészleteket. 
 Az osztályon belül felülírható metódusok, amelyek az adott tevékenység elején, közben, vagy a feladata végeztével hívódnak meg. 
 Ez a fajta megoldás sokkal kötetlenebb, viszont ahogy az előző pontban taglalt sima szálhoz hasonlóan, ha az adott Activity, amelyikből el lett indítva háttérbe kerül, az operációs rendszer meg tudja szakítani a folyamat futását. 
-Az \it IntentService \rm esetén ez nem történik meg, tovább egyrészt nincs \it Activity \rm-hez kötve, másrészt a kéréseket egy sorba teszi, amelynek a későbbieknek még fontos szerepe lesz. 
+Az \Highlight{IntentService} esetén ez nem történik meg, tovább egyrészt nincs \Highlight{Activity}-hez kötve, másrészt a kéréseket egy sorba teszi, amelynek a későbbieknek még fontos szerepe lesz. 
 
+A háttérben folyó munkákért a \Highlight{FetchService} nevű osztály felelős, mely a beépített \Highlight{IntentService} osztályból származik, és felülírja az \Highlight{onHandleIntent()} metódust. 
+Ez a metódus már a háttérben fut. Paraméterként egy Intent-et kap, melyet a \Highlight{FetchService} osztály statikus metódusain keresztül hozunk létre, így példányosítás nélkül is képesek vagyunk ilyen folyamatot indítani. 
+Egy adott sport-trackerhez tartozó összes eddigi elmentett sportteljesítmény letöltéséhez szükséges \Highlight{Intent} elkészítése az alábbi kódrészletben látszódik. 
 
+\begin{lstlisting}
 
+public static void startFetchActivities(Context context, TrackerService tracker) {
+	Intent intent = new Intent(context, FetchService.class);
+	intent.setAction(ACTION_FETCH_ALL_ACTIVITY);
+	intent.putExtra(EXTRA_TRACKER_SERVICE, tracker);
+	context.startService(intent);
+}
 
+\end{lstlisting}
 
+Ez a metódus egy sport-tracker alkalmazáshoz való sikeres csatlakozás esetén automatikus meghívódik. 
+A beállított akció alapján tudjuk majd meghatározni az \Highlight{onHandleIntent()} metódusban, hogy milyen típusú műveletet kell végrehajtani. 
 
+Mivel az itt futó kód futási ideje nemdeterminisztikus, előre nem tudhatjuk hogy mikor ér véget, hisz nagyban függ az elérhető hálózati csatlakozások jelerősségétől, így nem tudjuk mikor engedhetjük tovább a játékost a játékfelületre. 
+Ahhoz, hogy valahogy tudjuk mikor ért véget az adatok letöltése, az \Highlight{IntentService} esetén rendelkezésre áll a \Highlight{BroadcastReceiver} osztály. 
+Amint az összes letöltés befejeződött ezt el kell juttatnunk az \Highlight{Activity} számára, ahol a gombot megnyomtuk. 
+Az üzenet létrehozása során egy új \Highlight{Intent}-et hozunk létre speciális akció típussal, amelyet broadcast üzenet formájában kiküldünk. 
+Az ilyen broadcast üzenetekre feliratkozhatnak a különböző activity-k, további az is lehetséges, hogy csak bizonyos akciójú broadcast üzenetekre reagáljon, mely implementálásának főbb részlete az alábbi kódrészletben figyelhető meg:
 
+\begin{lstlisting}
+        IntentFilter mStatusIntentFilter = new IntentFilter();
+        mStatusIntentFilter.addAction(FETCH_NEW_ACTIVITY_DONE);
+        mStatusIntentFilter.addAction(FETCH_ALL_ACTIVITY_DONE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, mStatusIntentFilter);
+\end{lstlisting}
 
-
-
+Ebben az esetben regisztrálunk egy fogadó osztályt, melyet a \Highlight{BroadcastReceiver} örököltettünk és \Highlight{onReceive} metódusát felülírtuk. 
+A második paramétere az az \Highlight{Intent} lesz, amelyet a háttérben futó kód befejeztével sugároztunk szét, és csak is akkor jutunk el ide, ha az adott intent objektum akciója megfelel a szűrőbe beállított akciók valamelyikének. 
+Amennyiben nem csatlakozni akarunk egy lehetséges sport-trackerhez, hanem el szeretnénk kezdeni játszani, abban az esetben hasonló folyamat játszódik le, annyi eltéréssel, hogy a már csatlakoztatott trackerektől csakis a legújabb sportteljesítményeket kérjük le. 
 
 
 

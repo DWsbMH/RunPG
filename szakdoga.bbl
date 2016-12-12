@@ -1,0 +1,32 @@
+\begin{thebibliography}{1}
+\ifx \showCODEN  \undefined \def \showCODEN #1{CODEN #1}  \fi
+\ifx \showISBN   \undefined \def \showISBN  #1{ISBN #1}   \fi
+\ifx \showISSN   \undefined \def \showISSN  #1{ISSN #1}   \fi
+\ifx \showLCCN   \undefined \def \showLCCN  #1{LCCN #1}   \fi
+\ifx \showPRICE  \undefined \def \showPRICE #1{#1}        \fi
+\ifx \showURL    \undefined \def \showURL {URL }          \fi
+\ifx \path       \undefined \input path.sty               \fi
+\ifx \ifshowURL \undefined
+     \newif \ifshowURL
+     \showURLtrue
+\fi
+
+\bibitem{oauthprotocol}
+Oauth protocol.
+\newblock \ifshowURL {\showURL \path|https://tools.ietf.org/html/rfc6749|}\fi.
+
+\bibitem{runkeeperapi}
+Runkeeper api.
+\newblock \ifshowURL {\showURL
+  \path|https://runkeeper.com/developer/healthgraph/overview|}\fi.
+
+\bibitem{stravaapi}
+Strava api.
+\newblock \ifshowURL {\showURL \path|http://strava.github.io/api/|}\fi.
+
+\bibitem{scribejava}
+Scribejava könyvtár.
+\newblock \ifshowURL {\showURL
+  \path|https://github.com/scribejava/scribejava|}\fi.
+
+\end{thebibliography}

@@ -1,0 +1,113 @@
+%3. fejezet
+
+A fejezetben szó esik a szoftverrel szemben támasztott követelményekről, valamint a felhasznált programok technológiák kerülnek bemutatásra. 
+
+%3.1
+\section{Követelmények}
+\label{kovetelmenyek}
+
+Az alkalmazással szemben különféle követelményeket támasztottam, melyeknek mindenképp meg kellett felelnie, melyek a következőek: 
+
+\begin{description}
+	\item [Kiterjeszthetőség] 
+    A játék alapköve, hogy a különböző testmozgásokat különböző pozitív jutalmakkal díjazza. 
+	A sportolási tevékenységeket különböző sport-trackerekkel lehet mérni. 
+	Az alkalmazásban ezt kétféle módszerrel lehet megvalósítani, egy hasonló működésű modult hozok létre, amely különböző szenzorok segítségével méri a sporttevékenységeket (GPS, gyorsulásmérő) vagy már meglévő szolgáltatásoktól szerezzük be ezeket az adatok. 
+	Az utóbbi megoldás előnye, hogy a népszerűbb sport-tracker alkalmazások felhasználóbázisa milliós nagyságrendű, így rengeteg potenciális felhasználó számára nyílik lehetőség a játékba való kapcsolódáshoz. 
+	Számos ilyen szolgáltatással találkozhatunk, elvárás volt a játékkal szemben, hogy minél több integrálható legyen, és a legismertebbek közül legalább kettő meg is legyen valósítva.	
+	\item [Jutalmak] 
+	A felhasználó számára elvégzett sportteljesítményei alapján jutalmakat kell kapnia, melyeket a játék közben felhasználhat. 
+	\item [Érdeklődés fenntartása] 
+	Olyan játékmenetet kell a kialakítani, amely a hosszabb távon is lekötik a játékos figyelmét. 
+	Ezt elérendő fokozatosan nehezedő területeket kell a felhasználó számára kínálni, mely ösztönzi a továbbhaladásra.
+	\item [Kis erőforrás igény] 
+	A játéknak alacsony erőforrás mellett is megfelelően kell működnie, hogy az esetleges régebbi készülékeken is kielégítő játékélményt nyújtson. 
+\end{description}
+
+
+%3.1.1
+\section*{Funkcionális követelmények}
+\label{funkckovetelmenyeks}
+
+Az alábbiakban a főbb funkcionális követelmények kerülnek bemutatásra. 
+
+\begin{itemize}
+	\item 
+	A minél nagyobb számú támogatottság elérése érdekében az úgy kell kialakítani az alkalmazást, hogy a későbbiekben könnyedén lehessen integrálni különböző sport-tracker alkalmazást. 
+	\item 
+	Csatlakozás után az alkalmazásnak le kell töltenie a felhasználó legújabb sport tevékenységeit. 
+	Erőforrás takarékosság szempontjából először meg kell bizonyosodni, hogy van-e új tevékenység. 
+	Törekedni kell, hogy a felhasználóhoz tartozó összes adatot csak az első csatlakozás alkalmával, vagy más eszközön való bejelentkezés esetén töltsük le. 
+	\item
+	A különböző integrált alkalmazások adatainak tárolására létre kell hozni egy egységes adatszerkezetet, így elkerülve az inkonzisztens adatokat. 
+	\item 
+	Bejelentkezés után az újonnan letöltött adatok alapján a felhasználó staminát (kitartást) kap. 
+	Egy játékosnak maximum 100 staminája lehet. 
+	A kapott stamina mennyisége összhangban kell lennie ezzel a maximális értékkel, a játékos szintjével, és a tevékenységben szereplő adatok nagyságával. 
+	Azaz az alacsony és magas szintű felhasználóknak is egyaránt élvezetesnek kell maradnia a játéknak, nem szabad se túl sokat, se túl keveset kapni. 
+	Túl sok stamina esetén nagyon könnyen haladhatna a felhasználó a játékban, így egy idő után beleunna, túl kevés esetén viszont a folyamatosan túl nagy kihívást jelentő és csak nagy megerőltetést jelentő tevékenységek szintén ugyanezt a hatást érnék el.
+	\item 
+	A jutalomként megkapott staminát a felhasználó a játékosa fejlődésére használhatja fel különböző módokon. 
+	Az egyik ilyen mód a világban való "barangolás", ami közben szörnyek támadhatnak a játékosra, amelyeket legyőzve játékbeli pénzt és tapasztalati pontot kap a játékos. 
+	A másik mód küldetések vállalása, amelyet a felhasználónak kell ténylegesen sportolva teljesíteni, és csak a teljesítése után kapja meg az érte járó játékbeli jutalmat.
+	\item 
+	A játékos ezen kívül rendelkeznie kell tulajdonságokkal is, melyek a szörnyek elleni csatában segíthetnek számára. 
+	Tulajdonságot növeli szintlépéssel vagy valamilyen kirívó sportteljesítményért cserébe lenne érdemes megengedni.
+	\item 
+	További tárgyakat is érdemes lenne megvalósítani a játékos számára, melyek védelemmel vagy támadóerővel növelhetnék a játékos erejét.
+\end{itemize}
+
+
+\section{Felhasznált technológiák}
+\label{felhtechnologia}
+
+\section*{Játékmotorok}
+\label{jatekmotor}
+
+Játékmotornak nevezzük a játékok - legyen az akár számítógépre vagy konzolra készült – azon részét, amely a program alapjául szolgáló technológiát adja. 
+Szerepe, hogy megkönnyítse a fejlesztést illetve segítségével több platformon is futtatható lesz a játék.
+Egy játék elkészítése az alapoktól nagyon nehéz, erőforrás-igényes feladat. 
+Hamar világossá vált hogy szükség van olyan eszközökre, amelyek támogatják egy játék alapvető funkcióinak gyors implementálását, mint a megjelenítés és felhasználó input kezelése, hiszen ezek a legtöbb játék esetében nagy hasonlóságot mutatnak. 
+Ezen funkciók megvalósítása után történhet az elkészülendő játék sajátosságainak kialakítása.
+ 
+A fejlesztés megkezdése előtt több fajta játékmotort is megvizsgáltam abból a célból, hogy kiválasszam a legmegfelelőbbet a diplomamunkám elkészítéséhez. 
+
+A fő szempontom az volt, hogy ingyenesen elérhető legyen, illetve illeszkedjen a választott játéktípus játékmenetéhez.
+
+A két legnépszerűbb motorral kezdtem az ismerkedést, a Unity és az Unreal engine-ekkel. 
+Mivel a programomat Android platformon terveztem elkészíteni, amit Java nyelven kell implementálni, ezek a motorok pedig a C++ nyelvet támogatják, így nem lehet közvetlenül Java nyelven használni őket ezért hamar kiestek. 
+Méretük alapján túl nagynak is bizonyultak volna egy ilyen kisebb méretű projekthez. 
+A következő játékmotor, amit megvizsgáltam a HexEngine volt, amit Szabó László készített el MSc diplomamunkájaként. 
+A motor előnye, hogy rengeteg hasznos funkciót támogat szerepjátékok elkészítéséhez, viszont a játéktér hatszögű blokkokra van osztva, amivel megbonyolította volna a közlekedést a játékon belül.
+
+A választásom így Hollósi Tamás által készített dream-iso-droid játékmotorra esett, amit témavezetőm ismertetett meg velem. 
+Mivel készítője elérhető közelségben volt, ezért könnyebben sikerült megismerkednem a motor nyújtotta funkciókkal.
+
+\Picture{Játékmotorok összehasonlítása}{3/gameengine}{width=10cm}
+
+A dream-iso-droid egy olyan speciális játékmotor, ami kifejezetten Android platformra készült és a két dimenziós izometrikus nézetet támogatja. 
+Ez a két funkciója pontosan megfelelt az elvárásaimnak, amit a játékmotor felé támasztottam, aminek segítségével fejleszteni szerettem volna az RPG játékomat.
+A \ref{fig_3/gameengine}. ábrán látható egy összefoglaló táblázat, melyben megtekinthető a megvizsgált játékmotorok azon tulajdonságai, melyeket figyelembe vettem a választás során. 
+
+\section*{Fejlesztőkörnyezet}
+\label{ide}
+
+A megvalósítás során az Android Studio fejlesztőkörnyezetet használtam, melyet az Android operációs rendszer fejlesztője, a Google készített el. 
+Integrálva van benne minden olyan szolgáltatás mely nagyban megkönnyíti a fejlesztők munkáját, mint például a Gradle keretrendszer amely többek közt a projekt építéséért és a különböző külső függőségekért felelős. 
+Továbbiakban található benne grafikus felületszerkesztő is, ahol drop\&down módszer segítségével a grafikus felület szerkezetét könnyen össze tudjuk rakni. 
+Integrálva van tovább több verziókövető is, így a fejlesztőkörnyezet elhagyása nélkül tudjuk az újabb verziójú fájlokat a megfelelő távoli tárolóoldalra eljuttatni. 
+
+\section*{OAuth protokoll}
+\label{oauth}
+
+\Picture{Az OAuth protokoll absztrakt működési ábrája}{3/oauthflow}{width=14cm}
+
+Az OAuth protokoll \cite{oauthprotocol} egy nyílt autorizációs szabvány mely segítségével a felhasználók megoszthatják bizonyos privát információit anélkül, hogy azonosítási adataikat kiadnák. 
+A \ref{fig_3/oauthflow}. ábrán látható a protokoll működési folyamata. 
+Ha egy alkalmazás el akar érni olyan adatot ami bizalmasan van kezelve, ahhoz előbb engedélyt kell kérnie hozzá. 
+Az alkalmazás továbbirányítja a felhasználót az adott szolgáltatás felületére - többnyire valamilyen webböngészőbe -, ahol engedélyt tud adni számára. 
+Ekkor a felhasználónak be kell jelentkeznie a fiókjába, és megadni a kért engedélyeket. 
+Az engedély megadása utána a hitelesítő szerver egy megerősítő kódot juttat el az alkalmazás számára. 
+Az alkalmazás ezt a megerősítő kódot tudja "elcserélni" a szerverrel egy tokenre. 
+A későbbi adatelérés alkalmával minden kéréshez csatolnia kell az alkalmazásnak ezt a tokent. 
+A szerver ezt a tokent vizsgálva tudja eldönteni, hogy a kért információhoz a felhasználó engedélyt adott-e. 

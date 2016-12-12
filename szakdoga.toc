@@ -1,12 +1,11 @@
 \select@language {magyar} \contentsline {chapter}{\numberline {1}Bevezet\IeC {\'e}s}{6}{chapter.1}
 \select@language {magyar} \contentsline {chapter}{\numberline {2}Hasonl\IeC {\'o} fejleszt\IeC {\'e}sek, szerepj\IeC {\'a}t\IeC {\'e}kokr\IeC {\'o}l \IeC {\'a}ltal\IeC {\'a}nosan}{8}{chapter.2}
 \select@language {magyar} \contentsline {section}{\numberline {2.1}A vide\IeC {\'o}j\IeC {\'a}t\IeC {\'e}kok t\IeC {\"o}rt\IeC {\'e}nete}{8}{section.2.1}
-\select@language {magyar} \contentsline {section}{\numberline {2.2}Sportj\IeC {\'a}t\IeC {\'e}kok}{9}{section.2.2}
-\select@language {magyar} \contentsline {section}{\numberline {2.3}Az RPG j\IeC {\'a}t\IeC {\'e}kokr\IeC {\'o}l \IeC {\'a}ltal\IeC {\'a}noss\IeC {\'a}gban}{10}{section.2.3}
-\select@language {magyar} \contentsline {chapter}{\numberline {3}K\IeC {\"o}vetelm\IeC {\'e}nyek, technol\IeC {\'o}gi\IeC {\'a}k}{12}{chapter.3}
-\select@language {magyar} \contentsline {section}{\numberline {3.1}K\IeC {\"o}vetelm\IeC {\'e}nyek}{12}{section.3.1}
-\select@language {magyar} \contentsline {section}{\numberline {3.2}Felhaszn\IeC {\'a}lt technol\IeC {\'o}gi\IeC {\'a}k}{14}{section.3.2}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{16}{chapter.4}
-\select@language {magyar} \contentsline {section}{\numberline {4.1}Architekt\IeC {\'u}ra}{16}{section.4.1}
-\select@language {magyar} \contentsline {section}{\numberline {4.2}A j\IeC {\'a}t\IeC {\'e}k ind\IeC {\'\i }t\IeC {\'a}sa}{17}{section.4.2}
+\select@language {magyar} \contentsline {section}{\numberline {2.2}Sportj\IeC {\'a}t\IeC {\'e}kok}{10}{section.2.2}
+\select@language {magyar} \contentsline {section}{\numberline {2.3}Az RPG j\IeC {\'a}t\IeC {\'e}kokr\IeC {\'o}l \IeC {\'a}ltal\IeC {\'a}noss\IeC {\'a}gban}{12}{section.2.3}
+\select@language {magyar} \contentsline {chapter}{\numberline {3}K\IeC {\"o}vetelm\IeC {\'e}nyek, technol\IeC {\'o}gi\IeC {\'a}k}{14}{chapter.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.1}K\IeC {\"o}vetelm\IeC {\'e}nyek}{14}{section.3.1}
+\select@language {magyar} \contentsline {section}{\numberline {3.2}Felhaszn\IeC {\'a}lt technol\IeC {\'o}gi\IeC {\'a}k}{16}{section.3.2}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{19}{chapter.4}
+\select@language {magyar} \contentsline {section}{\numberline {4.1}A j\IeC {\'a}t\IeC {\'e}k ind\IeC {\'\i }t\IeC {\'a}sa}{20}{section.4.1}
 \select@language {magyar} \vspace *{\baselineskip }
