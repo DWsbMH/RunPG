@@ -20,25 +20,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 class StravaProvider extends BaseProvider {
-    private static final String name = "Strava";
 
-    public StravaProvider(OAuth20Service oAuthService, DataManager<SportActivity> dataManager, Player player) {
+    StravaProvider(OAuth20Service oAuthService, DataManager<SportActivity> dataManager, Player player) {
         super(oAuthService,dataManager,player);
-    }
-
-    @Override
-    public DataManager<SportActivity> getDataManager() {
-        return dataManager;
-    }
-
-    @Override
-    public OAuth20Service getOAuthService() {
-        return oAuthService;
-    }
-
-    @Override
-    public String getTrackerName() {
-        return name;
     }
 
     @Override
@@ -92,7 +76,7 @@ class StravaProvider extends BaseProvider {
     }
 
     @Override
-    protected SportActivity convertActivity(Object item) {
+    public SportActivity convertActivity(Object item) {
         Activity activity = (Activity) item;
 
         Date startDate = null;

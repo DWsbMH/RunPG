@@ -5,9 +5,7 @@ import android.content.Context;
 import com.diploma.lilian.database.DiplomaDBHelper;
 import com.j256.ormlite.dao.Dao;
 
-import java.util.List;
-
-public abstract class DataManager<T> {
+public abstract class DataManager<T> implements IManager<T> {
 
     DiplomaDBHelper databaseHelper;
     Dao<T, Integer> dao;
@@ -17,14 +15,8 @@ public abstract class DataManager<T> {
         dao = getDao();
     }
 
-    public abstract Dao<T, Integer> getDao();
-
-    public DiplomaDBHelper getDatabaseHelper(){
+    DiplomaDBHelper getDatabaseHelper(){
         return databaseHelper;
     }
-
-    public abstract T add(T data);
-
-    public abstract List<T> queryForAll();
 
 }

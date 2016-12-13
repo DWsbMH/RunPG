@@ -28,15 +28,6 @@ public class GameActivityPresenter extends MvpBasePresenter<GameActivityView> im
         }
     }
 
-    @Override
-    public void switchHUDTo(Fragment HUD) {
-
-        if(isViewAttached()){
-            getView().setFragment(HUD);
-        }
-
-    }
-
     public void startGame() {
         gameLogic.startGame();
     }

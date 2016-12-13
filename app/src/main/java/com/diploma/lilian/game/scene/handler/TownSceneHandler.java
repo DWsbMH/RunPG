@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.game.OnGateListener;
 import com.diploma.lilian.game.OnShopListener;
-import com.diploma.lilian.game.provider.BaseSpriteProvider;
+import com.diploma.lilian.game.provider.ISpriteProvider;
 import com.diploma.lilian.game.provider.TownSceneProvider;
 import com.diploma.lilian.game.scene.TownScene;
 
@@ -17,7 +17,7 @@ public class TownSceneHandler extends BaseSceneHandler<TownScene> {
 
         scene = new TownScene(this.context,metrics.widthPixels, metrics.heightPixels);
 
-        BaseSpriteProvider spriteProvider = new TownSceneProvider(context, player);
+        ISpriteProvider spriteProvider = new TownSceneProvider(context, player);
         scene.setSpriteProvider(spriteProvider);
 
         scene.start();

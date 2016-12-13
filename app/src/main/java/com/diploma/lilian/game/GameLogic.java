@@ -14,7 +14,7 @@ import com.diploma.lilian.game.scene.handler.FightSceneHandler;
 import com.diploma.lilian.game.scene.handler.TownSceneHandler;
 import com.diploma.lilian.game.util.Formulas;
 
-public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateListener {
+    public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateListener {
 
     private Context context;
 
@@ -32,8 +32,6 @@ public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateList
     public static final String SCENE_TOWN = "TOWN";
 
     public GameLogic(Context context, DisplayMetrics metrics, OnGameListener listener) {
-
-        /* TODO STAMINA */
 
         this.context = context;
         this.metrics = metrics;
@@ -79,9 +77,15 @@ public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateList
 
             townSceneHandler.getScene().resetCollisionDetector();
             listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getScene().getHUD());
+            townSceneHandler.getScene().getViewport().move(0,0);
+            townSceneHandler.getScene().getViewport().move((int)townSceneHandler.getScene().getPlayer().getSprite().getX(),
+                    (int)townSceneHandler.getScene().getPlayer().getSprite().getY());
             player.setLastScene(SCENE_TOWN);
         } else {
             listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getScene().getHUD());
+            battleFieldSceneHandler.getScene().getViewport().move(0,0);
+            battleFieldSceneHandler.getScene().getViewport().move((int)battleFieldSceneHandler.getScene().getPlayer().getSprite().getX(),
+                    (int)battleFieldSceneHandler.getScene().getPlayer().getSprite().getY());
             player.setLastScene(SCENE_BATTLEFIELD);
         }
         afterBattleTasks();
@@ -98,6 +102,9 @@ public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateList
 //        townSceneHandler.getScene().getPlayer().getSprite().moveTo(700,1812,0,2500);
         townSceneHandler.getScene().resetCollisionDetector();
         listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getScene().getHUD());
+        townSceneHandler.getScene().getViewport().move(0,0);
+        townSceneHandler.getScene().getViewport().move((int)townSceneHandler.getScene().getPlayer().getSprite().getX(),
+                (int)townSceneHandler.getScene().getPlayer().getSprite().getY());
 
         /* TODO place player on town with 10-20% health, maybe some penalty*/
     }
@@ -137,6 +144,9 @@ public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateList
 
         if (player.getLastScene() == null || player.getLastScene().equals(SCENE_TOWN)) {
             listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getHUD());
+            townSceneHandler.getScene().getViewport().move(0,0);
+            townSceneHandler.getScene().getViewport().move((int)townSceneHandler.getScene().getPlayer().getSprite().getX(),
+                    (int)townSceneHandler.getScene().getPlayer().getSprite().getY());
         } else if (player.getLastScene().equals(SCENE_BATTLEFIELD)) {
             if (player.getLastXPosition() != -1 && player.getLastYPosition() != -1) {
                 battleFieldSceneHandler.getScene().getPlayer().getSprite().setX(player.getLastXPosition());
@@ -144,6 +154,9 @@ public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateList
             }
             battleFieldSceneHandler.getScene().resetCollisionDetector();
             listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getHUD());
+            battleFieldSceneHandler.getScene().getViewport().move(0,0);
+            battleFieldSceneHandler.getScene().getViewport().move((int)battleFieldSceneHandler.getScene().getPlayer().getSprite().getX(),
+                    (int)townSceneHandler.getScene().getPlayer().getSprite().getY());
         }
     }
 
@@ -168,10 +181,16 @@ public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateList
 
             battleFieldSceneHandler.getScene().resetCollisionDetector();
             listener.switchSceneTo(battleFieldSceneHandler.getScene(), battleFieldSceneHandler.getHUD());
+            battleFieldSceneHandler.getScene().getViewport().move(0,0);
+            battleFieldSceneHandler.getScene().getViewport().move((int)battleFieldSceneHandler.getScene().getPlayer().getSprite().getX(),
+                    (int)townSceneHandler.getScene().getPlayer().getSprite().getY());
             player.setLastScene(SCENE_BATTLEFIELD);
         } else if (scene.equals(SCENE_BATTLEFIELD)) {
             townSceneHandler.getScene().resetCollisionDetector();
             listener.switchSceneTo(townSceneHandler.getScene(), townSceneHandler.getHUD());
+            townSceneHandler.getScene().getViewport().move(0,0);
+            townSceneHandler.getScene().getViewport().move((int)townSceneHandler.getScene().getPlayer().getSprite().getX(),
+                    (int)townSceneHandler.getScene().getPlayer().getSprite().getY());
             player.setLastScene(SCENE_TOWN);
         }
 
@@ -185,7 +204,6 @@ public class GameLogic implements OnFightListener, OnLevelUpListener, OnGateList
 
     public interface OnGameListener {
         void switchSceneTo(BaseScene sceneToSwitch, Fragment HUD);
-        void switchHUDTo(Fragment HUD);
     }
 
 

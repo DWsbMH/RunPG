@@ -7,19 +7,22 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.game.GameActivity;
 import com.diploma.lilian.mvp.StartActivity.StartActivityPresenter;
 import com.diploma.lilian.mvp.StartActivity.StartActivityView;
-import com.diploma.lilian.network.Constants;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.diploma.lilian.network.Constants.FETCH_ALL_ACTIVITY_DONE;
+import static com.diploma.lilian.network.Constants.FETCH_NEW_ACTIVITY_DONE;
 
 public class StartActivity extends BaseActivity<StartActivityView, StartActivityPresenter> implements StartActivityView, OnConnectListener {
 
@@ -29,6 +32,8 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
     @BindView(R.id.connectToList)
     ListView connectServiceList;
     private FetchReceiver receiver;
+    @BindView(R.id.login)
+    Button login;
 
     private static int updatedCount = 0;
 
@@ -41,7 +46,8 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
         receiver = new FetchReceiver();
 
         IntentFilter mStatusIntentFilter = new IntentFilter();
-        mStatusIntentFilter.addAction(Constants.FETCH_NEW_ACTIVITY_DONE);
+        mStatusIntentFilter.addAction(FETCH_NEW_ACTIVITY_DONE);
+        mStatusIntentFilter.addAction(FETCH_ALL_ACTIVITY_DONE);
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, mStatusIntentFilter);
 
         presenter.initList(connectServiceList);
@@ -57,6 +63,7 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
 
     @Override
     public void onConnect(TrackerService trackerService) {
+        login.setEnabled(false);
         presenter.onConnect(trackerService);
     }
 
@@ -99,10 +106,15 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            updatedCount++;
-            if (updatedCount == presenter.getConnectedTrackerServices().size()) {
-                Intent gameIntent = new Intent(context, GameActivity.class);
-                startActivity(gameIntent);
+            if (intent.getAction().equals(FETCH_NEW_ACTIVITY_DONE)) {
+                updatedCount++;
+                if (updatedCount == presenter.getConnectedTrackerServices().size()) {
+                    Intent gameIntent = new Intent(context, GameActivity.class);
+                    startActivity(gameIntent);
+                }
+            }
+            if(intent.getAction().equals(FETCH_ALL_ACTIVITY_DONE)){
+                login.setEnabled(true);
             }
         }
     }

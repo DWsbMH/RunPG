@@ -18,8 +18,8 @@ import com.diploma.lilian.engine.collition.CollisionDetector;
 import com.diploma.lilian.engine.collition.OnCollisionListener;
 import com.diploma.lilian.game.OnFightTurnListener;
 import com.diploma.lilian.game.fragment.FightFragment;
-import com.diploma.lilian.game.provider.BaseSpriteProvider;
 import com.diploma.lilian.game.provider.CollisionType;
+import com.diploma.lilian.game.provider.ISpriteProvider;
 import com.diploma.lilian.game.provider.SpriteInfo;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class FightScene extends BaseScene implements OnCollisionListener {
     private OnFightTurnListener onFightTurnListener;
 
 
-    public FightScene(Context context, int surfaceWidth, int surfaceHeight, BaseSpriteProvider spriteProvider) {
+    public FightScene(Context context, int surfaceWidth, int surfaceHeight, ISpriteProvider spriteProvider) {
         super(context, surfaceWidth, surfaceHeight);
         this.spriteProvider = spriteProvider;
     }

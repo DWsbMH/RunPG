@@ -4,13 +4,13 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 import com.diploma.lilian.database.entity.Player;
-import com.diploma.lilian.game.GameLogic;
 import com.diploma.lilian.game.OnEnemyListener;
 import com.diploma.lilian.game.OnFightListener;
 import com.diploma.lilian.game.OnFightTurnListener;
+import com.diploma.lilian.game.OnLevelUpListener;
 import com.diploma.lilian.game.OnPlayerListener;
-import com.diploma.lilian.game.provider.BaseSpriteProvider;
 import com.diploma.lilian.game.provider.FightSpriteProvider;
+import com.diploma.lilian.game.provider.ISpriteProvider;
 import com.diploma.lilian.game.provider.SpriteInfo;
 import com.diploma.lilian.game.scene.FightScene;
 import com.diploma.lilian.game.util.Formulas;
@@ -26,7 +26,7 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
     private SpriteInfo attacker;
     private SpriteInfo defender;
     private OnFightListener onFightListener;
-    private GameLogic onLevelUpListener;
+    private OnLevelUpListener onLevelUpListener;
 
 
     public FightSceneHandler(Context context, DisplayMetrics metrics, Player player) {
@@ -34,7 +34,7 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
     }
 
     public void initFightScene() {
-        BaseSpriteProvider provider = new FightSpriteProvider(context, player, metrics, enemy);
+        ISpriteProvider provider = new FightSpriteProvider(context, player, metrics, enemy);
         scene = new FightScene(context, metrics.widthPixels, metrics.heightPixels, provider);
         scene.setOnFightTurnListener(this);
         scene.start();
@@ -116,7 +116,7 @@ public class FightSceneHandler extends BaseSceneHandler<FightScene> implements O
         this.onFightListener = onFightListener;
     }
 
-    public void setOnLevelUpListener(GameLogic onLevelUpListener) {
+    public void setOnLevelUpListener(OnLevelUpListener onLevelUpListener) {
         this.onLevelUpListener = onLevelUpListener;
     }
 }

@@ -10,8 +10,8 @@ import com.diploma.lilian.database.entity.Sprite;
 import com.diploma.lilian.game.OnFightListener;
 import com.diploma.lilian.game.OnGateListener;
 import com.diploma.lilian.game.OnPlayerListener;
-import com.diploma.lilian.game.provider.BaseSpriteProvider;
 import com.diploma.lilian.game.provider.BattleFieldSpriteProvider;
+import com.diploma.lilian.game.provider.ISpriteProvider;
 import com.diploma.lilian.game.provider.SpriteInfo;
 import com.diploma.lilian.game.scene.BattleFieldScene;
 import com.diploma.lilian.game.util.BattleFieldGenerator;
@@ -29,7 +29,7 @@ public class BattleFieldSceneHandler extends BaseSceneHandler<BattleFieldScene>{
 
         scene = new BattleFieldScene(context, this.metrics.widthPixels, this.metrics.heightPixels);
 
-        BaseSpriteProvider spriteProvider = new BattleFieldSpriteProvider(context, player);
+        ISpriteProvider spriteProvider = new BattleFieldSpriteProvider(context, player);
         scene.setSpriteProvider(spriteProvider);
 
         scene.start();
@@ -91,7 +91,7 @@ public class BattleFieldSceneHandler extends BaseSceneHandler<BattleFieldScene>{
 
         battleField = BattleFieldGenerator.generate(context, newLevel);
 
-        BaseSpriteProvider spriteProvider = new BattleFieldSpriteProvider(context, player);
+        ISpriteProvider spriteProvider = new BattleFieldSpriteProvider(context, player);
         scene.deleteAllSprite();
         scene.setSpriteProvider(spriteProvider);
         scene.start();

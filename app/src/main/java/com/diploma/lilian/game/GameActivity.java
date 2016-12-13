@@ -50,7 +50,7 @@ public class GameActivity extends BaseActivity<GameActivityView, GameActivityPre
     @Override
     public void setFragment(Fragment fragment) {
         if (fragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.hud_container, fragment).commit();
         }
     }
 

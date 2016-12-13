@@ -125,6 +125,12 @@ public class FetchService extends IntentService {
         PlayerDataManager.INSTANCE(getBaseContext()).update(factory.getPlayer());
 
         System.out.println("All activity saved!");
+
+        Intent localIntent;
+        localIntent = new Intent(Constants.FETCH_ALL_ACTIVITY_DONE);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
+
+
     }
 
     private void handleActionFetchToken(String tracker, String auth_token) {
@@ -141,7 +147,6 @@ public class FetchService extends IntentService {
                     .putExtra(Constants.ACCESS_TOKEN_EXTRA, access_token.getAccessToken())
                     .putExtra(Constants.TRACKER_SERVICE_EXTRA, tracker);
 
-            System.err.println(access_token);
         }
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);

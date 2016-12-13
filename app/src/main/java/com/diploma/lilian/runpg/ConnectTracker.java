@@ -2,7 +2,6 @@ package com.diploma.lilian.runpg;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 
 import com.diploma.lilian.mvp.ConnectTracker.ConnectTrackerPresenter;
@@ -13,7 +12,6 @@ import butterknife.ButterKnife;
 
 public class ConnectTracker extends BaseActivity<ConnectTrackerView, ConnectTrackerPresenter> implements ConnectTrackerView {
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.webView) WebView webView;
 
     @Override
@@ -21,8 +19,6 @@ public class ConnectTracker extends BaseActivity<ConnectTrackerView, ConnectTrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_tracker);
         ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
 
         presenter.setup();
         presenter.initWebView(webView);

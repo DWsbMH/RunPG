@@ -86,7 +86,6 @@ public class ConnectTrackerPresenter extends MvpBasePresenter<ConnectTrackerView
                 service.setAccess_token(access_token);
 
                 returnIntent.putExtra(Constants.TRACKER_SERVICE_EXTRA,service);
-                System.err.println(access_token);
                 break;
             case Constants.FETCH_TOKEN_ERROR:
                 ((Activity)context).setResult(Activity.RESULT_CANCELED,returnIntent);

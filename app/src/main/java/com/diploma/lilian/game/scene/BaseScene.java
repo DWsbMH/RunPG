@@ -4,11 +4,11 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.diploma.lilian.engine.GameScene;
-import com.diploma.lilian.game.provider.BaseSpriteProvider;
+import com.diploma.lilian.game.provider.ISpriteProvider;
 
 public abstract class BaseScene extends GameScene{
     protected Context context;
-    BaseSpriteProvider spriteProvider;
+    ISpriteProvider spriteProvider;
     private boolean inventoryOpen = false;
 
     BaseScene(Context context, int surfaceWidth, int surfaceHeight) {
@@ -22,12 +22,11 @@ public abstract class BaseScene extends GameScene{
     }
 
 
-    public void setSpriteProvider(BaseSpriteProvider spriteProvider) {
+    public void setSpriteProvider(ISpriteProvider spriteProvider) {
         this.spriteProvider = spriteProvider;
     }
 
     public abstract Fragment getHUD();
-
 
     public void setInventoryOpen(boolean inventoryOpen) {
         this.inventoryOpen = inventoryOpen;

@@ -185,7 +185,7 @@ public class RewardDrawer {
 
     private enum RewardType {
 
-        REWARD_WEAPON, REWARD_POTION, REWARD_GOLD;
+        REWARD_WEAPON, REWARD_POTION, REWARD_GOLD
 
     }
 

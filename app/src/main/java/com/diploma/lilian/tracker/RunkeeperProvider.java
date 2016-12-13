@@ -19,25 +19,8 @@ import java.util.Locale;
 
 class RunkeeperProvider extends BaseProvider {
 
-    private static final String NAME = "Runkeeper";
-
-    public RunkeeperProvider(OAuth20Service oAuthService, DataManager<SportActivity> dataManager, Player player) {
+    RunkeeperProvider(OAuth20Service oAuthService, DataManager<SportActivity> dataManager, Player player) {
         super(oAuthService, dataManager, player);
-    }
-
-    @Override
-    public DataManager<SportActivity> getDataManager() {
-        return dataManager;
-    }
-
-    @Override
-    public OAuth20Service getOAuthService() {
-        return oAuthService;
-    }
-
-    @Override
-    public String getTrackerName() {
-        return NAME;
     }
 
     @Override
@@ -105,7 +88,7 @@ class RunkeeperProvider extends BaseProvider {
     }
 
     @Override
-    protected SportActivity convertActivity(Object item) {
+    public SportActivity convertActivity(Object item) {
         FitnessActivityFeed.Item temp_item = (FitnessActivityFeed.Item) item;
 
         SportActivityType type = getUnifiedType(temp_item.getType());

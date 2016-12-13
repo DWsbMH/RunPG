@@ -5,10 +5,10 @@ import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.database.entity.SportActivity;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
-public abstract class BaseProvider implements IProvider {
+abstract class BaseProvider implements IProvider {
 
-    OAuth20Service oAuthService;
-    DataManager<SportActivity> dataManager;
+    private OAuth20Service oAuthService;
+    private DataManager<SportActivity> dataManager;
     protected Player player;
 
     BaseProvider(OAuth20Service oAuthService, DataManager<SportActivity> dataManager, Player player){
@@ -23,6 +23,7 @@ public abstract class BaseProvider implements IProvider {
         return dataManager.add(activity);
     }
 
-    protected abstract SportActivity convertActivity(Object item);
-
+    public OAuth20Service getOAuthService() {
+        return oAuthService;
+    }
 }

@@ -2,9 +2,9 @@ package com.diploma.lilian.runpg;
 
 import com.diploma.lilian.database.entity.SportActivity;
 
-public class Requirements {
+class Requirements {
 
-    public static boolean check(SportActivity sportActivity) {
+    static boolean check(SportActivity sportActivity) {
         boolean fit = false;
 
         switch (sportActivity.getActivityType()){
