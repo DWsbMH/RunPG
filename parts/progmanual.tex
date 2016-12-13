@@ -39,7 +39,7 @@ A csatlakoztatható szolgáltatások egy egyszerű listában tárolódnak soronk
 \label{trackerconnect}
 Jelenleg a két legnagyobb felhasználói bázissal rendelkező sport-trackerek a Runkeeper és a Strava. 
 Mindkettő rendelkezik publikusan elérhető API-val \cite{runkeeperapi} \cite{stravaapi}, mely segítségével könnyedén készíthetünk hozzájuk saját alkalmazásokat. 
-Mindkét szolgáltatás esetén ahhoz, hogy a játékkal össze tudja kötni a felhasználó a sport-tracker fiókját az OAuth protokollra van szükségünk, melyet a \ref{oauth} fejezeteben mutattam be. 
+Mindkét szolgáltatás esetén ahhoz, hogy a játékkal össze tudja kötni a felhasználó a sport-tracker fiókját az OAuth protokollra van szükségünk, melyet \aref{oauth} fejezeteben mutattam be. 
 
 A protokoll teljes működésének implementálása sok biztonsági és hibakezelési kérdést vet fel, így úgy döntöttem, hogy egy már kész könyvtárat használok hozzá. 
 
@@ -60,7 +60,7 @@ public String getAccessTokenEndpoint() { return ACCESS_TOKEN_URL; }
 public String getAuthorizationUrl(OAuthConfig config) {
 	Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback.");
 	final StringBuilder sb = new StringBuilder(String.format(AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback())));
-	// ...
+	...
 	return sb.toString();
 }
 \end{lstlisting}
@@ -90,14 +90,12 @@ Ez a metódus már a háttérben fut. Paraméterként egy Intent-et kap, melyet 
 Egy adott sport-trackerhez tartozó összes eddigi elmentett sportteljesítmény letöltéséhez szükséges \Highlight{Intent} elkészítése az alábbi kódrészletben látszódik. 
 
 \begin{lstlisting}
-
 public static void startFetchActivities(Context context, TrackerService tracker) {
     Intent intent = new Intent(context, FetchService.class);
     intent.setAction(ACTION_FETCH_ALL_ACTIVITY);
     intent.putExtra(EXTRA_TRACKER_SERVICE, tracker);
     context.startService(intent);
 }
-
 \end{lstlisting}
 
 Ez a metódus egy sport-tracker alkalmazáshoz való sikeres csatlakozás esetén automatikus meghívódik, második paramétere az a TrackerService objektum, amelyhez csatlakoztunk. 
@@ -107,13 +105,13 @@ Mivel az itt futó kód futási ideje nemdeterminisztikus, előre nem tudhatjuk 
 Ahhoz, hogy valahogy tudjuk mikor ért véget az adatok letöltése, az \Highlight{IntentService} esetén rendelkezésre áll a \Highlight{BroadcastReceiver} osztály. 
 Amint az összes letöltés befejeződött ezt el kell juttatnunk az \Highlight{Activity} számára, ahol a gombot megnyomtuk. 
 Az üzenet létrehozása során egy új \Highlight{Intent}-et hozunk létre speciális akció típussal, amelyet broadcast üzenet formájában kiküldünk. 
-Az ilyen broadcast üzenetekre feliratkozhatnak a különböző activity-k, további az is lehetséges, hogy csak bizonyos akciójú broadcast üzenetekre reagáljon, mely implementálásának főbb részlete az alábbi kódrészletben figyelhető meg:
+Az ilyen broadcast üzenetekre feliratkozhatnak a különböző activity-k, továbbá az is lehetséges, hogy csak bizonyos akciójú broadcast üzenetekre reagáljon, mely implementálásának főbb részlete az alábbi kódrészletben figyelhető meg:
 
 \begin{lstlisting}
-    IntentFilter mStatusIntentFilter = new IntentFilter();
-    mStatusIntentFilter.addAction(FETCH_NEW_ACTIVITY_DONE);
-    mStatusIntentFilter.addAction(FETCH_ALL_ACTIVITY_DONE);
-    LocalBroadcastManager.getInstance(this).registerReceiver(receiver, mStatusIntentFilter);
+IntentFilter mStatusIntentFilter = new IntentFilter();
+mStatusIntentFilter.addAction(FETCH_NEW_ACTIVITY_DONE);
+mStatusIntentFilter.addAction(FETCH_ALL_ACTIVITY_DONE);
+LocalBroadcastManager.getInstance(this).registerReceiver(receiver, mStatusIntentFilter);
 \end{lstlisting}
 
 Ebben az esetben regisztrálunk egy fogadó osztályt, melyet a \Highlight{BroadcastReceiver} örököltettünk és \Highlight{onReceive} metódusát felülírtuk. 
@@ -123,8 +121,8 @@ Amennyiben nem csatlakozni akarunk egy lehetséges sport-trackerhez, hanem el sz
 \subsection*{Sportadatok letöltése}
 \label{trackerconnect}
 
-A különböző sportadatok letöltése olyan feladat, amely hasonlóságot és különbséget is mutat egymás között, ami az adott szolgáltatás API-jának kialakításában, és az eltárolt adatok típusában keresendő. 
-A jövőben többfajta sport-tracker integrálását elősegítve kialakítottam egy felületet, ahol a szolgáltatásokhoz szükséges egyedi megoldások el vannak fedve. 
+A különböző sportadatok letöltése olyan feladat, amely hasonlóságot és különbséget is mutat az integrált sport-trackerek között, ami az adott szolgáltatás API-jának kialakításában, és az eltárolt adatok típusában keresendő. 
+Kialakítottam egy olyan egységes felületet, mely elfedi a szolgáltatások egyedi megoldásait, ezzel megkönnyíti további sport-trackerek integrálását a jövőben. 
 Ehhez létrehoztam egy \Highlight{IProvider} nevű interfészt, amelyben deklaráltam azokat a metódusokat, amelyek az egységes működést hivatottak megvalósítani. 
 Kialakítottam továbbá egy absztrakt  \Highlight{BaseProvider} nevű osztályt, mely implementálja ezt az interfészt, valamint tartalmazza a mindenképp szükséges adatmezőket, amik minden szolgáltatás esetén azonosak. 
 Mivel ez az osztály absztrakt, nem jöhet létre belőle példány, ezért nem is muszáj konkrétan megvalósítania az \Highlight{IProvider} metódusait, hanem csak a nem absztrakt gyerekeinek kell majd. 
@@ -155,7 +153,7 @@ A metódus segítségével egy sporttevékenységhez tartozó adatot az alkalmaz
 \subsection*{Jutalmazás}
 \label{reward}
 
-A \ref{kovetelmenyek} fejezetben követelményként lett lefektetve, hogy a játékos a valós sportteljesítménye alapján jutalmakat kaphasson, amit a játékban felhasználhat. 
+\Aref{kovetelmenyek} fejezetben követelményként lett lefektetve, hogy a játékos a valós sportteljesítménye alapján jutalmakat kaphasson, amit a játékban felhasználhat. 
 Miután az adatok letöltése megtörtént és a kívánt formátumba kerültek, megkezdődhet a vizsgálat, hogy az újonnan letöltött adatokért jár-e a felhasználó számára ajándék. 
 A \Highlight{Requirements} osztály tudja megvizsgálni, hogy az adott sportolásért járhat-e ajándék. 
 Ennek egyetlen statikus metódusa van, amely igazzal tér vissza, ha megfelelt az elvárásoknak, hamissal, ha pedig nem érte el a minimum megszabott követelményeket. 
@@ -171,8 +169,8 @@ A kiosztható jutalmak a következőek:
 \end{itemize}
 
 Továbbá elkészült három csoport, amelyekbe besorolásra kerültek a leggyakrabban előforduló sporttípusok. 
-Az előbb felsorolt jutalmak a három csoport esetén más-más eséllyel adományozható. 
-A kialakított csoportok és a hozzájuk tartozó esélyeket az \ref{fig_5/jutalom}. ábrán látható táblázatban nézhetjük meg. 
+Az előbb felsorolt jutalmak a három csoport esetén más-más eséllyel adományozódnak. 
+A kialakított csoportok és a hozzájuk tartozó esélyeket az \Aref{fig_5/jutalom}. ábrán látható táblázatban nézhetjük meg. 
 
 \Picture{Jutalomcsoportok és esélyek táblázata}{5/jutalom}{width=14cm}
 
@@ -182,14 +180,14 @@ A kialakított csoportok és a hozzájuk tartozó esélyeket az \ref{fig_5/jutal
 Minden Androidos alkalmazás rendelkezhet egy helyi SQLite adatbázissal, amelybe tárolhatja azokat az adatokat amelyeket két indítás között is meg akarunk őrizni az alkalmazásban. 
 Az SQLite egy több platformra fejlesztett, kisméretű relációs adatbázis-kezelő rendszer, mely tökéletesen illik a felhasználó okos-eszközének véges erőforrásaihoz. 
 Az adatbázissal való kommunikáció SQL utasításokkal történhet, amely nagyobb alkalmazások esetén nagyban megnövelheti a kódbázis méretét és potenciális hibákhoz vezethet. 
-Ezt elkerülendő az felhasználtam az ORMLite könyvtárat, amelyet részletesebben bemutattam a \ref{ormlite} alfejezetben. 
+Ezt elkerülendő az felhasználtam az ORMLite könyvtárat, amelyet részletesebben bemutattam \aref{ormlite} alfejezetben. 
 
 A könyvtár használatához el kell készítenünk egy olyan osztályt, amelyen keresztül végre tudunk hajtani különböző akciókat az adatbázissal. 
 Ehhez örököltetni kell a könyvtárban található \Highlight{OrmLiteSqliteOpenHelper} osztályból és felül kell írni az \Highlight{onCreate()} és \Highlight{onUpgrade()} metódusokat.
 Az \Highlight{onCreate()} metódus az első adatbázis-elérés alkalmával fut le, az alkalmazás futása során egyetlen egyszer, így itt kell létrehozni az adattáblákat és esetleges kezdeti értékekkel feltölteni. 
 Az \Highlight{onUpgrade()} metódus akkor hívódik meg, ha az alkalmazás egy újabb verziója telepítődik az eszközre, így ha valami struktúrális változás történt az adatbázis szerkezetében a legutóbbi verzió óta, itt lehet a megfelelő lépéseket megtenni a kompatibilitás megőrzése érdekében. 
 
-Az elkészült adatbázis fontosabb adattáblái és azok kapcsolata az \ref{fig_5/adatbazis}. ábrán látható. 
+Az elkészült adatbázis fontosabb adattáblái és azok kapcsolata \aref{fig_5/adatbazis}. ábrán látható. 
 
 \Picture{Az adatbázis szerkezete}{5/adatbazis}{width=14cm}
 
@@ -211,7 +209,7 @@ public class Player implements CreatureData {
     @ForeignCollectionField(eager = true)
     private ForeignCollection<SportActivity> sportActivities;
 
-    // ...
+    ...
 }
 \end{lstlisting}
 
@@ -222,14 +220,14 @@ Amennyiben nem használnánk semmilyen keretrendszert az adatbázis felett, akko
 
 Miután elkészült az összes entitás, mindegyikhez létre kell hozni egy DAO objektumot, amely segítségével képesek leszünk az adott entitást kezelni az adatbázisban. 
 Az \Highlight{IManager} interfész tartalmazza azokat a metódusokat, amelyek segítenek egy egységes felület kialakításában. 
-A technikai részletek elfedése érdekében létrehoztam egy absztrakt \Highlight{DataManager} osztály amely implementálja ezt az interfészt. 
+A technikai részletek elfedése érdekében létrehoztam egy absztrakt \Highlight{DataManager} osztályt amely implementálja ezt az interfészt. 
 Ez az osztály továbbá tartalmaz egy objektumot a korábban említett \Highlight{@OrmLiteSqliteOpenHelper}-ből származtatott osztályból, és az adott entitáshoz tartozó DAO-ból.
 A gyerekosztályok implementálása után ugyanazon felületet használva tudunk a megfelelő adatbázis-táblával kommunikálni. 
 
 \section{Játék megjelenítése}
 \label{megjelenites}
 
-A játékban megjelenő grafikai elemekért a \ref{jatekmotor} alfejezetben megvitatott indokok alapján választott dream-iso-droid játékmotor a felelős. 
+A játékban megjelenő grafikai elemekért \aref{jatekmotor} alfejezetben megvitatott indokok alapján választott dream-iso-droid játékmotor a felelős. 
 Az alkalmazás indulása és az esetleges új sportadatok letöltése után a felhasználói interakcióra betöltődik a játék fő grafikus felülete. 
 A korábbiakkal ellentétben, ahol is natív Androidos grafikai felületekkel találkozhattunk, az itt található legtöbb elemet a játékmotor rendereli le. 
 Ez a felület egy új \Highlight{Activity}-ből származtatott gyerekosztályban található, aminek a neve \Highlight{GameActivity}. 
@@ -238,11 +236,11 @@ A legfőbb adatok a fájlban található elemekről az alább tekinthető meg:
 
 \begin{lstlisting}
 <RelativeLayout>
-    <com.diploma.lilian.engine.GLCanvas android:id="@+id/glcanvas" />
+    <com.diploma.lilian.engine.GLCanvas android:id="@+id/glcanvas" ... />
 
-    <FrameLayout android:id="@+id/hud_container" />
+    <FrameLayout android:id="@+id/hud_container" ... />
 
-    <ImageButton android:id="@+id/inventory_open" />
+    <ImageButton android:id="@+id/inventory_open" ... />
 </RelativeLayout>
 \end{lstlisting}
 
@@ -256,7 +254,7 @@ Az elkészült játék három fő jelenetre bontható, amelyek a következőek:
 
 \begin{itemize}
 	\item Városi jelenet 
-	\item Harctér jelenet 
+	\item Harcmező jelenet 
 	\item Harci jelenet 
 \end{itemize}
 
@@ -265,36 +263,154 @@ Ennek érdekében létrehoztam egy absztrakt osztályt \Highlight{BaseScene} né
 Minden gyerekosztályban rendelkezik az örököltetés révén egy \Highlight{init()} metódussal, amelyben az úgynevezett sprite-ok inicializálása történik. 
 Ezen sprite-ok tulajdonképpen kétdimenziós képek, így a vásznon csupán ezen képek sokasága látszódik, és folyamatos váltakozása kelti az animáció képzetét. 
 
-Ebben az esetben is ugyanazon funkciót kell megvalósítania jelenetfüggően, így itt is elkészítettem egy \Highlight{ISpriteProvider} nevű interfészt, amelyben definiálásra kerültek azok amelyek segítségével ez a folyamat egységesen végrehajtható minden jelenetben. 
+Ebben az esetben is ugyanazon funkciót kell megvalósítania jelenetfüggően, így itt is elkészítettem egy \Highlight{ISpriteProvider} nevű interfészt, amelyben definiálásra kerültek azon metódusok amelyek segítségével ez a folyamat egységesen végrehajtható minden jelenetben. 
 Elkészült egy \Highlight{BaseSpriteProvider} nevű absztrakt osztály, ami megvalósítja ezen interfész metódusait, továbbá tartalmazza a beolvasásához szükséges adattagokat. 
 Egy jelenet példányosítása során beállítjuk a hozzá tartozó \Highlight{ISpriteProvider}-t implementáló objektumot. 
 Amikor egy adott jelenet \Highlight{init()} metódusa lefut, az interfészen keresztül el tudjuk készíteni a jelenethez szükséges sprite-okat, és ezeket a játékmotor már a vászonra tud rajzolni. 
 A sprite-ok különböző adatait, amiket az \Highlight{assets} könyvtárban tárolt xml fájlokból olvasunk be, az engine-ben található \Highlight{IsoSprite} osztályban tároljuk. 
 A fájlban található animation tag-ekkel lehet megadni, hogy az adott sprite milyen animációk végrehajtására képes. 
 A frame tag-ek között megadjuk, hogy a forráskép milyen pixeltartománya tartalmazza azt a területet, amelyet a játékmotornak meg kell jeleníteni az animáció futása során. 
-Egy ilyen xml fájl szerkezete az alábbi kódrészletben látható, a hozzá tartozó kép pedig az \ref{fig_5/sprite}. ábrán látható:
+Egy ilyen xml fájl szerkezete az alábbi kódrészletben látható, a hozzá tartozó kép pedig \aref{fig_5/sprite}. ábrán látható:
 
 \begin{lstlisting}
 <isosprite name="male_light_sprite"	imgname="player_set">
-	<animations imgwidth="384" imgheight="384">
-		<animation name="up_move" steptime="150" startframe="0">
-			<frame left="0" right="32" top="144" bottom="192"/>
-			<frame left="32" right="64" top="144" bottom="192"/>
-			<frame left="64" right="96" top="144" bottom="192"/>
-		</animation>
-	</animations>
-	...
+    <animations imgwidth="384" imgheight="384">
+        <animation name="up_move" steptime="150" startframe="0">
+            <frame left="0" right="32" top="144" bottom="192"/>
+            <frame left="32" right="64" top="144" bottom="192"/>
+            <frame left="64" right="96" top="144" bottom="192"/>
+        </animation>
+    </animations>
+    ...
 </isosprite>
 
 \end{lstlisting}
 
 \Picture{A játékoshoz tartozó forráskép}{5/sprite}{width=3cm}
 
+Ahogy korábban említésre került, teljes egészében a vászon fölé van kiterítve egy alapesetben átlátszó elem, ami a HUD, azaz a head-up display megjelenítésére szolgál, továbbá minden olyan grafikai elemére, amit nem a játékmotor kezel. 
+A három jelenethez más-más HUD szolgál, amin az adott jelenethez tartozó legfontosabb információk jelennek meg. 
+A HUD megjelenítésén kívül ezen a felületen jelenítődnek meg az egyéb elemek is, mint a hátizsák vagy a boltok, így biztosítva hogy natív Android grafkai elemeket is fel lehessen használni a felhasználói interakcióhoz a játék során. 
+Ahhoz, hogy mindig a megfelelő nézet legyen megjelenítve, minden jelenethez és minden egyéb interakciót követelő nézethez létrehoztam egy \Highlight{Fragment}-ből örököltetett osztályt. 
+Mindegyik osztályhoz tartozik egy hasonló xml fájl akárcsak az \Highlight{Activity}-khez, ahol az adott osztályhoz tartozó grafikai elemek struktúráját lehet megadni, így elérve, hogy a kívánt tartalom jelenjen meg vászon felett. 
 
+\section{A játéklogika}
+\label{logika}
 
+A megjelenítés mellett a legfontosabb eleme az alkalmazásnak a játék logikai része, azaz hogy bizonyos esemény hatására milyen művelet hajtódjon végre.
+Emiatt létrehoztam egy \Highlight{GameLogic} osztályt, amely segítségével egy helyen kezelhetőek a különböző feladatok. 
+Ilyen feladatok közé tartoznak a megfelelő jelenethez történő \Highlight{ISpriteProvider} objektumok rendelése, a jelenetek cseréje a vásznon, a felhasználó interakcióra való reagálás és az ezekhez szükséges adatok tárolása. 
+Ahhoz, hogy az osztály egységesen tudja kezelni a jeleneteket, létrehoztam egy \Highlight{BaseSceneHandler} absztrakt osztályt, és ebből örököltettem osztályokat amelyek egy-egy jelenet kezeléséért felelősek. 
+A származtatott gyerekosztályokon belül készülnek el a jelenetek, a jelenetek itt történik az \Highlight{ISpriteProvider} objektum jelenethez rendelése, és ezen keresztül tudja elindítani a játéklogika a jelenetet. 
+Az osztály három interfészt implementál, amelyek úgynevezett eseményfigyelőként működnek, így az osztályobjektum kezelhető az implementált interfészek objektumaiként is. 
+Az interfészekben található metódusokat más osztályokból lehet meghívni amikor a megfigyelni kívánt esemény bekövetkezik. 
+Az implementált felületek a következőek:
 
+\begin{itemize}
+	\item OnFightListener
+	\item OnLevelUpListener
+	\item OnGateListener
+\end{itemize}
 
+Ezek olyan eseményeket figyelnek, amelyeknek közvetlen hatása van a vásznon megjelenő elemekre. 
+Példaként megemlítve az \Highlight{OnFightListener} eseményfigyelő metódusait a harcjelenetben hívjuk meg, ahova a \Highlight{GameLogic} osztályt átadtuk \Highlight{OnFightListener} objektumként. 
 
+Néhány sprite-hoz - mint amilyen a játékos sprite-ja és az ellenfelek sprite-jai - tartoznak másféle adatok is, nem csak a megjelenítendő adatok. 
+Ezért elkészítettem egy \Highlight{SpriteInfo} osztályt, amely tárol egy konkrét \Highlight{IsoSprite} objektumot és opcionálisan további adatokat, mint például a játékos vagy ellenfél paraméterei. 
+
+\subsection*{Játékos}
+\label{jatekos}
+A játékos adatainak tárolására elkészült szerkezet az alkalmazásban a \Highlight{Player} osztály, mely minden, a játékoshoz tartozó objektumot és információt tárol. 
+Többek közt ilyen tárolt objektum a hátizsák és a karakterlap, valamint az attribútumait tároló osztály, melyekhez mind tartozik egy-egy adatbázistábla. 
+A hátizsákban a játékos fegyvereit, illetve varázsitalait lehet tárolni, a karakterlap felelős az éppen aktív varázsitalok és a karakterhez rendelt fegyverekért. 
+Az attribútumosztályban a játékos tulajdonságpontjait tároljuk, ezek befolyásolják a játékos egyéb más tulajdonságait. 
+A tárolt tulajdonságok a kitartás, az erő és a szerencse, melyek rendre a maximális életerőt, a játékos sebzését és a kritikus találat esélyét befolyásolják. 
+Ugyanebben az osztályban tárolódik a játékos életpontja, sztaminája, a szinten eddig megszerzett tapasztalati pont és az elérendő tapasztalati pont. 
+Minden fegyvernek van egy minimális és egy maximális sebzési értéke, melyeknél nagyobbat nem képes sebezni. 
+Varázsitalok között három típust különböztettem meg, melyek mindegyike egy-egy tulajdonságot növel meg, és ezeknek három fajta méretét határoztam meg. 
+Az ital mérete befolyásolja a hatás hosszát és mértékét, így a kis méretű 2 harcon keresztül 10\%-kal, a közepes méretű 4 harcon át 15\%-kal, a nagy méretű ital pedig 6 harcon át 25\%-kal növeli az adott tulajdonságot. 
+Ezeket felhasználva elkészültek azok a formulák amelyek megadják a játékos végleges tulajdonságait. 
+Az alábbiakban látható a fontosabb adatok kiszámolására szolgáló formulák:
+
+\begin{description}
+	\item [Maximális életerő] Játékos kitartása * 5 * (játékos szintje + 1) + 100
+	\item [Sebzés] Játékosnál lévő fegyver átlagsebzése * ( 1 + játékos ereje / 10)
+	\item [Kritikus találat esélye] Játékos szerencséje * 5 / (ellenség szintje / 2)
+\end{description}
+
+% inventory és jutalomlista
+
+\subsection*{Város jelenet}
+\label{varos}
+
+A városjelenetben a játékos kétféle művelet végrehajtására képes, átjuthat a harcmezőre vagy beléphet a boltba. 
+Ezen műveletekhez a megfelelő sprite-ba kell ütköznie a mozgása során. 
+Az ütközésdetektálást a játékmotor kezeli, és ha ilyen esemény történt, akkor azt közli a jelenet osztállyal. 
+Csak azokat a sprite-okat veszi figyelembe ütközésdetektálás közben a játékmotor, amelyeket megadtunk számára. 
+Amikor egy sprite-ot hozzáadunk figyelendő sprite-ok közé, meg kell adni, hogy milyen típusú ütközésben vesznek részt. 
+Ha két sprite összeütközött, a játékmotor meghívja az adott jelenet osztály által felülírt \Highlight{handleCollision()} metódust. 
+A metódus paramétereként megkapja a két ütköző sprite objektumot, és az ütközés típusát. 
+A metóduson belül az ütközés típusa és a két ütköző sprite-tól függően más-más eseményt hívhatunk meg. 
+A városjelenetben megtalálható \Highlight{handleCollision()} fontosabb részei a következőek:
+
+\begin{lstlisting}
+@Override
+public void handleCollision(IsoSprite s1, IsoSprite s2, int collisionGroupMask) {
+    player.getSprite().stopMove();
+    if(s1.getName().equals("gates") || s2.getName().equals("gates")) { 
+        onGateListener.onGateCollision(GameLogic.SCENE_TOWN);
+	}
+    if(s1.getName().equals("fegyverbolt") || s2.getName().equals("fegyverbolt")){ ... }
+    if(s1.getName().equals("templom") || s2.getName().equals("templom")){ ... }
+}
+\end{lstlisting}
+
+A kódrészletben látszik, hogy amint ütközés történik, megáll a játékos mozgása, a való életet imitálva, ahol egy szilárd test szintén nem tud áthaladni egy másikon. 
+Ezután ellenőrizzük, hogy milyen épülettípusba ütközött, és ez alapján tudjuk a megfelelő döntést meghozni. 
+Ha a játékos a teleportkapunak ütközik, akkor ezt a \Highlight{GameLogic} osztály számára az adott eseményfigyelő \Highlight{onGateCollision()} metódusával tudjuk jelezni, ahol a játéklogika a kapott paraméter alapján eldönti melyik jelenetre kell továbbvinni a játékost. 
+Ha az egyik boltba ütközik a játékos, a \Highlight{GameLogic} osztályt hasonló módon értesítjük, csupán annyi a különbség, hogy más eseményfigyelő hívódik meg. 
+Ilyen esetben a bolt típusától függően a játéklogika az eddigi HUD helyére betölti a bolt felületét, amelyet natív Android grafikus elemekkel valósítottam meg, hisz találhatóak rajta olyan elemek, amik a játékmotorban nem találhatóak meg, és a motorhoz adásuk túl sok egyéb feladat megvalósítását is jelentette volna. 
+A boltok felülete két részre van osztva, a boltos részre és a felhasználó hátizsákját megjelenítő részre. 
+A két részben a tárgyak megjelenése és viselkedése hasonló, így létrehoztam egy egyedi osztályt amelyet az Android SDK-ban található4 \Highlight{RelativeLayout} osztályból örököltettem. 
+Ennek segítségével elkerülhettem ugyanazon kódrészlet redundáns használatát. 
+Az osztály konstruktorában megkapja azon elemek listáját, melyet meg kell jelenítenie, a hátizsák esetén az adatbázisból visszakérdezett adatokat, a bolt esetén véletlenszerűen generált elemeket. 
+A konstruktor paraméterei közé tartozik egy eseményfigyelő, amely abban az esetben aktiválódik, ha az egyik tárgyat kiválasztotta a felhasználó, így elérve hogy más esemény hajtódjon végre a hátizsákbeli és a boltbeli tárgy kiválasztásakor. 
+
+\subsection*{Harcmező jelenet}
+\label{harcmezo}
+Ez a jelenet némely aspektusában hasonlít az előbb bemutatott városi jelenetre. 
+A területen való mozgás az előző jelenettel eltérően sztaminapontokba kerül, és amennyiben ez elfogy, a játékos nem tud tovább mozogni. 
+A játékmotorban nem volt lehetőség megállapítani egy sprite-ról, hogy tett-e meg valamilyen távolságot a játéktérben, és ha igen, akkor mikor, így ezzel a funkcionalitással ki kellett egészítenem. 
+Az \Highlight{IsoSprite} osztályban elhelyeztem egy eseményfigyelő objektumot, amelyen keresztül értesülhetünk arról, ha mozgás történt. 
+Miután inicializálódott a játékos sprite-ja, beállítottam számára az eseményfigyelő objektumot egy anonym osztály formájában az alábbi módon:
+\begin{lstlisting}
+player.getSprite().setOnMoveListener(new OnMoveListener() {
+    @Override
+    public void onStep() { ... }
+});
+\end{lstlisting}
+Az \Highlight{onStep()} metódusban így csökkenthető a játékos sztaminája. 
+
+Itt is található egy kapu, amellyel vissza tudunk menni a városba, és ennek működése is az előzőekben leírtak alapján történik. 
+A fő különbség a két jelenet között, hogy az itt található ellenfeleket a játéklogika automatikusan generálja. 
+Ha a játékos a területen található összes ellenfelet legyőzte, a játéklogika érzékeli ezt és egy újabb területet generál új, erősebb ellenfelekkel. 
+Ahhoz, hogy a játék bezárása és újbóli megnyitása között megőrizze, hogy a játékos mely szörnyeket győzte le, és a hátrelévő szörnyek hol helyezkednek el, ezeket az adatokat a generálás során elmentjük az adatbázisban található \Highlight{BattleField} táblába. 
+A jelenet első megjelenítése során ezeket az adatok kiolvassuk az adatbázisból, és a visszanyert elemek alapján hozza létre a jelenethez tartozó, korábban taglalt \Highlight{ISpriteProvider} a sprite-okat. 
+
+Szörnnyel való ütközést szintén az \Highlight{handleCollision()} metódusban tudjuk kezelni, a játéklogika a két ütköző entitást átirányítja a harcjelenethez. 
+
+\subsection*{Harcjelenet}
+\label{harc}
+
+A harcjelenet során a játékos küzd meg azzal az ellenféllel amelyikbe a harcmezőn beleütközött. 
+A harc folyamatát a játéklogika leszimulálja, azaz a két ellenfél felváltva támadja egymást, melyet a jelenethez tartozó handler osztályban valósítok meg. 
+A szimulálás azzal kezdődik, hogy a játéklogika elindítja a játékos támadási animációját, majd minután ez véget ér, a korábban bemutatott formula alapján kiszámolja a sebzését. 
+Ez az érték levonódik az ellenfél életpontjaiból, majd a játéklogika most az ellenfél animációját indítja el, és ennek a végén az ő támadási értékét számolja ki. 
+Ahogy a játékos, úgy az ellenfélhez tartozó formulákat egy \Highlight{Formulas} nevű osztályban tárolódnak, és a megfelelő statikus metódusok meghívásával lehet felhasználni őket. 
+A handler osztály tartalmazza a \Highlight{GameLogic} osztály által implementált eseményfigyelőt, így ha bármelyik fél életpontja nulla vagy az alá esik, ezen keresztül értesíti az eseményről a \Highlight{GameLogic} osztályt. 
+Ha a játékos életpontja fogyott el, akkor az eseményfigyelő az \Highlight{onFightLost()} metódust hívja meg, amiben a \Highlight{GameLogic} osztály visszarakja a játékost a város jelenetre, az életpontja visszatöltődik, viszont minden varázsitalát - aktív és a hátizsákban lévő is - eltünteti. 
+Ellenkező esetben a \Highlight{Formulas} osztály metódusát felhasználva kiszámoljuk mennyi tapasztalatpontot kap a felhasználó, melyet az eddig megszerzett pontjai közé írunk. 
+Amennyiben ezzel a többlettel elérte a szint teljesítéséért szükséges tapasztalatszámot, az osztályban található másik eseményfigyelőn keresztül értesítjük a \Highlight{GameLogic} osztályt, ami az esemény hatására aktualizálja a játékos tulajdonságait, mint például a maximális életpontja, új elérendő maximális tapasztalati pontszámot állít be és elosztható pontokat ad a játékosnak, amelyet a karakterlapján oszthat el. 
 
 
 
