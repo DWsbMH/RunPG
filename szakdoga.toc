@@ -11,4 +11,5 @@
 \select@language {magyar} \contentsline {section}{\numberline {4.2}Adatb\IeC {\'a}zis fel\IeC {\'e}p\IeC {\'\i }t\IeC {\'e}se}{25}{section.4.2}
 \select@language {magyar} \contentsline {section}{\numberline {4.3}J\IeC {\'a}t\IeC {\'e}k megjelen\IeC {\'\i }t\IeC {\'e}se}{27}{section.4.3}
 \select@language {magyar} \contentsline {section}{\numberline {4.4}A j\IeC {\'a}t\IeC {\'e}klogika}{30}{section.4.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {5}Tov\IeC {\'a}bbfejleszt\IeC {\'e}si lehet\IeC {\H o}s\IeC {\'e}gek}{35}{chapter.5}
 \select@language {magyar} \vspace *{\baselineskip }

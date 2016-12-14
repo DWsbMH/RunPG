@@ -1,0 +1,57 @@
+Az elkészült játék teljesíti a felé támasztott követelményeket ugyan, de ahogyan minden egyéb más program, ez sem tökéletes. 
+Előfordulhatnak olyan nem várt hibák, amelyek a fejlesztés és tesztelés során nem jelentkeztek. 
+Ezek a hibák lehetnek a játék nem megfelelő használata miatt, a külső függőségekben található hibák miatt, melyeket az adott könyvtárak nem kezeltek le, vagy akár az operációs rendszer hibájából. 
+Az ilyen hibák számát a továbbfejlesztés során ha nem is lehet nullára csökkenteni, de a lehetséges legkisebb értékre kell minimalizálni. 
+A feladatspecifikus programokkal ellentétben egy játékhoz megannyi továbbfejlesztési ötlet juthat a fejlesztő de akár a játékos eszébe is. 
+Nem történt ez másként most sem, már a fejlesztési szakaszban kínálkoztak olyan továbbfejlesztési lehetőségek, amiket érdemes lenne megvalósítani a szórakoztatóbb játékélmény érdekében. 
+
+\subsection*{További sport-trackerek integrációja}
+\label{sporttrackerintegration}
+A játék szempontjából nagyon fontos tényező, hogy a játékos elérje az általa használt sport-tracker alkalmazással rögzített adatokat. 
+Jelenleg integrálásra került a két legnagyobb ilyen tracker, de természetesen vannak olyan emberek akik nem ezeket használják. 
+Ahhoz, hogy ezeket az embereket is elérhesse a játék, a jövőben minél több sport-trackert kellene integrálni a játékba. 
+
+\subsection*{Online játékszolgáltatások}
+\label{onlinegameingservice}
+Első ilyen ötletként az online játékszolgáltatások integrációja merült fel, a platformból adódóan főként a Google Play Games szolgáltatásé, melyhez külön SDK is tartozik. 
+Amennyiben integrálásra kerül, lehetőség nyílik valós idejű többjátékos módra, az adatok felhőbe való mentésére, közösségi és nyilvános ranglisták készítésére, kitüntetések osztására és illegális szoftverhasználat elleni védekezésre is. 
+A többjátékos mód esetén a játékban nem csak az adott játékos karaktere jelenne meg, hanem minden online, az adott helyen tartózkodó játékosé is, így egymással kommunikálni is tudnának a játékosok, mely a legtöbb széles körben elterjedt online szerepjáték alapvető eleme. 
+Az adatok felhőbe mentésével elérhetővé válik hogy a felhasználó egy eszközön elért eredményeit egy másik eszközön folytathassa, így készülékcsere esetén nem kellene elölről kezdeni a játékot. 
+A ranglisták és kitüntetések bevezetésével a játékosok közt kialakulna egy természetes versenyszellem, hiszen mindenki szeretne minél jobb helyezést elérni, főleg, ha azt ismerőseinek is meg tudja mutatni. 
+Az illegális szoftverhasználat segítségével meggátolhatóvá válnak a játékkal való visszaélések, így a tisztességesen játszó emberek munkája nem veszik kárba.  
+
+\subsection*{Játékmechanika javítása, új elemek hozzáadása}
+\label{jatekmechanika}
+A játékélmény fokozására a meglévőeken kívül új játékmechanikai elemeket lenne érdemes bevezetni, és a meglévőeket folyamatosan frissíteni, finomhangolni. 
+Ilyen új elemek lehetnek például zárt ajtók, amelyeken a játékos csak az ajtóhoz tartozó kulccsal tudna átjutni, a játékos számára az ugrás képességének implementálása, hogy a magasabban található elemekhez is hozzáférhessen. 
+Továbbá a meglévők mellé új fegyverek hozzáadása, illetve más kiegészítők elkészítését, melyek mindegyike a harc kimenetelét befolyásolnák. 
+A játékos figyelmének napi szinten való fenntartásához létre lehetne hozni egy új épületet, ahol mindennapos gyakorisággal küldetéseket vállalhatna. 
+Ezen küldetések teljesítési feltételét és jutalmát megjelenítenénk a felhasználó számára, így a játékos eldöntheti, hogy képes-e teljesíteni a feladatot, vagy megéri a jutalomért elvégeznie azt. 
+A játékosok számára saját házat lehetne készíteni, mely többféle feladatot is betölthetne, mint például a különböző tárgyak tárolása vagy éppen olyan különleges elemek elhelyezése benne, amiknek permanens pozitív hatása lenne a játékosra nézve. 
+
+\subsection*{Játékosok közötti küzdelem}
+\label{pvp}
+További ötletként felmerült a játékosok közötti küzdelem lebonyolítása, mely során kiderülne mely felhasználó karaktere az erősebb. 
+Ez a plusz funkció nagyban növelheti a játékosok sportolásra való motivációját, hisz a vesztes fél fel akarná erősíteni a karakterét, hogy a következő összecsapásban ő kerekedjen felül, a nyertes játékos pedig azért sportolna még többet, hogy a karakterét még tovább növelve megvédhesse a nyertes pozícióját. 
+Természetesen különböző korlátokat kellene behozni, elkerülve hogy egy nagy szintű karakter ne küzdhessen meg csak bizonyos szinthatáron belüli karakterrel. 
+Továbbá korlátozni lehetne az ilyen típusú harcok gyakoriságát is, vagy akár feltételhez kötni, esetleg valamilyen minimális szintű testmozgás esetén válna elérhető. 
+
+\subsection*{Pályaszerkesztő}
+\label{palyaszerkeszto}
+Érdemes lenne megvalósítani egy online pályaszerkesztő szolgáltatást is. 
+Ennek segítségével bárki készíthetne a játékon belül játszható pályákat, ezeknek szerkesztés közben meg lehetne adni minden fontosabb paramétert, mint amilyen a méretei, nehézsége és a teljesítésének feltételét. 
+A szerkesztés közben el lehetne helyezni adott pozícióra ellenfeleket és díszítő elemeket. 
+Az így elkészült pályák igen szórakoztató kihívásnak tűnnek, hiszen a szerkesztők kreativitásának köszönhetően olyan megoldások is születhetnének, melyek addig nem jelentek meg a játékban. 
+
+\subsection*{Szerver}
+\label{szerver}
+Az utóbbi két továbbfejlesztési lehetőséghez el kellene készíteni egy online kiszolgálót, így nem játékos eszközét terhelve ezen feladatok végrehajtásával, valamint ezen keresztül biztosítva folyamatos működésüket. 
+Ezen kívül a szerveren ki lehetne alakítani egy fórumot is, ahol a játékosok megoszthatnák tapasztalataikat a többi játékossal, segítve a kezdőket. 
+
+
+
+
+
+
+
+
