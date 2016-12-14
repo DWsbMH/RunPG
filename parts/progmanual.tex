@@ -338,7 +338,18 @@ Az alábbiakban látható a fontosabb adatok kiszámolására szolgáló formul�
 	\item [Kritikus találat esélye] Játékos szerencséje * 5 / (ellenség szintje / 2)
 \end{description}
 
-% inventory és jutalomlista
+\subsection*{Leltár}
+\label{inventory}
+A leltár jeleneten a felhasználó számára több interakció lehetséges, így ezt a felületet natív Android elemekből építettem fel, és ezt a nézetet a HUD-on jelenítettem meg, olyan módon, hogy az eddigi áttetsző HUD ezután teljesen elfedje a vásznat. 
+A hátizsákban található tárgyak megjelenítési módjához hasonló megoldást máshol is használok a játék során, illetve a hátizsákot más felületen is megjelenítem, így létrehoztam egy egyedi osztályt \Highlight{EquipmentItemRow} néven, amelyet az Android SDK-ban található4 \Highlight{RelativeLayout} osztályból örököltettem. 
+Ennek segítségével elkerülhettem ugyanazon kódrészlet redundáns használatát. 
+Az osztály konstruktorában megkapja azon elemek listáját, melyet meg kell jelenítenie, a hátizsák esetén az adatbázisból visszakérdezett adatok ezek.
+A konstruktor paraméterei közé tartozik egy eseményfigyelő, amely abban az esetben aktiválódik, ha az egyik tárgyat kiválasztotta a felhasználó.
+
+Erről a felületről érhető el az a lista, amelyben a sportteljesítményekért járó konkrét jutalmakat jeleníti meg. 
+Ez a lista is Androidos elemekből épül fel, a játékmotorban dinamikusan változó adatok megjelenítésére jelenleg nincs lehetőség. 
+Az adatbázisból lekért adatok egy \Highlight{ListView} tárolóban jelenítjük meg, a felület tovább tartalmaz egy lebegő gombot is a lista felett, mely megnyomására \aref{trackerconnect} alfejezetben bemutatott \Highlight{FetchService} osztályt felhasználva elindítható az adatok manuális frissítés. 
+Amint a frissítés befejeződött, erről is egy broadcast-olt üzenet érkezik, mely hatására frissíthetjük a lista tartalmát. 
 
 \subsection*{Város jelenet}
 \label{varos}
@@ -371,10 +382,8 @@ Ha a játékos a teleportkapunak ütközik, akkor ezt a \Highlight{GameLogic} os
 Ha az egyik boltba ütközik a játékos, a \Highlight{GameLogic} osztályt hasonló módon értesítjük, csupán annyi a különbség, hogy más eseményfigyelő hívódik meg. 
 Ilyen esetben a bolt típusától függően a játéklogika az eddigi HUD helyére betölti a bolt felületét, amelyet natív Android grafikus elemekkel valósítottam meg, hisz találhatóak rajta olyan elemek, amik a játékmotorban nem találhatóak meg, és a motorhoz adásuk túl sok egyéb feladat megvalósítását is jelentette volna. 
 A boltok felülete két részre van osztva, a boltos részre és a felhasználó hátizsákját megjelenítő részre. 
-A két részben a tárgyak megjelenése és viselkedése hasonló, így létrehoztam egy egyedi osztályt amelyet az Android SDK-ban található4 \Highlight{RelativeLayout} osztályból örököltettem. 
-Ennek segítségével elkerülhettem ugyanazon kódrészlet redundáns használatát. 
-Az osztály konstruktorában megkapja azon elemek listáját, melyet meg kell jelenítenie, a hátizsák esetén az adatbázisból visszakérdezett adatokat, a bolt esetén véletlenszerűen generált elemeket. 
-A konstruktor paraméterei közé tartozik egy eseményfigyelő, amely abban az esetben aktiválódik, ha az egyik tárgyat kiválasztotta a felhasználó, így elérve hogy más esemény hajtódjon végre a hátizsákbeli és a boltbeli tárgy kiválasztásakor. 
+A bolti árukat és a hátizsákban található tárgyakat is a korábban bemutatott \Highlight{EquipmentItemRow} osztály felhasználásával jelenítem meg. 
+A két rész esetén más-más eseményfigyelőt adok meg a létrehozott objektumnak, így más esemény végrehajtását elérve egy adott tárgy kiválasztása során. 
 
 \subsection*{Harcmező jelenet}
 \label{harcmezo}
