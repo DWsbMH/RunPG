@@ -1,0 +1,133 @@
+A fejezet során bemutatásra kerül az alkalmazás felhasználói szemszögből, milyen felületekkel találkozhat a felhasználó és ezeken milyen akciókat végezhet, valamint bemutatásra kerülnek a játékmechanikai elemek is.
+
+\Picture{A főmenü és a Runkeeper csatlakozási felület}{4/fomenu}{width=14cm}
+
+\section{Kezdőképernyő}
+\label{kezdokepernyo}
+
+A játék telepítése után a többi Androidos alkalmazás közül választható ki futtatásra. 
+Az indulás után a felhasználó a kezdőképernyőn találja magát, ahol kétféle funkciót érhet el: csatlakozhat valamilyen meglévő sport-tracker fiókjához vagy elkezdheti a játékot. 
+A menü tetején látható a játék logója, ez alatt található a játék indítására szolgáló gomb, ahogy \aref{fig_4/fomenu} ábra a) képe is mutatja. 
+A képernyő alsó részén egy listában tárolódnak a csatlakoztatható sport-trackerek, soronként az adott sport-tracker neve, és egy gomb, amire kattintva elkezdődhet a csatlakozási folyamat. 
+A csatlakozási folyamat során a kiválasztott sport-tracker szolgáltatás online felületére kerül át a felhasználó, a Runkeeper szolgáltatáshoz tartozó csatlakozási felület \aref{fig_4/fomenu} ábra b) képén tekinthető meg. 
+
+Miután a felhasználó megadta a belépési adatait és belépett a fiókjába, az alkalmazás számára meg kell adnia a kért engedélyeket. 
+Miután megadta ezeket az engedélyeket, visszanavigálódik a főmenübe, ahol az eddig kattintható gomb - amivel a játékot lehet indítani - nem kattintható tovább, továbbá az alsó listából nem található meg a csatlakoztatott szolgáltatás. 
+A játék felugró értesítés formájában jelzi a felhasználó felé, hogy elkezdte letölteni a szolgáltatástól az eddigi adatait. 
+Miután a letöltés befejeződött - amit szintén egy felugró értesítés formájában hozunk a felhasználó tudtára - a játék kezdetét jelentő indító gomb aktívvá válik.  
+
+A felhasználó a játékot anélkül is elkezdheti, hogy bármelyik sport-tracker alkalmazást csatlakoztatta volna a játékhoz, de a későbbiekben ez nagyban hátráltatná a játékban való előrehaladásban. 
+Természetesen a későbbiek során bármikor, amikor elindítja az alkalmazást lehetősége nyílik sport-tracker alkalmazások csatlakoztatására, és amennyiben a játékban már haladást ért el, a csatlakoztatás hatására ez nem veszik el. 
+
+Amennyiben a felhasználó korábban csatlakoztatott sport-tracker alkalmazásokat, akkor a játékban való belépés során az alkalmazás a csatlakoztatott sport-trackerektől lekéri a legfrissebb mentett sporttevékenységeket. 
+Miután beszerezte a friss adatokat, megnézi, hogy ezek teljesítették-e a minimális elvárt szintet, és amennyiben igen, jutalmakat sorsol ki a játékos számára, melyeket a játékba való belépés után a hátizsákjában tud megnézni a felhasználó. 
+Továbbá minden új sportteljesítmény után, kritériumok nélkül a játékos számára jóváírásra kerül a sportteljesítménnyel arányos mennyiségű sztamina is. 
+
+\section{Karakter}
+\label{karakter}
+A felhasználóhoz egy karakter tartozik, akivel a játékban tud fejlődni. 
+A játékos többfajta eszközt is birtokolhat és különböző varázsitalokkal módosíthatja a tulajdonságait. 
+Kezdetben a karakter szintje 1, életpontjainak száma 110, továbbá a játék folyamán bármikor maximálisan 100 sztaminaponttal rendelkezhet. 
+Számon van tartva, hogy az adott szinten mennyi tapasztalati pontot gyűjtött össze, és hogy összességében mennyit kell elérnie a szint teljesítéséhez. 
+A karakter gyűjthet virtuális aranyat magának, amelyet a játék során használhat fel. 
+Három alaptulajdonsággal rendelkezik: erővel, kitartással és szerencsével. 
+A karakterhez lehet rendelni egy fegyvert is, amely a játékos sebzését hivatott növelni.
+A játékos háromféle varázsital közül választhat, ezek az alaptulajdonságokat növelik meg és háromféle méretben kaphatóak. 
+
+\section{Város}
+\label{varos}
+
+\Picture{A város látképe}{4/varos}{width=10cm}
+
+Ebben a jelenetben a játékos egy kitalált kis városban közlekedik, és különböző dolgokat végezhet el. 
+Amennyiben az első alkalommal lép be a játékba, vagy amikor bezárta a játékot ezen a jeleneten volt, akkor ide fog kerülni. 
+Játékon belül többféleképp is eljuthatunk ide, a harcmezőn található portálkapun keresztül, ha meghal a karakter vagy ha az összes ellenfelet legyőzte. 
+A városban több épület is található, továbbá itt helyezkedik el egy portálkapu is, aminek segítségével átjuthat a felhasználó a harcmezőre, ahogyan \aref{fig_4/varos} ábrán is látható. 
+A játékos ezen a jeleneten tetszőleges ideig barangolhat, nincs semmilyen korláthoz kötve. 
+Az itt található épületek közül a kovácsműhelyben tud a felhasználó új fegyvereket szerezni a játékosa számára, illetve a régi, használaton kívüli fegyvereit eladni.
+A templomba belépve a játékoshoz hozzárendelhető varázsitalokkal lehet kereskedni. 
+
+A két bolt belső nézete hasonlít egymáshoz, a boltba belépve a képernyő két részre van bontva. 
+A képernyő alján látható, hogy a játékos jelenleg milyen tárgyakat birtokol, a felső részen pedig a bolt által kínált termékek és a boltos arcképe található. 
+Az ablak jobb oldalán látható egy szöveges információs rész, ahol a játékos tulajdonában lévő virtuális arany mennyisége jelenik meg. 
+Mindkét tárgytároló egy vízszintesen mozgó lista, melyben oszloponként találhatóak a tárgyak, és a hozzájuk tartozó gombok. 
+A gombok szövege annak függvényében változik, hogy a hátizsák elemeihez tartozik, vagy a boltban található tárgyakhoz. 
+
+\Picture{Részletes tárgyinformáció}{4/targypopup}{width=14cm}
+
+A tárgyakat ábrázoló képek hosszú lenyomására egy felugró ablak jelenik meg, amiben a kiválasztott tárgyról kaphatunk részletesebb információkat, melyet \aref{fig_4/targypopup} ábrán tekinthetünk meg. 
+Amennyiben a hátizsákban szereplő tárgyakhoz tartozó gombot nyomja meg a felhasználó, azt a tárgyat eladja amiért cserébe aranyat kap és egy hely felszabadul a hátizsákjában. 
+A boltban található tárgyak esetén a gombnyomás hatására a kiválasztott tárgyat megveszi a felhasználó, amennyiben van elegendő aranya rá. 
+A két bolt belső nézete \aref{fig_4/boltok} ábrán látható. 
+
+\Picture{Pillanatképek a boltokról}{4/boltok}{width=14cm}
+
+\subsection*{Karakterlap}
+\label{karakterlap}
+Minden jelenet jobb alsó sarkában található a karakterlapot megnyitó gomb. 
+A gomb megnyomása után az eltűnik, és a karakterlap felülete teljesen eltakarja a játékteret, ahogy \aref{fig_4/karakterlap_jutalomlista} ábra a) képén láthatjuk. 
+Itt a játékos tulajdonságait tekinthetjük meg, továbbá itt rendelhetjük hozzá a fegyvereket és varázsitalokat is. 
+A nézet itt is két részre tagolódik, alul található a hátizsák tartalma - akárcsak a boltok esetén - felül pedig a karakter fontosabb tulajdonságait jelző panel jelenik meg. 
+A panel bal felső részében található a karakter képe, alatta pedig az aktuális szintje jelenik meg. 
+A szintjelző szöveg alatt találhatjuk meg azt a tárolót, ahol a karakterhez rendelt fegyver és varázsitalok találhatóak. 
+Amennyiben kicseréljük az aktuális hozzárendelt fegyvert - egy, a hátizsákba rakott másik fegyverre - a felület automatikusan frissül. 
+Ezektől az elemektől jobbra találhatóak az életerőt, tapasztalati-pontot és sztamina mennyiséget jelző sávok, melyek mindegyike grafikusan és számokkal is megjeleníti a mennyiségeket. 
+A sávok alatt látható, hogy a karakter mennyi pontot tud elosztani a három alaptulajdonságára. 
+A karakter számára négy elosztható pont íródik jóvá minden szintlépése után. 
+Az előzőekben tárgyalt két panel között található az a felület, ahol ezeket a pontokat lehet elosztani. 
+A tulajdonságokat külön sorban jelezve, mindegyik sorban jelezve az aktuális nagyságát és egy gomb, amivel - ha van elosztható pont - növelhető az. 
+A képernyő jobb felső sarkában található a karakterlap bezárására alkalmas gomb, és a jutalomlista megnyitására szolgáló gomb. 
+Amennyiben a karakterlapot zárja be a felhasználó, az azt megnyitó gomb újra megjelenik és a játéktér újra láthatóvá válik.
+
+\Picture{Karakterlap és jutalomlista}{4/karakterlap_jutalomlista}{width=14cm}
+
+\subsection*{Jutalomlista}
+\label{jutalomlista}
+A karakterlapon tudunk idekerülni, és a korábbi karakterlap felülete teljes egészében lecserélődik a jutalomlista nézetére, melyet \aref{fig_4/karakterlap_jutalomlista} ábra b) képén tekinthetünk meg. 
+A felületen egy listába vannak rendezve a sporttevékenységek, illetve ezekhez hozzárendelve a sportolásért kapott jutalmak. 
+A lista három oszlopból áll: az első oszlopban a sporttevékenység típusát láthatjuk, a középső oszlopban a kapott jutalom megnevezése és a megszerzett sztamina mennyisége található, míg az utolsó oszlopban a jutalmazás ideje van. 
+A felület jobb alsó sarkában található egy frissítés gomb, mellyel manuálisan ellenőrizhetjük, hogy van-e olyan új sportteljesítmény feljegyezve a csatlakoztatott sport-tracker alkalmazásokban, amelyért jutalom jár a karakter számára. 
+Amennyiben van ilyen, az a listába automatikusan bekerül.
+A képernyő bal felső sarkában található a jutalomlistát bezáró gomb, melyre kattintva visszatérünk a karakterlapra. 
+Amennyiben manuálisan frissítettük a listát, és kaptunk új jutalmat, a karakterlapra visszatérve a kapott jutalmat a játékos hátizsákjában találjuk. 
+
+\section{Harcmező}
+\label{harcmezo}
+A karakter a harcmezőn találja magát a játék elindítása után azonnal, ha a legutóbbi futás során a harcmezőn tartózkodott az alkalmazás bezárásakor. 
+A játékmenet közben a városban is megtalálható portálkapun keresztül képes idekerülni, és a területet ezen keresztül képes elhagyni. 
+A várossal ellentétben ezen a képernyőn a játéktér bal felső részén található két sáv, amelyek a felhasználó életerő- és sztaminaszintjét jelzik. 
+A területen való távolságmegtétel a karakter sztamináját csökkenti, így ha túl sokat barangolt a területen és elfogyott, nem lesz képes továbbhaladni. 
+Mozgás közben a sztaminajelző sáv folyamatosan követi a karakter aktuális sztaminaszintjét, így a felhasználó mindig tudatában lesz, hogy hozzávetőlegesen mekkora távolságot képes megtenni a karakterrel. 
+A felület bal alsó sarkában található három gomb, amelyek segítségével csökkenthető a játékterület teljes mérete, így az egy képernyőn nem látható elemek is láthatóvá válnak a felhasználó számára. 
+Különbséget képez még, hogy ezen a területen az épületek helyett szörnyek találhatóak, melyeket le kell győzni. 
+A karaktert és a legyőzendő ellenségeket \aref{fig_4/harc} ábra a) képén tekinthetjük meg. 
+Az ellenféllel való csatához az ellenség közelébe kell érni, és ha megfelelően megközelítette a játékos az adott szörnyet, automatikusan átkerül a harcjelenethez. 
+Ha a harctéren található minden ellenfelet legyőzött, a játékos automatikusan visszakerül a városba, ahol a tartalékait visszatöltve újra elindulhat a harcmezőre, ahol új, erősebb ellenfelek várnak rá. 
+
+\section{Harcjelenet}
+\label{harcjelenet}
+Miután a harctéren közel került a karakter egy szörnyhöz, erre a jelenetre kerül át, ahol csak a harcban résztvevő két fél látható. 
+A harcmezőn található két sáv közül a sztaminaszintet jelző eltűnik - hiszen most erre az információra nincs szüksége a felhasználónak - ehelyett a felület jobb felső részében megjelent az ellenfél életerejét jelző sáv. 
+A felület alsó részén látható továbbá egy új gomb, amellyel a harc szimulálását lehet elindítani. 
+Amíg nincs megnyomva ez a gomb, a felhasználónak ideje van felkészülni a csatára, például a karakterlapon új fegyvert rendelhet a karakterhez vagy valamilyen varázsital segítségével növelheti az alaptulajdonságát, vagy visszatöltheti részlegesen a karakter életét. 
+A szimulálás során a felhasználó nem tud közbeavatkozni a csatában azon kívül, hogy a szimuláció során is képes megnyitni a karakterlapot, ahol az előbb leírt lehetőségei vannak a harc során is. 
+Amennyiben a harc során győztesen kerül ki a karakter, újra a harcmezőre kerül, és folytathatja az ellenségekkel való megmérettetéseket. 
+Ellenkező esetben visszakerül a városba, ahol az életpontjai újra visszatöltődtek, viszont a hozzárendelt összes varázsital eltűnik. 
+A harcjelenetről egy áttekintő kép \aref{fig_4/harc} ábra b) képén látható. 
+
+\Picture{Harcmező és harcjelenet}{4/harc}{width=14cm}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

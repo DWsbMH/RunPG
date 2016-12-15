@@ -1,15 +1,29 @@
-\select@language {magyar} \contentsline {chapter}{\numberline {1}Bevezet\IeC {\'e}s}{6}{chapter.1}
-\select@language {magyar} \contentsline {chapter}{\numberline {2}Hasonl\IeC {\'o} fejleszt\IeC {\'e}sek, szerepj\IeC {\'a}t\IeC {\'e}kokr\IeC {\'o}l \IeC {\'a}ltal\IeC {\'a}nosan}{8}{chapter.2}
-\select@language {magyar} \contentsline {section}{\numberline {2.1}A vide\IeC {\'o}j\IeC {\'a}t\IeC {\'e}kok t\IeC {\"o}rt\IeC {\'e}nete}{8}{section.2.1}
-\select@language {magyar} \contentsline {section}{\numberline {2.2}Sportj\IeC {\'a}t\IeC {\'e}kok}{10}{section.2.2}
-\select@language {magyar} \contentsline {section}{\numberline {2.3}Az RPG j\IeC {\'a}t\IeC {\'e}kokr\IeC {\'o}l \IeC {\'a}ltal\IeC {\'a}noss\IeC {\'a}gban}{12}{section.2.3}
-\select@language {magyar} \contentsline {chapter}{\numberline {3}K\IeC {\"o}vetelm\IeC {\'e}nyek, technol\IeC {\'o}gi\IeC {\'a}k}{15}{chapter.3}
-\select@language {magyar} \contentsline {section}{\numberline {3.1}K\IeC {\"o}vetelm\IeC {\'e}nyek}{15}{section.3.1}
-\select@language {magyar} \contentsline {section}{\numberline {3.2}Felhaszn\IeC {\'a}lt technol\IeC {\'o}gi\IeC {\'a}k}{17}{section.3.2}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{20}{chapter.4}
-\select@language {magyar} \contentsline {section}{\numberline {4.1}A j\IeC {\'a}t\IeC {\'e}k ind\IeC {\'\i }t\IeC {\'a}sa}{21}{section.4.1}
-\select@language {magyar} \contentsline {section}{\numberline {4.2}Adatb\IeC {\'a}zis fel\IeC {\'e}p\IeC {\'\i }t\IeC {\'e}se}{25}{section.4.2}
-\select@language {magyar} \contentsline {section}{\numberline {4.3}J\IeC {\'a}t\IeC {\'e}k megjelen\IeC {\'\i }t\IeC {\'e}se}{27}{section.4.3}
-\select@language {magyar} \contentsline {section}{\numberline {4.4}A j\IeC {\'a}t\IeC {\'e}klogika}{30}{section.4.4}
-\select@language {magyar} \contentsline {chapter}{\numberline {5}Tov\IeC {\'a}bbfejleszt\IeC {\'e}si lehet\IeC {\H o}s\IeC {\'e}gek}{35}{chapter.5}
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Bevezet\IeC {\'e}s}{7}{chapter.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {2}Hasonl\IeC {\'o} fejleszt\IeC {\'e}sek, szerepj\IeC {\'a}t\IeC {\'e}kokr\IeC {\'o}l \IeC {\'a}ltal\IeC {\'a}nosan}{9}{chapter.2}
+\select@language {magyar} \contentsline {section}{\numberline {2.1}A vide\IeC {\'o}j\IeC {\'a}t\IeC {\'e}kok t\IeC {\"o}rt\IeC {\'e}nete}{9}{section.2.1}
+\select@language {magyar} \contentsline {section}{\numberline {2.2}Sportj\IeC {\'a}t\IeC {\'e}kok}{11}{section.2.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.2.1}Zombies, Run!}{12}{subsection.2.2.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.2.2}Tep}{12}{subsection.2.2.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.2.3}Pok\IeC {\'e}mon Go}{12}{subsection.2.2.3}
+\select@language {magyar} \contentsline {section}{\numberline {2.3}Az RPG j\IeC {\'a}t\IeC {\'e}kokr\IeC {\'o}l \IeC {\'a}ltal\IeC {\'a}noss\IeC {\'a}gban}{13}{section.2.3}
+\select@language {magyar} \contentsline {chapter}{\numberline {3}K\IeC {\"o}vetelm\IeC {\'e}nyek, technol\IeC {\'o}gi\IeC {\'a}k}{16}{chapter.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.1}K\IeC {\"o}vetelm\IeC {\'e}nyek}{16}{section.3.1}
+\select@language {magyar} \contentsline {section}{\numberline {3.2}Felhaszn\IeC {\'a}lt technol\IeC {\'o}gi\IeC {\'a}k}{18}{section.3.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}J\IeC {\'a}t\IeC {\'e}kmotorok}{18}{subsection.3.2.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.2}Fejleszt\IeC {\H o}k\IeC {\"o}rnyezet}{19}{subsection.3.2.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.3}OAuth protokoll}{19}{subsection.3.2.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.4}OrmLite}{20}{subsection.3.2.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Felhaszn\IeC {\'a}l\IeC {\'o} k\IeC {\'e}zik\IeC {\"o}nyv}{21}{chapter.4}
+\select@language {magyar} \contentsline {section}{\numberline {4.1}Kezd\IeC {\H o}k\IeC {\'e}perny\IeC {\H o}}{22}{section.4.1}
+\select@language {magyar} \contentsline {section}{\numberline {4.2}Karakter}{22}{section.4.2}
+\select@language {magyar} \contentsline {section}{\numberline {4.3}V\IeC {\'a}ros}{23}{section.4.3}
+\select@language {magyar} \contentsline {section}{\numberline {4.4}Harcmez\IeC {\H o}}{27}{section.4.4}
+\select@language {magyar} \contentsline {section}{\numberline {4.5}Harcjelenet}{27}{section.4.5}
+\select@language {magyar} \contentsline {chapter}{\numberline {5}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{29}{chapter.5}
+\select@language {magyar} \contentsline {section}{\numberline {5.1}A j\IeC {\'a}t\IeC {\'e}k ind\IeC {\'\i }t\IeC {\'a}sa}{30}{section.5.1}
+\select@language {magyar} \contentsline {section}{\numberline {5.2}Adatb\IeC {\'a}zis fel\IeC {\'e}p\IeC {\'\i }t\IeC {\'e}se}{34}{section.5.2}
+\select@language {magyar} \contentsline {section}{\numberline {5.3}J\IeC {\'a}t\IeC {\'e}k megjelen\IeC {\'\i }t\IeC {\'e}se}{36}{section.5.3}
+\select@language {magyar} \contentsline {section}{\numberline {5.4}A j\IeC {\'a}t\IeC {\'e}klogika}{39}{section.5.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {6}Tov\IeC {\'a}bbfejleszt\IeC {\'e}si lehet\IeC {\H o}s\IeC {\'e}gek}{44}{chapter.6}
+\select@language {magyar} \contentsline {chapter}{\numberline {7}\IeC {\"O}sszefoglal\IeC {\'a}s}{47}{chapter.7}
 \select@language {magyar} \vspace *{\baselineskip }

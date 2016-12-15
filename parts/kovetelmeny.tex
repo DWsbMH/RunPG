@@ -1,24 +1,24 @@
 %3. fejezet
 
-A fejezetben szó esik a szoftverrel szemben támasztott követelményekről, valamint a felhasznált programok technológiák kerülnek bemutatásra. 
+A fejezetben szó esik a szoftverrel szemben támasztott követelményekről, valamint a felhasznált programok, technológiák kerülnek bemutatásra. 
 
 %3.1
 \section{Követelmények}
 \label{kovetelmenyek}
 
-Az alkalmazással szemben különféle követelményeket támasztottam, melyeknek mindenképp meg kellett felelnie, melyek a következőek: 
+Az alkalmazással szemben különféle követelményeket támasztottam, melyeknek mindenképp meg kellett felelnie, ezek az alábbiak: 
 
 \begin{description}
 	\item [Kiterjeszthetőség] 
     A játék alapköve, hogy a különböző testmozgásokat különböző pozitív jutalmakkal díjazza. 
-	A sportolási tevékenységeket különböző sport-trackerekkel lehet mérni. 
-	Az alkalmazásban ezt kétféle módszerrel lehet megvalósítani, egy hasonló működésű modult hozok létre, amely különböző szenzorok segítségével méri a sporttevékenységeket (GPS, gyorsulásmérő) vagy már meglévő szolgáltatásoktól szerezzük be ezeket az adatok. 
+	A sportolási tevékenységeket különböző sport-trackerekkel tudjuk mérni. 
+	Az alkalmazásban ezt kétféle módszerrel lehet megvalósítani, egy hasonló működésű modult hozok létre, amely különböző szenzorok segítségével méri a sporttevékenységeket (GPS, gyorsulásmérő) vagy már meglévő szolgáltatásoktól szerezzük be ezeket az adatokat. 
 	Az utóbbi megoldás előnye, hogy a népszerűbb sport-tracker alkalmazások felhasználóbázisa milliós nagyságrendű, így rengeteg potenciális felhasználó számára nyílik lehetőség a játékba való kapcsolódáshoz. 
-	Számos ilyen szolgáltatással találkozhatunk, elvárás volt a játékkal szemben, hogy minél több integrálható legyen, és a legismertebbek közül legalább kettő meg is legyen valósítva.	
+	Számos ilyen szolgáltatással találkozhatunk, elvárás volt a játékkal szemben, hogy minél több tracker integrálható legyen, és a legismertebbek közül legalább kettő meg is legyen valósítva.	
 	\item [Jutalmak] 
 	A felhasználó számára elvégzett sportteljesítményei alapján jutalmakat kell kapnia, melyeket a játék közben felhasználhat. 
 	\item [Érdeklődés fenntartása] 
-	Olyan játékmenetet kell a kialakítani, amely a hosszabb távon is lekötik a játékos figyelmét. 
+	Olyan játékmenetet kell kialakítani, amely hosszabb távon is leköti a játékos figyelmét. 
 	Ezt elérendő fokozatosan nehezedő területeket kell a felhasználó számára kínálni, mely ösztönzi a továbbhaladásra.
 	\item [Kis erőforrás igény] 
 	A játéknak alacsony erőforrás mellett is megfelelően kell működnie, hogy az esetleges régebbi készülékeken is kielégítő játékélményt nyújtson. 
@@ -33,7 +33,7 @@ Az alábbiakban a főbb funkcionális követelmények kerülnek bemutatásra.
 
 \begin{itemize}
 	\item 
-	A minél nagyobb számú támogatottság elérése érdekében az úgy kell kialakítani az alkalmazást, hogy a későbbiekben könnyedén lehessen integrálni különböző sport-tracker alkalmazást. 
+	A minél nagyobb számú támogatottság elérése érdekében úgy kell kialakítani az alkalmazást, hogy a későbbiekben könnyedén lehessen integrálni különböző sport-tracker alkalmazást. 
 	\item 
 	Csatlakozás után az alkalmazásnak le kell töltenie a felhasználó legújabb sport tevékenységeit. 
 	Erőforrás takarékosság szempontjából először meg kell bizonyosodni, hogy van-e új tevékenység. 
@@ -61,7 +61,7 @@ Az alábbiakban a főbb funkcionális követelmények kerülnek bemutatásra.
 \section{Felhasznált technológiák}
 \label{felhtechnologia}
 
-\section*{Játékmotorok}
+\subsection{Játékmotorok}
 \label{jatekmotor}
 
 Játékmotornak nevezzük a játékok - legyen az akár számítógépre vagy konzolra készült – azon részét, amely a program alapjául szolgáló technológiát adja. 
@@ -89,7 +89,7 @@ A dream-iso-droid egy olyan speciális játékmotor, ami kifejezetten Android pl
 Ez a két funkciója pontosan megfelelt az elvárásaimnak, amit a játékmotor felé támasztottam, aminek segítségével fejleszteni szerettem volna az RPG játékomat.
 A \ref{fig_3/gameengine}. ábrán látható egy összefoglaló táblázat, melyben megtekinthető a megvizsgált játékmotorok azon tulajdonságai, melyeket figyelembe vettem a választás során. 
 
-\section*{Fejlesztőkörnyezet}
+\subsection{Fejlesztőkörnyezet}
 \label{ide}
 
 A megvalósítás során az Android Studio fejlesztőkörnyezetet használtam, melyet az Android operációs rendszer fejlesztője, a Google készített el. 
@@ -97,7 +97,7 @@ Integrálva van benne minden olyan szolgáltatás mely nagyban megkönnyíti a f
 Továbbiakban található benne grafikus felületszerkesztő is, ahol drop\&down módszer segítségével a grafikus felület szerkezetét könnyen össze tudjuk rakni. 
 Integrálva van tovább több verziókövető is, így a fejlesztőkörnyezet elhagyása nélkül tudjuk az újabb verziójú fájlokat a megfelelő távoli tárolóoldalra eljuttatni. 
 
-\section*{OAuth protokoll}
+\subsection{OAuth protokoll}
 \label{oauth}
 
 \Picture{Az OAuth protokoll absztrakt működési ábrája}{3/oauthflow}{width=14cm}
@@ -112,7 +112,7 @@ Az alkalmazás ezt a megerősítő kódot tudja "elcserélni" a szerverrel egy t
 A későbbi adatelérés alkalmával minden kéréshez csatolnia kell az alkalmazásnak ezt a tokent. 
 A szerver ezt a tokent vizsgálva tudja eldönteni, hogy a kért információhoz a felhasználó engedélyt adott-e. 
 
-\section*{OrmLite}
+\subsection{OrmLite}
 \label{ormlite}
 
 Az alkalmazáson belül az adatok hosszútávú tárolására az OrmLite könyvtárat \cite{ormlite} használtam, amely képes Java objektumokat az alkalmazás helyi SQLite adatbázisába írni. 
