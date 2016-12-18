@@ -33,7 +33,7 @@ Az alábbiakban a főbb funkcionális követelmények kerülnek bemutatásra.
 
 \begin{itemize}
 	\item 
-	A minél nagyobb számú támogatottság elérése érdekében úgy kell kialakítani az alkalmazást, hogy a későbbiekben könnyedén lehessen integrálni különböző sport-tracker alkalmazást. 
+	A minél nagyobb számú támogatottság elérése érdekében úgy kell kialakítani az alkalmazást, hogy a későbbiekben könnyedén lehessen integrálni különböző sport-tracker alkalmazásokat. 
 	\item 
 	Csatlakozás után az alkalmazásnak le kell töltenie a felhasználó legújabb sport tevékenységeit. 
 	Erőforrás takarékosság szempontjából először meg kell bizonyosodni, hogy van-e új tevékenység. 
@@ -41,18 +41,17 @@ Az alábbiakban a főbb funkcionális követelmények kerülnek bemutatásra.
 	\item
 	A különböző integrált alkalmazások adatainak tárolására létre kell hozni egy egységes adatszerkezetet, így elkerülve az inkonzisztens adatokat. 
 	\item 
-	Bejelentkezés után az újonnan letöltött adatok alapján a felhasználó staminát (kitartást) kap. 
-	Egy játékosnak maximum 100 staminája lehet. 
-	A kapott stamina mennyisége összhangban kell lennie ezzel a maximális értékkel, a játékos szintjével, és a tevékenységben szereplő adatok nagyságával. 
-	Azaz az alacsony és magas szintű felhasználóknak is egyaránt élvezetesnek kell maradnia a játéknak, nem szabad se túl sokat, se túl keveset kapni. 
-	Túl sok stamina esetén nagyon könnyen haladhatna a felhasználó a játékban, így egy idő után beleunna, túl kevés esetén viszont a folyamatosan túl nagy kihívást jelentő és csak nagy megerőltetést jelentő tevékenységek szintén ugyanezt a hatást érnék el.
+	Bejelentkezés után az újonnan letöltött adatok alapján a felhasználó sztaminát (kitartást) kap. 
+	Egy játékosnak maximum 100 sztaminája lehet. 
+	A kapott sztamina mennyisége összhangban kell lennie ezzel a maximális értékkel, a játékos szintjével, és a tevékenységben szereplő adatok nagyságával. 
+	Vagyis az alacsony és magas szintű felhasználóknak is egyaránt élvezetesnek kell maradnia a játéknak, nem szabad se túl sokat, se túl keveset kapniuk. 
+	Túl sok sztamina esetén nagyon könnyen haladhatna a felhasználó a játékban, így egy idő után beleunna, túl kevés esetén viszont a folyamatosan túl nagy kihívást, és nagy megerőltetést jelentő tevékenységek szintén ugyanezt a hatást érnék el.
 	\item 
-	A jutalomként megkapott staminát a felhasználó a játékosa fejlődésére használhatja fel különböző módokon. 
+	A jutalomként megkapott sztaminát a felhasználó a játékosa fejlődésére használhatja fel különböző módokon. 
 	Az egyik ilyen mód a világban való "barangolás", ami közben szörnyek támadhatnak a játékosra, amelyeket legyőzve játékbeli pénzt és tapasztalati pontot kap a játékos. 
-	A másik mód küldetések vállalása, amelyet a felhasználónak kell ténylegesen sportolva teljesíteni, és csak a teljesítése után kapja meg az érte járó játékbeli jutalmat.
 	\item 
-	A játékos ezen kívül rendelkeznie kell tulajdonságokkal is, melyek a szörnyek elleni csatában segíthetnek számára. 
-	Tulajdonságot növeli szintlépéssel vagy valamilyen kirívó sportteljesítményért cserébe lenne érdemes megengedni.
+	A játékosnak ezen kívül rendelkeznie kell tulajdonságokkal is, melyek a szörnyek elleni csatában segíthetnek számára. 
+	Tulajdonságot növelni szintlépéssel képes a játékos. 
 	\item 
 	További tárgyakat is érdemes lenne megvalósítani a játékos számára, melyek védelemmel vagy támadóerővel növelhetnék a játékos erejét.
 \end{itemize}
@@ -80,22 +79,22 @@ Méretük alapján túl nagynak is bizonyultak volna egy ilyen kisebb méretű p
 A következő játékmotor, amit megvizsgáltam a HexEngine volt, amit Szabó László készített el MSc diplomamunkájaként. 
 A motor előnye, hogy rengeteg hasznos funkciót támogat szerepjátékok elkészítéséhez, viszont a játéktér hatszögű blokkokra van osztva, amivel megbonyolította volna a közlekedést a játékon belül.
 
-A választásom így Hollósi Tamás által készített dream-iso-droid játékmotorra esett, amit témavezetőm ismertetett meg velem. 
+A választásom így Hollósi Tamás által készített dream-iso-droid játékmotorra esett, amit témavezetőm ismertetett meg velem. \cite{dreamisodroid}
 Mivel készítője elérhető közelségben volt, ezért könnyebben sikerült megismerkednem a motor nyújtotta funkciókkal.
 
 \Picture{Játékmotorok összehasonlítása}{3/gameengine}{width=10cm}
 
 A dream-iso-droid egy olyan speciális játékmotor, ami kifejezetten Android platformra készült és a két dimenziós izometrikus nézetet támogatja. 
 Ez a két funkciója pontosan megfelelt az elvárásaimnak, amit a játékmotor felé támasztottam, aminek segítségével fejleszteni szerettem volna az RPG játékomat.
-A \ref{fig_3/gameengine}. ábrán látható egy összefoglaló táblázat, melyben megtekinthető a megvizsgált játékmotorok azon tulajdonságai, melyeket figyelembe vettem a választás során. 
+\Aref{fig_3/gameengine}. ábrán látható egy összefoglaló táblázat, melyben megtekinthetőek a megvizsgált játékmotorok azon tulajdonságai, melyeket figyelembe vettem a választás során. 
 
 \subsection{Fejlesztőkörnyezet}
 \label{ide}
 
 A megvalósítás során az Android Studio fejlesztőkörnyezetet használtam, melyet az Android operációs rendszer fejlesztője, a Google készített el. 
-Integrálva van benne minden olyan szolgáltatás mely nagyban megkönnyíti a fejlesztők munkáját, mint például a Gradle keretrendszer amely többek közt a projekt építéséért és a különböző külső függőségekért felelős. 
+Integrálva van benne minden olyan szolgáltatás, mely nagyban megkönnyíti a fejlesztők munkáját, mint például a Gradle keretrendszer, amely többek közt a projekt építéséért és a különböző külső függőségekért felelős. 
 Továbbiakban található benne grafikus felületszerkesztő is, ahol drop\&down módszer segítségével a grafikus felület szerkezetét könnyen össze tudjuk rakni. 
-Integrálva van tovább több verziókövető is, így a fejlesztőkörnyezet elhagyása nélkül tudjuk az újabb verziójú fájlokat a megfelelő távoli tárolóoldalra eljuttatni. 
+Integrálva van továbbá több verziókövető is, így a fejlesztőkörnyezet elhagyása nélkül tudjuk az újabb verziójú fájlokat a megfelelő távoli tárolóoldalra eljuttatni. 
 
 \subsection{OAuth protokoll}
 \label{oauth}
@@ -103,7 +102,7 @@ Integrálva van tovább több verziókövető is, így a fejlesztőkörnyezet el
 \Picture{Az OAuth protokoll absztrakt működési ábrája}{3/oauthflow}{width=14cm}
 
 Az OAuth protokoll \cite{oauthprotocol} egy nyílt autorizációs szabvány mely segítségével a felhasználók megoszthatják bizonyos privát információit anélkül, hogy azonosítási adataikat kiadnák. 
-A \ref{fig_3/oauthflow}. ábrán látható a protokoll működési folyamata. 
+\Aref{fig_3/oauthflow}. ábrán látható a protokoll működési folyamata. 
 Ha egy alkalmazás el akar érni olyan adatot ami bizalmasan van kezelve, ahhoz előbb engedélyt kell kérnie hozzá. 
 Az alkalmazás továbbirányítja a felhasználót az adott szolgáltatás felületére - többnyire valamilyen webböngészőbe -, ahol engedélyt tud adni számára. 
 Ekkor a felhasználónak be kell jelentkeznie a fiókjába, és megadni a kért engedélyeket. 
@@ -117,5 +116,5 @@ A szerver ezt a tokent vizsgálva tudja eldönteni, hogy a kért információhoz
 
 Az alkalmazáson belül az adatok hosszútávú tárolására az OrmLite könyvtárat \cite{ormlite} használtam, amely képes Java objektumokat az alkalmazás helyi SQLite adatbázisába írni. 
 Több platformon is elérhető, az Androidos készülékeken natív API hívásokkal kezeli az adatbázist. 
-Használata könnyű, egyszerű Java osztályokat kell a megfelelő annotációkkal ellátni, majd az annotációk alapján a könyvtár képes a kívánt módon kiolvasni avagy eltárolni az adatokat. 
+Használata könnyű, egyszerű Java osztályokat kell a megfelelő annotációkkal ellátni, majd az annotációk alapján a könyvtár képes a kívánt módon kiolvasni és eltárolni az adatokat. 
 A könyvtár a DAO, azaz Data Access Object tervezési mintát használja, amely elkülöníti az alacsony szintű API hívásokat a magasabb szintű szolgáltatásoktól. 

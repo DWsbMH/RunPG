@@ -14,12 +14,12 @@ A továbbiakban bemutatásra kerülnek a megvalósítás részletei.
 \subsection*{Engedélyek, rendszerkövetelmények}
 \label{requirements}
 
-Ahhoz, hogy a játék minden funkcionalitása elérhetővé váljon néhány rendszerkövetelménynek meg kell felelnie a felhasználó eszközének. 
+Ahhoz, hogy a játék minden funkcionalitása elérhetővé váljon, néhány rendszerkövetelménynek meg kell felelnie a felhasználó eszközének. 
 Az eszközön legalább 4.4-es Android operációs rendszernek kell futnia, ami a 19-es API szintnek felel meg.
-Ezt feltételt a \Highlight{build.gradle} fájlban adhatjuk meg, ahol más, fontos paramétereket is megadunk. 
+Ezt a feltételt a \Highlight{build.gradle} fájlban adhatjuk meg, ahol más, fontos paramétereket is megadunk. 
 Ebben a fájlban kell megadni többek közt, hogy mely harmadik féltől származó könyvtárakat használ az alkalmazás, és ezen könyvtárak használt verziószámát is. 
 
-Az alkalmazásnak csupán egy engeélyre van szüksége, amit az \Highlight{AndroidManifest.xml} fájlban határozhatunk meg a következő módon:
+Az alkalmazásnak csupán egy engedélyre van szüksége, amit az \Highlight{AndroidManifest.xml} fájlban határozhatunk meg a következő módon:
 
 \begin{lstlisting}
 <uses-permission android:name="android.permission.INTERNET" />
@@ -31,7 +31,6 @@ Ezen kívül a fájlban az alkalmazást leíró metaadatok, általános konfigur
 \label{jatekinditas}
 
 Az alkalmazás indítása után a felhasználót egy egyszerű menü fogadja a \Highlight{StartActivity} nevű osztályban. 
-A menü tetején található a játék logója, melyet a játékban található több grafikai elemmel együtt Böröndi Evelin hallgatótársam készített el számomra. 
 Itt két lehetőség tárul a felhasználó elé, képes csatlakozni új sport-nyomkövető szolgáltatásokhoz, vagy elkezdhet játszani. 
 A csatlakoztatható szolgáltatások egy egyszerű listában tárolódnak soronként, ami tartalmazza a nevét, és egy gombot, amely elindítja a csatlakozási folyamatot. 
 
@@ -39,7 +38,7 @@ A csatlakoztatható szolgáltatások egy egyszerű listában tárolódnak soronk
 \label{trackerconnect}
 Jelenleg a két legnagyobb felhasználói bázissal rendelkező sport-trackerek a Runkeeper és a Strava. 
 Mindkettő rendelkezik publikusan elérhető API-val \cite{runkeeperapi} \cite{stravaapi}, mely segítségével könnyedén készíthetünk hozzájuk saját alkalmazásokat. 
-Mindkét szolgáltatás esetén ahhoz, hogy a játékkal össze tudja kötni a felhasználó a sport-tracker fiókját az OAuth protokollra van szükségünk, melyet \aref{oauth} fejezeteben mutattam be. 
+Mindkét szolgáltatás esetén ahhoz, hogy a játékkal össze tudja kötni a felhasználó a sport-tracker fiókját, az OAuth protokollra van szükségünk, melyet \aref{oauth} fejezeteben mutattam be. 
 
 A protokoll teljes működésének implementálása sok biztonsági és hibakezelési kérdést vet fel, így úgy döntöttem, hogy egy már kész könyvtárat használok hozzá. 
 
@@ -66,7 +65,7 @@ public String getAuthorizationUrl(OAuthConfig config) {
 \end{lstlisting}
 
 Mivel ez a kommunikáció hálózati tevékenységgel jár, nem történhet az Android fő programszálán. 
-Egyrészt ha a fő szálon folyna ez a kommunikáció, az alkalmazás nem tudna tovább futni, amíg hitelesítési folyamat be nem fejeződik. 
+Egyrészt ha a fő szálon folyna ez a kommunikáció, az alkalmazás nem tudna tovább futni, amíg a hitelesítési folyamat be nem fejeződik. 
 Ez akár több másodpercbe is telhet a hálózati körülményeket figyelembe véve, így addig az alkalmazás blokkolódna. 
 A felhasználói élmény miatt ez nem megengedhető, így ezt a folyamatot a háttérben kell elvégezni, hogy az alkalmazás zavartalanul futhasson tovább. 
 Az Android SDK-ban több beépített lehetőség segítségével is meg tudjuk valósítani ezt:
@@ -81,7 +80,7 @@ Ezeknek a lehetőségeknek megvan a maguk előnye és hátránya.
 A normál Java szálak használata széles körben elterjedt, de nagyobb, bonyolultabb programszerkezet mellett használatuk nehézkes. 
 A következő választási lehetőség az Android SDk-ban bemutatott AsyncTask osztály használata. 
 Ennek segítségével könnyedén indíthatunk háttérben futó kódrészleteket. 
-Az osztályon belül felülírható metódusok, amelyek az adott tevékenység elején, közben, vagy a feladata végeztével hívódnak meg. 
+Az osztályon belül felülírhatóak metódusok, amelyek az adott tevékenység elején, közben, vagy a feladata végeztével hívódnak meg. 
 Ez a fajta megoldás sokkal kötetlenebb, viszont ahogy az előző pontban taglalt sima szálhoz hasonlóan, ha az adott Activity, amelyikből el lett indítva háttérbe kerül, az operációs rendszer meg tudja szakítani a folyamat futását. 
 Az \Highlight{IntentService} esetén ez nem történik meg, tovább egyrészt nincs \Highlight{Activity}-hez kötve, másrészt a kéréseket egy sorba teszi, amelynek a későbbieknek még fontos szerepe lesz. 
 
@@ -114,7 +113,7 @@ mStatusIntentFilter.addAction(FETCH_ALL_ACTIVITY_DONE);
 LocalBroadcastManager.getInstance(this).registerReceiver(receiver, mStatusIntentFilter);
 \end{lstlisting}
 
-Ebben az esetben regisztrálunk egy fogadó osztályt, melyet a \Highlight{BroadcastReceiver} örököltettünk és \Highlight{onReceive} metódusát felülírtuk. 
+Ebben az esetben regisztrálunk egy fogadó osztályt, melyet a \Highlight{BroadcastReceiver} osztályól örököltettünk és \Highlight{onReceive} metódusát felülírtuk. 
 A második paramétere az az \Highlight{Intent} lesz, amelyet a háttérben futó kód befejeztével sugároztunk szét, és csak is akkor jutunk el ide, ha az adott intent objektum akciója megfelel a szűrőbe beállított akciók valamelyikének. 
 Amennyiben nem csatlakozni akarunk egy lehetséges sport-trackerhez, hanem el szeretnénk kezdeni játszani, abban az esetben hasonló folyamat játszódik le, annyi eltéréssel, hogy a már csatlakoztatott trackerektől csakis a legújabb sportteljesítményeket kérjük le. 
 
@@ -148,7 +147,7 @@ public SportActivityType getUnifiedType(String typeFromTracker) { ... }
 
 Mindegyik metódus az interfészben lett deklarálva, így elérve, hogy csakis az adott szolgáltatáshoz tartozó osztály legyen felelős az onnan történő adatletöltés részleteiért. 
 A \Highlight{convertActivity()} metódusra azért van szükség, mert már a két integrált sport-tracker esetén is előfordult, hogy ugyanazon célt szolgáló információk nem ugyanolyan típusban tárolódnak. 
-A metódus segítségével egy sporttevékenységhez tartozó adatot az alkalmazás elvárt formátumba hozható, így segítve továbbá az egységes felületet, mivel ezt a metódust az összes letöltött adatra meg kell hívni. 
+A metódus segítségével egy sporttevékenységhez tartozó adatot az alkalmazásban elvárt formátumba hozható, így segítve továbbá az egységes felületet, mivel ezt a metódust az összes letöltött adatra meg kell hívni. 
 
 \subsection*{Jutalmazás}
 \label{reward}
@@ -157,8 +156,9 @@ A metódus segítségével egy sporttevékenységhez tartozó adatot az alkalmaz
 Miután az adatok letöltése megtörtént és a kívánt formátumba kerültek, megkezdődhet a vizsgálat, hogy az újonnan letöltött adatokért jár-e a felhasználó számára ajándék. 
 A \Highlight{Requirements} osztály tudja megvizsgálni, hogy az adott sportolásért járhat-e ajándék. 
 Ennek egyetlen statikus metódusa van, amely igazzal tér vissza, ha megfelelt az elvárásoknak, hamissal, ha pedig nem érte el a minimum megszabott követelményeket. 
-A jutalom kisorsolására létrehoztam a \Highlight{RewardDrawer} osztályt, és minden új adatot megvizsgál. 
-A jutalmazás függ a sportolás típusától, hosszától, esetleges egyéb paramétereitől is, maga a jutalom is többféle lehet, ugyanakkor minden esetben mindenféle feltétel nélkül kiszámolásra kerül az adott sportteljesítmény alapján egy staminamennyiség, amit a játékos megkap. 
+A jutalom kisorsolására létrehoztam a \Highlight{RewardDrawer} osztályt, amely minden új adatot megvizsgál. 
+A jutalmazás függ a sportolás típusától, hosszától, esetleges egyéb paramétereitől is. 
+Maga a jutalom is többféle lehet, ugyanakkor minden esetben mindenféle feltétel nélkül kiszámolásra kerül az adott sportteljesítmény alapján egy sztaminamennyiség, amit a játékos megkap. 
 
 A kiosztható jutalmak a következőek:
 
@@ -170,7 +170,7 @@ A kiosztható jutalmak a következőek:
 
 Továbbá elkészült három csoport, amelyekbe besorolásra kerültek a leggyakrabban előforduló sporttípusok. 
 Az előbb felsorolt jutalmak a három csoport esetén más-más eséllyel adományozódnak. 
-A kialakított csoportok és a hozzájuk tartozó esélyeket az \Aref{fig_5/jutalom}. ábrán látható táblázatban nézhetjük meg. 
+A kialakított csoportok és a hozzájuk tartozó esélyeket \aref{fig_5/jutalom}. ábrán látható táblázatban nézhetjük meg. 
 
 \Picture{Jutalomcsoportok és esélyek táblázata}{5/jutalom}{width=14cm}
 
@@ -180,12 +180,12 @@ A kialakított csoportok és a hozzájuk tartozó esélyeket az \Aref{fig_5/juta
 Minden Androidos alkalmazás rendelkezhet egy helyi SQLite adatbázissal, amelybe tárolhatja azokat az adatokat amelyeket két indítás között is meg akarunk őrizni az alkalmazásban. 
 Az SQLite egy több platformra fejlesztett, kisméretű relációs adatbázis-kezelő rendszer, mely tökéletesen illik a felhasználó okos-eszközének véges erőforrásaihoz. 
 Az adatbázissal való kommunikáció SQL utasításokkal történhet, amely nagyobb alkalmazások esetén nagyban megnövelheti a kódbázis méretét és potenciális hibákhoz vezethet. 
-Ezt elkerülendő az felhasználtam az ORMLite könyvtárat, amelyet részletesebben bemutattam \aref{ormlite} alfejezetben. 
+Ezt elkerülendő felhasználtam az ORMLite könyvtárat, amelyet részletesebben bemutattam \aref{ormlite} alfejezetben. 
 
 A könyvtár használatához el kell készítenünk egy olyan osztályt, amelyen keresztül végre tudunk hajtani különböző akciókat az adatbázissal. 
 Ehhez örököltetni kell a könyvtárban található \Highlight{OrmLiteSqliteOpenHelper} osztályból és felül kell írni az \Highlight{onCreate()} és \Highlight{onUpgrade()} metódusokat.
 Az \Highlight{onCreate()} metódus az első adatbázis-elérés alkalmával fut le, az alkalmazás futása során egyetlen egyszer, így itt kell létrehozni az adattáblákat és esetleges kezdeti értékekkel feltölteni. 
-Az \Highlight{onUpgrade()} metódus akkor hívódik meg, ha az alkalmazás egy újabb verziója telepítődik az eszközre, így ha valami struktúrális változás történt az adatbázis szerkezetében a legutóbbi verzió óta, itt lehet a megfelelő lépéseket megtenni a kompatibilitás megőrzése érdekében. 
+Az \Highlight{onUpgrade()} metódus akkor hívódik meg, ha az alkalmazás egy újabb verziója telepítődik az eszközre, így ha valami strukturális változás történt az adatbázis szerkezetében a legutóbbi verzió óta, itt lehet a megfelelő lépéseket megtenni a kompatibilitás megőrzése érdekében. 
 
 Az elkészült adatbázis fontosabb adattáblái és azok kapcsolata \aref{fig_5/adatbazis}. ábrán látható. 
 
