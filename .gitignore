@@ -2,9 +2,6 @@
 # Created by https://www.gitignore.io/api/android,intellij,gradle
 
 ### Android ###
-# Built application files
-*.apk
-*.ap_
 
 # Files for the ART/Dalvik VM
 *.dex
@@ -53,7 +50,6 @@ gen-external-apklibs
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
-.idea/workspace.xml
 .idea/tasks.xml
 .idea/dictionaries
 .idea/vcs.xml
@@ -69,8 +65,6 @@ gen-external-apklibs
 
 # Gradle:
 .idea/gradle.xml
-.idea/libraries
-
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
 
@@ -104,9 +98,6 @@ fabric.properties
 
 
 ### Gradle ###
-.gradle
-/build/
-
 # Ignore Gradle GUI config
 gradle-app.setting
 
