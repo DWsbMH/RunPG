@@ -12,15 +12,12 @@ import com.diploma.lilian.runpg.R;
 
 import java.util.List;
 
-public class RewardListAdapter extends BaseAdapter {
+class RewardListAdapter extends BaseAdapter {
 
-    private final Context context;
     private List<Reward> rewards;
     private final LayoutInflater mInflater;
 
-    public RewardListAdapter(Context context, List<Reward> rewards) {
-
-        this.context = context;
+    RewardListAdapter(Context context, List<Reward> rewards) {
         this.rewards = rewards;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

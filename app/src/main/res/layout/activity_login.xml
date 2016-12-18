@@ -43,7 +43,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Start game!"
         android:id="@+id/login"
         style="@style/AppTheme.Button"
         android:layout_below="@+id/logo_iv"

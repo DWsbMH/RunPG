@@ -68,7 +68,6 @@ import com.diploma.lilian.game.util.Formulas;
 
     @Override
     public void onFightWin() {
-        battleFieldSceneHandler.updatePlayer();
         battleFieldSceneHandler.getScene().resetCollisionDetector();
         int remainEnemy = battleFieldSceneHandler.removeEnemy();
         if (remainEnemy == 0) {
@@ -105,8 +104,6 @@ import com.diploma.lilian.game.util.Formulas;
         townSceneHandler.getScene().getViewport().move(0,0);
         townSceneHandler.getScene().getViewport().move((int)townSceneHandler.getScene().getPlayer().getSprite().getX(),
                 (int)townSceneHandler.getScene().getPlayer().getSprite().getY());
-
-        /* TODO place player on town with 10-20% health, maybe some penalty*/
     }
 
     private void afterBattleTasks() {

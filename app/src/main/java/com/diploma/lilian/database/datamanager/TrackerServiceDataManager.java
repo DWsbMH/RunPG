@@ -1,14 +1,12 @@
 package com.diploma.lilian.database.datamanager;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.diploma.lilian.database.entity.TrackerService;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 public class TrackerServiceDataManager extends DataManager<TrackerService> {
@@ -25,31 +23,6 @@ public class TrackerServiceDataManager extends DataManager<TrackerService> {
             e.printStackTrace();
         }
         return dao;
-    }
-
-    public List<String> getConnectibleServiceNames() {
-
-        try {
-            PreparedQuery<TrackerService> preparedQuery = dao.queryBuilder().selectColumns("name").where().eq("connected", false).prepare();
-            List<TrackerService> servicesToConnect = dao.query(preparedQuery);
-
-            return getConnectToNames(servicesToConnect);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private List<String> getConnectToNames(List<TrackerService> temp_list) {
-        List<String> names = new LinkedList<>();
-
-        for (TrackerService service : temp_list) {
-            names.add(service.getName());
-            Log.e("names", service.getName());
-        }
-        return names;
     }
 
     public TrackerService getTrackerByName(String tracker) {

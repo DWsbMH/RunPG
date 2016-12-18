@@ -146,9 +146,6 @@ public class FightScene extends BaseScene implements OnCollisionListener {
 
     @Override
     public Fragment getHUD() {
-        /* TODO ha harc közben meg akarom nyirni az inventory-t, az új fragment miatt meghal => singleton?
-        * */
-
         return FightFragment.newInstance(enemy.getData().getMaxHealthPoint(), player.getData().getMaxHealthPoint(), player.getData().getActualHealthPoint());
     }
 }

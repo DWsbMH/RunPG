@@ -9,7 +9,6 @@ import com.diploma.lilian.database.entity.Player;
 import com.diploma.lilian.database.entity.Sprite;
 import com.diploma.lilian.game.OnFightListener;
 import com.diploma.lilian.game.OnGateListener;
-import com.diploma.lilian.game.OnPlayerListener;
 import com.diploma.lilian.game.provider.BattleFieldSpriteProvider;
 import com.diploma.lilian.game.provider.ISpriteProvider;
 import com.diploma.lilian.game.provider.SpriteInfo;
@@ -39,16 +38,8 @@ public class BattleFieldSceneHandler extends BaseSceneHandler<BattleFieldScene>{
 
     }
 
-    public void setOnPlayerListener(OnPlayerListener onPlayerListener) {
-//        scene.setOnPlayerListener(onPlayerListener);
-    }
-
     public void setOnFightListener(OnFightListener onFightListener) {
         scene.setOnFightListener(onFightListener);
-    }
-
-    public void updatePlayer() {
-//        scene.updatePlayer(playerDataManager.getPlayer());
     }
 
     public int removeEnemy() {

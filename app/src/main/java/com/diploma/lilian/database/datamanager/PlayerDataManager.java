@@ -59,15 +59,7 @@ public class PlayerDataManager extends DataManager<Player> {
 
     @Override
     public Player add(Player data) {
-
-        // we only have 1 player which is created in DiplomaDBHelper.java
-
-        return null;
-/*        try {
-            dao.create(data);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
+        throw new UnsupportedOperationException("Cannot add multiple player to database!");
     }
 
     @Override

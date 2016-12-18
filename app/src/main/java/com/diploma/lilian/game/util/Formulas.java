@@ -82,9 +82,4 @@ public class Formulas {
         return averageDamage * (1 + strength / 10);
     }
 
-
-
-
-
-
 }

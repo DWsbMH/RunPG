@@ -25,9 +25,6 @@ public class SportActivity {
     @DatabaseField(columnName = "duration")
     private int duration;
 
-/*    @DatabaseField(columnName = "climb", canBeNull = false)
-    private int climb;*/
-
     @DatabaseField(columnName = "utc_offset")
     private double utcOffset;
 
@@ -58,16 +55,6 @@ public class SportActivity {
         this.averageSpeed = averageSpeed;
         this.maxSpeed = maxSpeed;
     }
-
-/*
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-*/
 
     public String getSourceId() {
         return sourceId;
@@ -101,14 +88,6 @@ public class SportActivity {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-
-/*    public int getClimb() {
-        return climb;
-    }
-
-    public void setClimb(int climb) {
-        this.climb = climb;
-    }*/
 
     public double getUtcOffset() {
         return utcOffset;

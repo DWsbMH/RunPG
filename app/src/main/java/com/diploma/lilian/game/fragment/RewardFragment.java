@@ -26,12 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RewardFragment.OnRewardListener} interface
- * to handle interaction events.
- */
 public class RewardFragment extends Fragment {
 
     private OnRewardListener mListener;

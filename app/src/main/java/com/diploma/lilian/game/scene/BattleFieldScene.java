@@ -7,7 +7,6 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -38,7 +37,7 @@ import java.util.Collection;
 import javax.microedition.khronos.opengles.GL11;
 
 
-public class BattleFieldScene extends BaseScene implements OnClickListener, OnCollisionListener, OnGestureListener, ScaleGestureDetector.OnScaleGestureListener, BattleFieldFragment.OnZoomListener {
+public class BattleFieldScene extends BaseScene implements OnClickListener, OnCollisionListener, OnGestureListener, BattleFieldFragment.OnZoomListener {
 
     private static final String TAG = "BattleFieldScene";
 
@@ -51,7 +50,6 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
     private Vec3 startPos;
 
     private GestureDetector motions;
-    private ScaleGestureDetector scaleGestureDetector;
     private OnFightListener onFightListener;
 
     private IsoSprite enemy;
@@ -62,12 +60,11 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
     private Fragment HUD;
     private OnGateListener onGateListener;
 
-    boolean collisionHappened = false;
+    private boolean collisionHappened = false;
 
     public BattleFieldScene(Context context, int surfaceWidth, int surfaceHeight) {
         super(context, surfaceWidth, surfaceHeight);
         motions = new GestureDetector(this);
-        scaleGestureDetector = new ScaleGestureDetector(context, this);
 
     }
 
@@ -100,7 +97,6 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
     @Override
     protected FogOfWar createFogOfWar() {
         return null;
-//		return new FogOfWar("fogtex", 128, 128, WORLD_WIDTH, WORLD_HEIGHT);
     }
 
     @Override
@@ -158,9 +154,6 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     @Override
     public boolean onTouch(View v, MotionEvent e) {
-        Log.d(TAG, "onTouch() called with: " + "v = [" + v + "], e = [" + e + "]");
-
-        scaleGestureDetector.onTouchEvent(e);
         motions.onTouchEvent(e);
         return true;
     }
@@ -187,8 +180,6 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
 
     @Override
     public void handleCollision(IsoSprite s1, IsoSprite s2, int collisionGroupMask) {
-        Log.w(TAG, "COLLIDE!!!!! " + s1 + " : " + s2 + " mask: " + collisionGroupMask);
-
         if (collisionGroupMask == CollisionType.PLAYER_ENEMY.getValue()) {
             if (!s1.equals(s2)) {
                 player.getSprite().stopMove();
@@ -233,7 +224,6 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
             player.getSprite().movePathTo(pathFinder, (e.getX() / getZoom()) + vp.getX(), (e.getY() / getZoom()) + vp.getY(), 500);
             collisionHappened = false;
         }
-        Log.e(TAG, "TAP: x: " + (e.getX() + vp.getX()) + " Y: " + (e.getY() + vp.getY()));
         startPos = player.getSprite().getCenter();
 
         return true;
@@ -362,29 +352,6 @@ public class BattleFieldScene extends BaseScene implements OnClickListener, OnCo
         ((BattleFieldFragment)HUD).setOnZoomListener(this);
 
         return HUD;
-    }
-
-    public void updatePlayer(Player player) {
-        this.getPlayer().setData(player);
-    }
-
-    @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        Log.w(TAG, "onScale: " + detector.getScaleFactor());
-        setZoom(getZoom() * detector.getScaleFactor());
-        Log.w(TAG, "zoom: " + getZoom());
-        return true;
-    }
-
-    @Override
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-
-        return true;
-    }
-
-    @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {
-
     }
 
     public void deleteAllSprite() {

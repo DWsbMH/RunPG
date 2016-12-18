@@ -77,7 +77,7 @@ public class TrackerServiceAdapter extends BaseAdapter {
         private TextView name;
         private Button connect;
 
-        public ViewHolder(View convertView) {
+        ViewHolder(View convertView) {
             name = (TextView) convertView.findViewById(R.id.connect_to_name);
             connect = (Button) convertView.findViewById(R.id.connect);
         }
@@ -86,7 +86,7 @@ public class TrackerServiceAdapter extends BaseAdapter {
             return name;
         }
 
-        public Button getConnect() {
+        Button getConnect() {
             return connect;
         }
     }

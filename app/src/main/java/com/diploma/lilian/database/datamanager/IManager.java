@@ -6,10 +6,10 @@ import java.util.List;
 
 interface IManager<T> {
 
-    public abstract Dao<T, Integer> getDao();
+    Dao<T, Integer> getDao();
 
-    public abstract T add(T data);
+    T add(T data);
 
-    public abstract List<T> queryForAll();
+    List<T> queryForAll();
 
 }

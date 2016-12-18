@@ -151,7 +151,7 @@ public class ShopFragment extends Fragment {
             String[] weapons = new String[7];
             weapons[0] = "hosszukard";
             weapons[1] = "hosszutor";
-            weapons[2] = "kard";
+            weapons[2] = "sword";
             weapons[3] = "katana";
             weapons[4] = "kes";
             weapons[5] = "szablya";

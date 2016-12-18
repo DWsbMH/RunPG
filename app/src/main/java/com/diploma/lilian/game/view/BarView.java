@@ -12,12 +12,9 @@ import android.view.View;
 
 import com.diploma.lilian.runpg.R;
 
-/**
- * TODO: document your custom view class.
- */
 public class BarView extends View {
-    private int mExampleColor = Color.GREEN; // TODO: use a default from R.color...
-    private float mExampleDimension = 24; // TODO: use a default from R.dimen...
+    private int mExampleColor = Color.GREEN;
+    private float mExampleDimension = 24;
     private Drawable mExampleDrawable;
 
     Paint remainPointPaint;

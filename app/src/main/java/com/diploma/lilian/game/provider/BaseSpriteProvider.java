@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class BaseSpriteProvider implements ISpriteProvider {
+abstract class BaseSpriteProvider implements ISpriteProvider {
 
     final Player player;
     protected Context context;

@@ -46,35 +46,6 @@ public class BattleFieldSpriteProvider extends BaseSpriteProvider {
             }
         }
 
-        System.out.println();
-/*
-        IsoSprite sprite = null;
-
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/grass.xml"));
-            sprite.setWidth(BattleFieldScene.WORLD_WIDTH);
-            sprite.setHeight(BattleFieldScene.WORLD_HEIGHT);
-            sprite.moveInPlot(0, 0, 0);
-            sprite.setAnimation("copy");
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.GROUND_LAYER));
-
-        try {
-            sprite = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/gates.xml"));
-            sprite.setAnimation("default");
-            sprite.moveInPlot(BattleFieldScene.WORLD_WIDTH / 2, BattleFieldScene.WORLD_HEIGHT / 2, 0);
-            sprite.addCollisionType(CollisionType.PLAYER_BUILDING.getValue());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        spriteInfoCollection.add(new SpriteInfo(sprite, BattleFieldScene.MAIN_LAYER));
-*/
-
     }
 
 
@@ -143,32 +114,6 @@ public class BattleFieldSpriteProvider extends BaseSpriteProvider {
 
     @Override
     public Collection<SpriteInfo> getEnemiesSpriteInfo() {
-/*
-        if(enemiesSpriteInfoCollection!=null)
-            return enemiesSpriteInfoCollection;
-
-        enemiesSpriteInfoCollection = new ArrayList<>();
-        Random random = new Random();
-        IsoSprite mushroom = null;
-        for (int i = 0; i < 10; i++) {
-            try {
-                mushroom = SpriteDataParser.loadIsoSprite(context.getAssets().open("sprites/mushroom.xml"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mushroom.moveInPlot(random.nextInt(BattleFieldScene.WORLD_WIDTH), random.nextInt(BattleFieldScene.WORLD_HEIGHT), 0);
-            mushroom.setAnimation("stand");
-            mushroom.setAnimationStartFrame(0);
-
-            mushroom.setMoveAnimationNames(new String[]{"stand","fight"});
-
-            mushroom.moveInIso(1, 0, 0);
-            mushroom.addCollisionType(CollisionType.PLAYER_ENEMY.getValue());
-
-            enemiesSpriteInfoCollection.add(new SpriteInfo(mushroom, BattleFieldScene.MAIN_LAYER, new Enemy(1)));
-        }
-*/
-
         return enemiesSpriteInfoCollection;
     }
 }

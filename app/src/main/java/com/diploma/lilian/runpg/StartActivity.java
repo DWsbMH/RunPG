@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.diploma.lilian.database.entity.TrackerService;
 import com.diploma.lilian.game.GameActivity;
@@ -76,6 +77,7 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
     }
 
     public void onConnectionFinished(int resultCode, Intent data) {
+        Toast.makeText(this, "Downloading data...", Toast.LENGTH_SHORT).show();
         presenter.onConnectionFinished(resultCode, data);
     }
 
@@ -115,6 +117,7 @@ public class StartActivity extends BaseActivity<StartActivityView, StartActivity
             }
             if(intent.getAction().equals(FETCH_ALL_ACTIVITY_DONE)){
                 login.setEnabled(true);
+                Toast.makeText(context, "Download finished!", Toast.LENGTH_SHORT).show();
             }
         }
     }

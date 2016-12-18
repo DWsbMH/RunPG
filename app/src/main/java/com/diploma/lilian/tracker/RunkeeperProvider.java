@@ -60,7 +60,7 @@ class RunkeeperProvider extends BaseProvider {
             fitnessActivityFeed = runkeeperService.fitnessActivityWrapper.getFitnessActivityFeed();
             for (FitnessActivityFeed.Item item : fitnessActivityFeed.getItems()) {
                 SportActivity activity = convert(item);
-                if (activity != null) { // új cucc, jutalmazni kell majd....
+                if (activity != null) {
                     list.add(activity);
                 } else {
                     break;
@@ -71,7 +71,7 @@ class RunkeeperProvider extends BaseProvider {
                     fitnessActivityFeed = runkeeperService.fitnessActivityWrapper.getFitnessActivityFeed(fitnessActivityFeed.getNext());
                     for (FitnessActivityFeed.Item item : fitnessActivityFeed.getItems()) {
                         SportActivity activity = convert(item);
-                        if (activity != null) { // új cucc, jutalmazni kell majd....
+                        if (activity != null) {
                             list.add(activity);
                         } else {
                             break;
@@ -115,7 +115,7 @@ class RunkeeperProvider extends BaseProvider {
 
     @Override
     public SportActivityType getUnifiedType(String trackerType) {
-        SportActivityType type = null;
+        SportActivityType type;
 
         switch (trackerType) {
             case "Running":

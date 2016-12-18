@@ -56,7 +56,7 @@ class StravaProvider extends BaseProvider {
             for(Activity item : activitiesPerPage){
 
                 SportActivity activity = convert(item);
-                if (activity != null) { // új cucc, jutalmazni kell majd....
+                if (activity != null) {
                     list.add(activity);
                 } else {
                     break;
@@ -132,28 +132,4 @@ class StravaProvider extends BaseProvider {
         return type;
     }
 
-/*RunKeeper: Running
-Strava: Run
-RunKeeper: Hiking
-Strava: Hike
-RunKeeper: CrossFit
-Strava: CrossFit
-
-
-RunKeeper: Cycling
-Strava: Ride
-RunKeeper: Yoga
-Strava: Yoga
-RunKeeper: Snowboarding
-Strava: Snowboard
-
-
-RunKeeper: Walking
-Strava: Walk
-RunKeeper: Swimming
-Strava: Swim
-RunKeeper: Skating
-Strava: IceSkate
-
-*/
 }

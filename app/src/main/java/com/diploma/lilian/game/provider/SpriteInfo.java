@@ -30,7 +30,7 @@ public class SpriteInfo {
         return layerType;
     }
 
-    public void setLayerType(int layerType) {
+    void setLayerType(int layerType) {
         this.layerType = layerType;
     }
 

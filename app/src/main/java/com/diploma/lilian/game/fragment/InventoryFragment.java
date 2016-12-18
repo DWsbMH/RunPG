@@ -35,15 +35,6 @@ import butterknife.OnClick;
  * create an instance of this fragment.
  */
 public class InventoryFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private Player player;
 
     @BindView(R.id.backpack_weapon_row)
@@ -95,8 +86,6 @@ public class InventoryFragment extends Fragment {
     public static InventoryFragment newInstance(String param1, String param2) {
         InventoryFragment fragment = new InventoryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -104,10 +93,6 @@ public class InventoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -120,7 +105,7 @@ public class InventoryFragment extends Fragment {
 
         playerName.setText(player.getPlayerName());
 
-        playerLevel.setText("Level: " + String.valueOf(player.getLevel()));
+        playerLevel.setText(String.format("Level: %s", String.valueOf(player.getLevel())));
 
         playerImage.setImageResource(getResources().getIdentifier(player.getPlayerImage(), "drawable", getContext().getPackageName()));
 
@@ -304,7 +289,6 @@ public class InventoryFragment extends Fragment {
 
     public interface OnInventoryListener {
         void onInventoryClose();
-
         void onRewardOpen();
     }
 

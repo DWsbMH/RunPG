@@ -45,10 +45,10 @@ public class StartActivityPresenter extends MvpBasePresenter<StartActivityView> 
 
             saveTrackerActivitiesToDatabase(tracker);
 
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Successfully connected", Toast.LENGTH_SHORT).show();
 
         } else if (resultCode == Activity.RESULT_CANCELED) {
-            // TODO show error message
+            Toast.makeText(context, "Not connected!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -57,7 +57,7 @@ public class StartActivityPresenter extends MvpBasePresenter<StartActivityView> 
         activityFetcher.downloadAll();
     }
 
-    public void loadConnectibleTrackerServices() {
+    private void loadConnectibleTrackerServices() {
         adapter.loadConnectibleTrackerServices(trackerServiceDataManager.getConnectibleServices());
     }
 

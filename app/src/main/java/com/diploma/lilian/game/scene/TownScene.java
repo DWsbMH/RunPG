@@ -47,7 +47,7 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
     private SpriteInfo player;
     private OnGateListener onGateListener;
 
-    boolean collisionHappened = false;
+    private boolean collisionHappened = false;
     private OnShopListener shopListener;
 
     public TownScene(Context context, int surfaceWidth, int surfaceHeight) {
@@ -108,6 +108,7 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
 
         vp.addElement(player.getSprite(), spriteProvider.getPlayerSpriteInfo().getLayerType());
 
+        setZoom(0.7f);
     }
 
     @Override
@@ -122,8 +123,6 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
 
     @Override
     public boolean onTouch(View v, MotionEvent e) {
-        Log.d(TAG, "onTouch() called with: " + "v = [" + v + "], e = [" + e + "]");
-
         motions.onTouchEvent(e);
         return true;
     }
@@ -149,7 +148,6 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
             shopListener.onShopEnter(ShopFragment.SHOP_TYPE_POTION);
         }
 
-        Log.w(TAG, "handleCollision: " + s1 + " + " + s2);
     }
 
     @Override
@@ -166,7 +164,6 @@ public class TownScene extends BaseScene implements View.OnClickListener, OnColl
     public boolean onSingleTapUp(MotionEvent e) {
         player.getSprite().movePathTo(pathFinder, (e.getX() / getZoom()) + vp.getX(), (e.getY() / getZoom()) + vp.getY(), 500);
 
-        Log.e("TEST SCENE", "TAP: x: " + (e.getX() + vp.getX()) + " Y: " + (e.getY() + vp.getY()));
         startPos = player.getSprite().getCenter();
 
         return true;

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<isosprite name="slimeking_f"
+	imgname="slimeking_f"
+	spritewidth="120"
+	spriteheight="120"
+	bodyheight="120"
+	ax="0" ay="120"
+	bx="120" by="120"
+	startZ="0"
+	isShadow="false"
+>
+	
+	<animations imgwidth="144" imgheight="192">
+		<animation name="stand" steptime="0" startframe="0">
+			<frame left="0" right="48" top="0" bottom="48"/>
+		</animation>
+
+		<animation name="fight" startframe="0" steptime="150">
+			<frame left="0" right="48" top="0" bottom="48"/>
+			<frame left="0" right="48" top="48" bottom="96"/>
+			<frame left="0" right="48" top="96" bottom="144"/>
+			<frame left="0" right="48" top="144" bottom="196"/>
+		</animation>
+
+	</animations>
+</isosprite>

@@ -23,7 +23,6 @@ import java.util.Random;
 
 public class RewardDrawer {
 
-    private final Context context;
     private final Player player;
     private Random random;
     private Map<SportActivityType, RewardItem[]> rewardChance;
@@ -34,7 +33,6 @@ public class RewardDrawer {
     private String[] weapons;
 
     public RewardDrawer(Context context, Player player) {
-        this.context = context;
         this.player = player;
         backpack = player.getBackpack();
         weaponDataManager = new WeaponDataManager(context);
@@ -44,7 +42,7 @@ public class RewardDrawer {
         weapons = new String[7];
         weapons[0] = "hosszukard";
         weapons[1] = "hosszutor";
-        weapons[2] = "kard";
+        weapons[2] = "sword";
         weapons[3] = "katana";
         weapons[4] = "kes";
         weapons[5] = "szablya";
